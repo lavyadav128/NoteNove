@@ -217,10 +217,11 @@ const ClassCardPage = () => {
       </Typography>
       <Box
         sx={{
-          display: 'flex',
-          gap: 4,
-          overflowX: 'auto',
-          scrollSnapType: 'x mandatory',
+          display: { xs: 'grid', sm: 'flex' },
+          gridTemplateColumns: { xs: '1fr', sm: 'unset' },
+          gap: 3,
+          overflowX: { xs: 'unset', sm: 'auto' },
+          scrollSnapType: { sm: 'x mandatory' },
           pb: 2,
           px: 1,
         }}

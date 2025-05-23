@@ -16,6 +16,8 @@ import {
   ThemeProvider,
   CssBaseline,
   Fade,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CloseIcon from "@mui/icons-material/Close";
@@ -44,6 +46,9 @@ const Dashboard = () => {
   const [searchOptions, setSearchOptions] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
   const [showCards, setShowCards] = useState(false);
+
+  const muiTheme = useTheme();
+  const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
 
   const theme = createTheme({
     palette: {
@@ -163,22 +168,22 @@ const Dashboard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          px: 2,
-          py: 3,
+          px: isMobile ? 1 : 2,
+          py: isMobile ? 1 : 3,
         }}
       >
         <Card
           sx={{
             width: "98vw",
             height: "95vh",
-            borderRadius: 4,
+            borderRadius: isMobile ? 2 : 4,
             boxShadow: 6,
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <CardContent sx={{ flex: 1, overflowY: "auto" }}>
+          <CardContent sx={{ flex: 1, overflowY: "auto", p: isMobile ? 1.5 : 3 }}>
             <Box display="flex" justifyContent="flex-end" mb={1}>
               <IconButton onClick={() => setDarkMode(!darkMode)}>
                 {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
@@ -191,10 +196,9 @@ const Dashboard = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  border: "ButtonShadow",
-                  mb: 2,
-                  gap: 2,
                   flexWrap: "wrap",
+                  mb: 2,
+                  gap: 1,
                 }}
               >
                 <Autocomplete
@@ -205,15 +209,14 @@ const Dashboard = () => {
                   onChange={(event, newValue) => {
                     if (newValue) handleSearch(newValue);
                   }}
-                  sx={{ minWidth: 380 }}
+                  sx={{ flexGrow: 1, minWidth: isMobile ? "100%" : 380 }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       label="Search batches..."
                       variant="outlined"
+                      fullWidth
                       sx={{
-                        minWidth: 380,
-                        flex: 1,
                         "& .MuiOutlinedInput-root": {
                           borderWidth: "2px",
                           borderColor: "#1976d2",
@@ -228,7 +231,7 @@ const Dashboard = () => {
                 <Button
                   variant="contained"
                   onClick={() => handleSearch(searchInput)}
-                  sx={{ borderRadius: 2, textTransform: "none", fontWeight: 600 }}
+                  sx={{ borderRadius: 2, textTransform: "none", fontWeight: 600, width: isMobile ? "100%" : "auto" }}
                 >
                   Search
                 </Button>
@@ -247,12 +250,11 @@ const Dashboard = () => {
                   borderRadius: 2,
                   textTransform: "none",
                   fontWeight: 600,
-                  px: 2.5,
+                  px: 2,
                   py: 1,
                   boxShadow: 1,
                   "&:hover": {
                     backgroundColor: "#f5f5f5",
-                    boxShadow: 1,
                   },
                 }}
               >
@@ -263,23 +265,20 @@ const Dashboard = () => {
             {isMainDashboard && showCards && (
               <Fade in={showCards} timeout={1000}>
                 <Box>
-                  <Typography variant="h5" fontWeight={700} mt={3} gutterBottom>
+                  <Typography variant="h5" fontWeight={700} mt={2} gutterBottom>
                     Explore Notes Resources
                   </Typography>
 
-                  <Grid container spacing={3} mt={1}>
+                  <Grid container spacing={2} mt={1}>
                     {noteCards.map(({ title, color, textColor, key }) => (
                       <Grid item xs={12} sm={6} key={key}>
                         <Paper
                           elevation={3}
                           sx={{
-                            p: 3,
-                            borderRadius: 4,
-                            marginLeft: 4,
-                            marginRight: 20,
+                            p: 2,
+                            borderRadius: 3,
                             backgroundColor: color,
-                            height: "100%",
-                            width: "610px",
+                            width: "100%",
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "space-between",
@@ -288,7 +287,7 @@ const Dashboard = () => {
                           <Typography variant="h6" fontWeight={700} sx={{ color: textColor }}>
                             {title}
                           </Typography>
-                          <ul style={{ paddingLeft: "1.2rem", marginTop: "0.5rem", color: "#444" }}>
+                          <ul style={{ paddingLeft: "1rem", marginTop: "0.5rem", color: "#444" }}>
                             {noteDescriptions[key].map((point, idx) => (
                               <li key={idx}>
                                 <Typography variant="body2">{point}</Typography>
