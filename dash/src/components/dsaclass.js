@@ -15,6 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { makeAuthenticatedRequest } from "./makeauth";
+import server from "../environment";
 
 const classDetails = {
   id: "dsa",
@@ -36,7 +37,7 @@ const DSAClass = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const data = await makeAuthenticatedRequest("http://localhost:3000/api/user-purchases");
+        const data = await makeAuthenticatedRequest(`${server}/api/user-purchases`);
         const purchase = data.find((p) => p.classId === classDetails.id);
         if (purchase) {
           setPurchaseInfo(purchase);
@@ -80,7 +81,7 @@ const DSAClass = () => {
 
     if (classDetails.price === 0) {
       try {
-        await makeAuthenticatedRequest("http://localhost:3000/api/save-purchase", "POST", purchasePayload);
+        await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
         handlePurchaseUpdate();
         navigate(`/dsa`);
       } catch (err) {
@@ -103,7 +104,7 @@ const DSAClass = () => {
       description: `Payment for ${classDetails.title}`,
       handler: async function (response) {
         try {
-          await makeAuthenticatedRequest("http://localhost:3000/api/save-purchase", "POST", purchasePayload);
+          await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
           handlePurchaseUpdate();
           navigate(`/dsa`);
         } catch (err) {

@@ -7,7 +7,7 @@ import server from "../environment"; // Ensure this exports your backend base UR
 export const AuthContext = createContext({});
 
 const client = axios.create({
-  baseURL: server,
+  baseURL: `${server}`,
 });
 
 export const AuthProvider = ({ children }) => {

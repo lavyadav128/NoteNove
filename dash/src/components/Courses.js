@@ -12,9 +12,10 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
+import server from "../environment";
 
 const classList = [
-  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 0 },
+  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 1 },
   { id: '11', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/11.png', price: 0 },
   { id: '12', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/12.png', price: 0 },
   { id: '111', title: 'Class 11 (Neet + Boards)', description: 'Quick revision for final exam preparation.', image: '/images/11.png', price: 0 },
@@ -47,7 +48,7 @@ const ClassCard = ({ id, title, description, image, price, purchaseInfo, onPurch
     if (price === 0) {
       try {
         await makeAuthenticatedRequest(
-          'http://localhost:3000/api/save-purchase',
+          `${server}/api/save-purchase`,
           'POST',
           purchasePayload
         );
@@ -74,7 +75,7 @@ const ClassCard = ({ id, title, description, image, price, purchaseInfo, onPurch
       handler: async function (response) {
         try {
           await makeAuthenticatedRequest(
-            'http://localhost:3000/api/save-purchase',
+            `${server}/api/save-purchase`,
             'POST',
             purchasePayload
           );
@@ -180,7 +181,7 @@ const ClassCardPage = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const data = await makeAuthenticatedRequest('http://localhost:3000/api/user-purchases');
+        const data = await makeAuthenticatedRequest(`${server}/api/user-purchases`);
         const purchasesMap = {};
         data.forEach((purchase) => {
           purchasesMap[purchase.classId] = purchase;
