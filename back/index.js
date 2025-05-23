@@ -13,7 +13,7 @@ const app = express();
 
 //  Middleware
 app.use(cors({
-  origin: "http://localhost:3001", // Allow requests from your React frontend
+  origin: 'https://notess-ei6q.onrender.com', // Allow requests from your React frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']  // Add this
