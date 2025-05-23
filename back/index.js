@@ -29,7 +29,7 @@ app.use('/api', purchaseRoutes);
 
 
 //  MongoDB Connection
-const dbUrl = process.env.MONGO_URL;
+const dbUrl = process.env.MONGO_URI;
 
 async function connectDB() {
   try {
