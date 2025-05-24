@@ -52,6 +52,8 @@ const screenshots = {
   mentorshipSession: '/images/mentorshipSession.png',
 };
 
+// ... imports remain the same
+
 const ExplorePage = () => {
   const navigate = useNavigate();
   const [openModal, setOpenModal] = useState(false);
@@ -76,21 +78,21 @@ const ExplorePage = () => {
   ];
 
   return (
-    <Box sx={{ p: 4, backgroundColor: '#f5f7fa', minHeight: '100vh' }}>
+    <Box sx={{ p: { xs: 2, sm: 4 }, backgroundColor: '#f5f7fa', minHeight: '100vh' }}>
       <Card
         sx={{
           maxWidth: '100vw',
-          width: '95vw',
+          width: '100%',
           minHeight: '85vh',
           margin: '0 auto',
           mt: 0,
           borderRadius: 5,
           boxShadow: 10,
-          p: 4,
+          p: { xs: 2, sm: 4 },
           backgroundColor: '#ffffff',
         }}
       >
-        <Box mb={4}>
+        <Box mb={{ xs: 2, sm: 4 }}>
           <Button
             onClick={() => navigate(-1)}
             startIcon={<ArrowBackIcon />}
@@ -102,8 +104,9 @@ const ExplorePage = () => {
               borderRadius: 2,
               textTransform: 'none',
               fontWeight: 600,
-              px: 2.5,
+              px: 2,
               py: 1,
+              fontSize: { xs: '0.8rem', sm: '1rem' },
               boxShadow: 1,
               '&:hover': {
                 backgroundColor: '#f5f5f5',
@@ -115,23 +118,48 @@ const ExplorePage = () => {
           </Button>
         </Box>
 
-        <Typography variant="h4" sx={{ fontWeight: 700, mb: 6, textAlign: 'center' }}>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 700,
+            mb: { xs: 4, sm: 6 },
+            textAlign: 'center',
+            fontSize: { xs: '1.5rem', sm: '2.25rem' },
+          }}
+        >
           Explore Notes Resources
         </Typography>
 
-        <Grid container spacing={4} justifyContent="center">
+        <Grid container spacing={3} justifyContent="center">
           {cardData.map(({ title, color, textColor, key }) => (
             <Grid item xs={12} sm={6} md={3} key={key}>
-              <Card sx={{ borderRadius: 4, backgroundColor: color, height: '100%', boxShadow: 4 }}>
+              <Card
+                sx={{
+                  borderRadius: 4,
+                  backgroundColor: color,
+                  height: '100%',
+                  boxShadow: 4,
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 1, color: textColor }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 600,
+                      mb: 1,
+                      color: textColor,
+                      fontSize: { xs: '1rem', sm: '1.125rem' },
+                    }}
+                  >
                     {title}
                   </Typography>
                   <Divider sx={{ mb: 1 }} />
                   <ul style={{ paddingLeft: '1.2rem', marginTop: 0, color: '#555' }}>
                     {resourceDescriptions[key].map((point, i) => (
                       <li key={i}>
-                        <Typography variant="body2">{point}</Typography>
+                        <Typography variant="body2" sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
+                          {point}
+                        </Typography>
                       </li>
                     ))}
                   </ul>
@@ -140,7 +168,11 @@ const ExplorePage = () => {
                       variant="outlined"
                       size="small"
                       onClick={() => handleOpen(key)}
-                      sx={{ fontSize: '0.75rem', textTransform: 'none', fontWeight: 'bold' }}
+                      sx={{
+                        fontSize: { xs: '0.7rem', sm: '0.75rem' },
+                        textTransform: 'none',
+                        fontWeight: 'bold',
+                      }}
                     >
                       Screenshot
                     </Button>
@@ -154,20 +186,38 @@ const ExplorePage = () => {
 
       {/* Modal to show screenshot */}
       <Dialog open={openModal} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogContent sx={{ position: 'relative', p: 3, textAlign: 'center' }}>
+        <DialogContent
+          sx={{
+            position: 'relative',
+            p: { xs: 2, sm: 3 },
+            textAlign: 'center',
+          }}
+        >
           <IconButton
             onClick={handleClose}
             sx={{ position: 'absolute', top: 8, right: 8 }}
           >
             <CloseIcon />
           </IconButton>
-          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+          <Typography
+            variant="h6"
+            sx={{
+              mb: 2,
+              fontWeight: 600,
+              fontSize: { xs: '1rem', sm: '1.25rem' },
+            }}
+          >
             {activeSection && cardData.find((c) => c.key === activeSection)?.title} Preview
           </Typography>
           <img
             src={activeSection ? screenshots[activeSection] : ''}
             alt="Preview"
-            style={{ width: '100%', borderRadius: 10 }}
+            style={{
+              width: '100%',
+              maxHeight: '70vh',
+              objectFit: 'contain',
+              borderRadius: 10,
+            }}
           />
         </DialogContent>
       </Dialog>
@@ -176,3 +226,4 @@ const ExplorePage = () => {
 };
 
 export default ExplorePage;
+

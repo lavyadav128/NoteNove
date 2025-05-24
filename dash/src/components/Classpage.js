@@ -10,7 +10,7 @@ import {
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const subjects = {
-  10: ["mathematics", "physics", "biology", "chemistry"],
+  10: ["mathematics", "physics", "biology", "chemistry","SST"],
   11: ["mathematics", "physics", "chemistry"],
   111: [ "physics", "chemistry","botany","zoology"],
   12: ["mathematics", "physics", "chemistry"],
@@ -21,6 +21,7 @@ const subjectInfo = {
   mathematics: "Sharpen logical thinking and problem-solving skills.",
   physics: "Understand the laws that govern matter and energy.",
   chemistry: "Explore the substances that make up our world.",
+  SST: "Understand human society through history, geography, politics, and economics.",
   biology: "Dive into the science of life and living organisms.",
   botany: "Study the structure, growth, and functions of plants.",
   zoology: "Explore the biology, behavior, and classification of animals.",

@@ -192,50 +192,64 @@ const Dashboard = () => {
 
             {isMainDashboard && (
               <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  mb: 2,
-                  gap: 1,
-                }}
-              >
-                <Autocomplete
-                  freeSolo
-                  options={searchOptions}
-                  inputValue={searchInput}
-                  onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
-                  onChange={(event, newValue) => {
-                    if (newValue) handleSearch(newValue);
-                  }}
-                  sx={{ flexGrow: 1, minWidth: isMobile ? "100%" : 380 }}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search batches..."
-                      variant="outlined"
-                      fullWidth
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderWidth: "2px",
-                          borderColor: "#1976d2",
-                          "& fieldset": {
-                            borderWidth: "2px",
-                          },
-                        },
-                      }}
-                    />
-                  )}
-                />
-                <Button
-                  variant="contained"
-                  onClick={() => handleSearch(searchInput)}
-                  sx={{ borderRadius: 2, textTransform: "none", fontWeight: 600, width: isMobile ? "100%" : "auto" }}
-                >
-                  Search
-                </Button>
-              </Box>
+  sx={{
+    display: "flex",
+    flexDirection: isMobile ? "row" : "row", // row on all, just to be explicit
+    gap: 1,
+    width: isMobile ? "100%" : "auto",
+    alignItems: "center",
+    justifyContent: "center",
+  }}
+>
+  <Autocomplete
+    freeSolo
+    options={searchOptions}
+    inputValue={searchInput}
+    onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
+    onChange={(event, newValue) => {
+      if (newValue) handleSearch(newValue);
+    }}
+    sx={{
+      width: isMobile ? "calc(100% - 100px)" : 340, // width minus button width on mobile
+      minWidth: 0, // avoid flexbox shrinking issues
+    }}
+    renderInput={(params) => (
+      <TextField
+        {...params}
+        label="Search batches..."
+        variant="outlined"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            fontSize: "0.9rem",
+            height: 45,
+            "& fieldset": {
+              borderWidth: "1.5px",
+            },
+          },
+          "& label": {
+            fontSize: "0.9rem",
+          },
+        }}
+      />
+    )}
+  />
+  <Button
+    variant="contained"
+    onClick={() => handleSearch(searchInput)}
+    sx={{
+      borderRadius: 2,
+      textTransform: "none",
+      fontWeight: 600,
+      width: 100, // fixed width button
+      height: 40,
+      fontSize: "0.9rem",
+      whiteSpace: "nowrap",
+    }}
+  >
+    Search
+  </Button>
+</Box>
+
             )}
 
             {showBackButton && (
@@ -265,11 +279,11 @@ const Dashboard = () => {
             {isMainDashboard && showCards && (
               <Fade in={showCards} timeout={1000}>
                 <Box>
-                  <Typography variant="h5" fontWeight={700} mt={2} gutterBottom>
+                  <Typography variant="h5" fontWeight={700} mt={5} gutterBottom>
                     Explore Notes Resources
                   </Typography>
 
-                  <Grid container spacing={2} mt={1}>
+                  <Grid container spacing={5} mt={1}>
                     {noteCards.map(({ title, color, textColor, key }) => (
                       <Grid item xs={12} sm={6} key={key}>
                         <Paper

@@ -19,8 +19,8 @@ import server from "../environment";
 
 const classDetails = {
   id: "dsa",
-  title: "Web Development",
-  description: "Ace coding interviews with our 12-week DSA program ",
+  title: "DSA",
+  description: "Ace coding interviews with our 34-day DSA program ",
   image: "/images/dsa_files/dsa.png",
   price: 0,
 };
@@ -97,7 +97,7 @@ const DSAClass = () => {
     }
 
     const options = {
-      key: "rzp_live_tDXqOoxxjpyWt8",
+      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
       amount: classDetails.price * 100,
       currency: "INR",
       name: "Atom Classes",
@@ -129,7 +129,7 @@ const DSAClass = () => {
       <Typography
         variant="h4"
         fontWeight={700}
-        mb={4}
+        mb={3}
         textAlign="center"
         color="primary"
       >
@@ -202,7 +202,7 @@ const DSAClass = () => {
               What You'll Learn:
             </Typography>
             <Box component="ul" sx={{ pl: 2, m: 0 }}>
-              {["Master the fundamentals of Data Structures & Algorithms", "Learn with a structured 12-week roadmap", "Solve 300+ curated LeetCode problems", "Attend mock interviews with industry experts", "Get personalized mentorship & doubt support", "Prepare for top product-based companies"].map((point, index) => (
+              {["Master the fundamentals of Data Structures & Algorithms", "Learn with a structured 34-day roadmap", "Most frequent and expected questions", "Solve 200+ curated LeetCode problems", "Prepare for top service-based companies", "Get personalized mentorship & doubt support", "Prepare for top product-based companies"].map((point, index) => (
                 <Typography
                   key={index}
                   component="li"

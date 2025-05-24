@@ -46,6 +46,36 @@ const chaptersData = {
       "reproduction",
       "heredity",
     ],
+    SST: [
+      // History
+      "The Rise of Nationalism in Europe",
+      "Nationalism in India",
+      "The Making of the Global World",
+      "The age of Industrialization",
+      "Print Culture and the modern World",
+    
+      // Geography
+      "Resources and Development",
+      "Forest and Wildlife Resources",     // project work
+      "Water Resources",                   // map work only
+      "Agriculture",
+      "Minerals and Energy Resources",
+      "Manufacturing Industries",
+    
+      // Political Science (Civics)
+      "Power Sharing",
+      "Federalism",
+      "Gender, Religion and Caste",
+      "Political Parties",
+      "Outcomes of Democracy",
+    
+      // Economics
+      "Development",
+      "Sectors of the Indian Economy",
+      "Money and Credit",
+      "Globalisation and the Indian Economy",
+      "Consumer Rights"                   // project work
+    ],    
   },
   11: {
     mathematics: [

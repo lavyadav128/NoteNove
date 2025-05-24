@@ -14,8 +14,10 @@ import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
 import server from "../environment";
 
+
+
 const classList = [
-  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 1 },
+  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 0 },
   { id: '11', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/11.png', price: 0 },
   { id: '12', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/12.png', price: 0 },
   { id: '111', title: 'Class 11 (Neet + Boards)', description: 'Quick revision for final exam preparation.', image: '/images/11.png', price: 0 },
@@ -67,7 +69,7 @@ const ClassCard = ({ id, title, description, image, price, purchaseInfo, onPurch
     }
 
     const options = {
-      key: 'rzp_live_tDXqOoxxjpyWt8',
+      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
       amount: price * 100,
       currency: 'INR',
       name: 'Atom Classes',
@@ -211,7 +213,7 @@ const ClassCardPage = () => {
         variant="h4"
         textAlign="center"
         gutterBottom
-        sx={{ fontWeight: 800, mb: 5, color: '#1976d2' }}
+        sx={{ fontWeight: 800, mb: 4, color: '#1976d2' }}
       >
         Select Your Class
       </Typography>
