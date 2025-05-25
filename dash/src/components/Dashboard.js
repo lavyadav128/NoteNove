@@ -146,8 +146,10 @@ const Dashboard = () => {
   useEffect(() => {
     const allCourses = [...purchases, ...fallbackCourses];
     const uniqueTitles = Array.from(new Set(allCourses.map((course) => course.title)));
-    setSearchOptions(uniqueTitles);
+    const options = uniqueTitles.map((title) => ({ label: title })); // ✅ convert to { label }
+    setSearchOptions(options);
   }, [purchases]);
+  
 
   useEffect(() => {
     if (isMainDashboard) {
@@ -207,9 +209,11 @@ const Dashboard = () => {
   inputValue={searchInput}
   onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
   onChange={(event, newValue) => {
-    if (newValue) handleSearch(newValue);
+    if (newValue && newValue.label) handleSearch(newValue.label);
   }}
-  getOptionLabel={(option) => (typeof option === "string" ? option : "")} // ✅ fix added here
+  getOptionLabel={(option) =>
+    typeof option === "string" ? option : option.label
+  }
   sx={{
     width: isMobile ? "calc(100% - 100px)" : 340,
     minWidth: 0,
@@ -234,6 +238,7 @@ const Dashboard = () => {
     />
   )}
 />
+
 
   <Button
     variant="contained"
