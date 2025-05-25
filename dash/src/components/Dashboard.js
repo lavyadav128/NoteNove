@@ -133,15 +133,37 @@ const Dashboard = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        setPurchases(res.data);
+  
+        // 🔁 Match backend titles to frontend routes manually
+        const mapped = res.data.map((item) => {
+          const title = item.title?.trim();
+          let route = "/cou"; // default fallback route
+  
+          if (title === "Class 10") route = "/cou";
+          else if (title === "Class 11 (Jee + Boards)") route = "/cou";
+          else if (title === "Class 12 (Jee + Boards)") route = "/cou";
+          else if (title === "Class 11 (Neet + Boards)") route = "/cou";
+          else if (title === "Class 12 (Neet + Boards)") route = "/cou";
+          else if (title === "DSA") route = "/dsac";
+          else if (title === "Web Development") route = "/webc";
+  
+          return {
+            title,
+            route,
+          };
+        });
+  
+        setPurchases(mapped);
       } catch (err) {
         console.error("Error fetching purchases", err);
       } finally {
         setLoading(false);
       }
     };
+  
     fetchPurchases();
   }, []);
+  
 
   useEffect(() => {
     const allCourses = [...purchases, ...fallbackCourses];
@@ -149,7 +171,7 @@ const Dashboard = () => {
     const options = uniqueTitles.map((title) => ({ label: title })); // ✅ convert to { label }
     setSearchOptions(options);
   }, [purchases]);
-  
+   
 
   useEffect(() => {
     if (isMainDashboard) {
