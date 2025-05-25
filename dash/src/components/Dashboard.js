@@ -201,38 +201,40 @@ const Dashboard = () => {
     justifyContent: "center",
   }}
 >
-  <Autocomplete
-    freeSolo
-    options={searchOptions}
-    inputValue={searchInput}
-    onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
-    onChange={(event, newValue) => {
-      if (newValue) handleSearch(newValue);
-    }}
-    sx={{
-      width: isMobile ? "calc(100% - 100px)" : 340, // width minus button width on mobile
-      minWidth: 0, // avoid flexbox shrinking issues
-    }}
-    renderInput={(params) => (
-      <TextField
-        {...params}
-        label="Search batches..."
-        variant="outlined"
-        sx={{
-          "& .MuiOutlinedInput-root": {
-            fontSize: "0.9rem",
-            height: 45,
-            "& fieldset": {
-              borderWidth: "1.5px",
-            },
+<Autocomplete
+  freeSolo
+  options={searchOptions}
+  inputValue={searchInput}
+  onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
+  onChange={(event, newValue) => {
+    if (newValue) handleSearch(newValue);
+  }}
+  getOptionLabel={(option) => (typeof option === "string" ? option : "")} // ✅ fix added here
+  sx={{
+    width: isMobile ? "calc(100% - 100px)" : 340,
+    minWidth: 0,
+  }}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Search batches..."
+      variant="outlined"
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          fontSize: "0.9rem",
+          height: 45,
+          "& fieldset": {
+            borderWidth: "1.5px",
           },
-          "& label": {
-            fontSize: "0.9rem",
-          },
-        }}
-      />
-    )}
-  />
+        },
+        "& label": {
+          fontSize: "0.9rem",
+        },
+      }}
+    />
+  )}
+/>
+
   <Button
     variant="contained"
     onClick={() => handleSearch(searchInput)}
