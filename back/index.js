@@ -15,9 +15,10 @@ const app = express();
 
 //  Middleware
 app.use(cors({
-  origin: ['https://notess-ei6q.onrender.com',
+  origin: ['http://localhost:3001',
+           'https://notess-ei6q.onrender.com'
             //'https://note-nove-fflk.vercel.app',
-            //'http://localhost:3001'
+            
   ], // Allow requests from your React frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
@@ -55,6 +56,6 @@ const PORT = process.env.PORT || 3000;
 
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log('Server running at http://localhost:${PORT}');
   });
 });

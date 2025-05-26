@@ -204,7 +204,7 @@ const chaptersData = {
       "structural-organization-in-animals",
       "biomolecules",
       "body-fluids-and-circulation",
-      "excretory-products-and-their-elimination",
+      "excretory products and their elimation",
       "locomotion-and-movement",
       "neural-control-and-coordination",
       "chemical-control-and-integration",
