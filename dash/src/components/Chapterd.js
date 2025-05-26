@@ -20,49 +20,102 @@ const ChapterDetail = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  // Log route parameters to debug blank page issue
   useEffect(() => {
     console.log("Route Params:", { classId, subject, slug });
   }, [classId, subject, slug]);
 
   const pdfLinks = {
-    mindmap: `/images/mindmap/${slug}.pdf`,
-    shortNotes: `/images/shortnotes/${slug}.pdf`,
-    completeNotes: `/images/completenotes/${slug}.pdf`,
-    oneShotNotes: `/images/oneshot/${slug}.pdf`,
+    mindmap: {
+      pdf: `/images/mindmap/${slug}.pdf`,
+      audio: `/images/mindmap/${slug}.mp3`,
+    },
+    shortNotes: {
+      pdf: `/images/shortnotes/${slug}.pdf`,
+    },
+    completeNotes: {
+      pdf: `/images/completenotes/${slug}.pdf`,
+    },
+    oneShotNotes: {
+      pdf: `/images/oneshot/${slug}.pdf`,
+    },
   };
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const openPdfIfExists = async (e, url) => {
+  const openPdfIfExists = async (e, linkObj, label) => {
     e.preventDefault();
 
-    // Open a blank tab immediately (user gesture)
+    const pdf = linkObj.pdf;
+    const audio = linkObj.audio;
+
     const newTab = window.open("", "_blank");
 
     try {
-      const response = await fetch(url, { method: "HEAD" });
+      const response = await fetch(pdf, { method: "HEAD" });
 
-      // Check response status and content-type header
-      const contentType = response.headers.get("content-type") || "";
-      console.log(`Checking PDF: ${url}, status: ${response.status}, content-type: ${contentType}`);
+      if (response.ok && response.headers.get("content-type")?.includes("pdf")) {
+        let audioRes = { ok: false };
+        if (label === "mindmap" && audio) {
+          audioRes = await fetch(audio, { method: "HEAD" });
+        }
 
-      if (response.ok && contentType.includes("pdf")) {
-        // Redirect the tab to the PDF URL
-        newTab.location.href = url;
+        const viewerHtml = `
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <title>PDF Viewer</title>
+            <style>
+              html, body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+              }
+              body {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                background: #f9f9f9;
+              }
+              embed {
+                flex-grow: 1;
+                width: 100%;
+                border: none;
+              }
+              audio {
+                width: 100%;
+                height: 60px;
+                border-top: 1px solid #ccc;
+                box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+              }
+            </style>
+          </head>
+          <body>
+            <embed src="${pdf}" type="application/pdf" />
+            ${
+              label === "mindmap" && audioRes.ok
+                ? `<audio id="audio" src="${audio}" autoplay controls></audio>`
+                : ""
+            }
+          </body>
+          </html>
+        `;
+
+        newTab.document.write(viewerHtml);
+        newTab.document.close();
       } else {
-        // Close the blank tab and show snackbar + vibrate
         newTab.close();
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
         setSnackbarMessage("This PDF file does not exist yet.");
         setSnackbarOpen(true);
       }
     } catch (error) {
+      console.error("PDF open error:", error);
       newTab.close();
       if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-      setSnackbarMessage("Error checking the file.");
+      setSnackbarMessage("Error checking the files.");
       setSnackbarOpen(true);
     }
   };
@@ -71,7 +124,6 @@ const ChapterDetail = () => {
     setSnackbarOpen(false);
   };
 
-  // Defensive check for slug
   if (!slug) {
     return (
       <Box p={3}>
@@ -143,106 +195,34 @@ const ChapterDetail = () => {
           </Typography>
 
           <Grid container spacing={4}>
-            {/* Mindmap */}
-            <Grid item xs={12} sm={6}>
-              <Card sx={cardStyles("#e3f2fd", "#1976d2")}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                    Mindmap
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Visual summary and mindmap for this chapter.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={(e) => openPdfIfExists(e, pdfLinks.mindmap)}
-                  >
-                    Open PDF
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            {/* Short Notes */}
-            <Grid item xs={12} sm={6}>
-              <Card sx={cardStyles("#fff3e0", "#fb8c00")}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                    Short Notes
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Concise notes and key points of this chapter.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={(e) => openPdfIfExists(e, pdfLinks.shortNotes)}
-                  >
-                    Open PDF
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            {/* Complete Notes */}
-            <Grid item xs={12} sm={6}>
-              <Card sx={cardStyles("#e8f5e9", "#4caf50")}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                    Complete Notes
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Full chapter notes with detailed explanation and examples.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={(e) => openPdfIfExists(e, pdfLinks.completeNotes)}
-                  >
-                    Open PDF
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            {/* One Shot Notes */}
-            <Grid item xs={12} sm={6}>
-              <Card sx={cardStyles("#f3e5f5", "#9c27b0")}>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
-                    One Shot Notes
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Quick revision notes for a one-shot recap before exams.
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={(e) => openPdfIfExists(e, pdfLinks.oneShotNotes)}
-                  >
-                    Open PDF
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
+            {Object.entries(pdfLinks).map(([label, link]) => (
+              <Grid item xs={12} sm={6} key={label}>
+                <Card sx={getCardStyle(label)}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                      {formatLabel(label)}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {getLabelDescription(label)}
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={(e) => openPdfIfExists(e, link, label)}
+                    >
+                      Open PDF
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </CardContent>
       </Card>
 
-      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={4000}
@@ -261,20 +241,48 @@ const ChapterDetail = () => {
   );
 };
 
-// Style helper
-const cardStyles = (bgColor, shadowColor) => ({
-  bgcolor: bgColor,
-  borderRadius: 3,
-  boxShadow: `0 4px 12px rgba(0, 0, 0, 0.1), 0 6px 20px ${shadowColor}40`,
-  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-  "&:hover": {
-    transform: "scale(1.03)",
-    boxShadow: `0 10px 25px ${shadowColor}66, 0 12px 30px ${shadowColor}99`,
-  },
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "space-between",
-});
+const formatLabel = (key) => {
+  switch (key) {
+    case "mindmap": return "Mindmap";
+    case "shortNotes": return "Short Notes";
+    case "completeNotes": return "Complete Notes";
+    case "oneShotNotes": return "One Shot Notes";
+    default: return key;
+  }
+};
+
+const getLabelDescription = (key) => {
+  switch (key) {
+    case "mindmap": return "Visual summary and mindmap for this chapter.";
+    case "shortNotes": return "Concise notes and key points of this chapter.";
+    case "completeNotes": return "Full chapter notes with detailed explanation and examples.";
+    case "oneShotNotes": return "Quick revision notes for a one-shot recap before exams.";
+    default: return "";
+  }
+};
+
+const getCardStyle = (key) => {
+  const colors = {
+    mindmap: ["#e3f2fd", "#1976d2"],
+    shortNotes: ["#fff3e0", "#fb8c00"],
+    completeNotes: ["#e8f5e9", "#4caf50"],
+    oneShotNotes: ["#f3e5f5", "#9c27b0"],
+  };
+  const [bg, shadow] = colors[key] || ["#fff", "#ccc"];
+  return {
+    bgcolor: bg,
+    borderRadius: 3,
+    boxShadow: `0 4px 12px rgba(0, 0, 0, 0.1), 0 6px 20px ${shadow}40`,
+    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+    "&:hover": {
+      transform: "scale(1.03)",
+      boxShadow: `0 10px 25px ${shadow}66, 0 12px 30px ${shadow}99`,
+    },
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  };
+};
 
 export default ChapterDetail;

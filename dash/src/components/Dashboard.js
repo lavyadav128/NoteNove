@@ -18,6 +18,8 @@ import {
   Fade,
   useMediaQuery,
   useTheme,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CloseIcon from "@mui/icons-material/Close";
@@ -46,6 +48,7 @@ const Dashboard = () => {
   const [searchOptions, setSearchOptions] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
   const [showCards, setShowCards] = useState(false);
+  const [showFlash, setShowFlash] = useState(false);
 
   const muiTheme = useTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
@@ -103,9 +106,16 @@ const Dashboard = () => {
     { title: "Web Development", route: "/webc" },
   ];
 
+  const triggerFlash = () => {
+    setShowFlash(true);
+    clearTimeout(window.flashTimeout);
+    window.flashTimeout = setTimeout(() => setShowFlash(false), 5000);
+  };
+
   const handleOpenModal = (key) => {
     setActiveNoteKey(key);
     setOpenModal(true);
+    if (key === "mindmap") triggerFlash();
   };
 
   const handleCloseModal = () => {
@@ -133,12 +143,11 @@ const Dashboard = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-  
-        // 🔁 Match backend titles to frontend routes manually
+
         const mapped = res.data.map((item) => {
           const title = item.title?.trim();
-          let route = "/cou"; // default fallback route
-  
+          let route = "/cou";
+
           if (title === "Class 10") route = "/cou";
           else if (title === "Class 11 (Jee + Boards)") route = "/cou";
           else if (title === "Class 12 (Jee + Boards)") route = "/cou";
@@ -146,13 +155,13 @@ const Dashboard = () => {
           else if (title === "Class 12 (Neet + Boards)") route = "/cou";
           else if (title === "DSA") route = "/dsac";
           else if (title === "Web Development") route = "/webc";
-  
+
           return {
             title,
             route,
           };
         });
-  
+
         setPurchases(mapped);
       } catch (err) {
         console.error("Error fetching purchases", err);
@@ -160,18 +169,16 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-  
+
     fetchPurchases();
   }, []);
-  
 
   useEffect(() => {
     const allCourses = [...purchases, ...fallbackCourses];
     const uniqueTitles = Array.from(new Set(allCourses.map((course) => course.title)));
-    const options = uniqueTitles.map((title) => ({ label: title })); // ✅ convert to { label }
+    const options = uniqueTitles.map((title) => ({ label: title }));
     setSearchOptions(options);
   }, [purchases]);
-   
 
   useEffect(() => {
     if (isMainDashboard) {
@@ -216,69 +223,65 @@ const Dashboard = () => {
 
             {isMainDashboard && (
               <Box
-  sx={{
-    display: "flex",
-    flexDirection: isMobile ? "row" : "row", // row on all, just to be explicit
-    gap: 1,
-    width: isMobile ? "100%" : "auto",
-    alignItems: "center",
-    justifyContent: "center",
-  }}
->
-<Autocomplete
-  freeSolo
-  options={searchOptions}
-  inputValue={searchInput}
-  onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
-  onChange={(event, newValue) => {
-    if (newValue && newValue.label) handleSearch(newValue.label);
-  }}
-  getOptionLabel={(option) =>
-    typeof option === "string" ? option : option.label
-  }
-  sx={{
-    width: isMobile ? "calc(100% - 100px)" : 340,
-    minWidth: 0,
-  }}
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      label="Search batches..."
-      variant="outlined"
-      sx={{
-        "& .MuiOutlinedInput-root": {
-          fontSize: "0.9rem",
-          height: 45,
-          "& fieldset": {
-            borderWidth: "1.5px",
-          },
-        },
-        "& label": {
-          fontSize: "0.9rem",
-        },
-      }}
-    />
-  )}
-/>
-
-
-  <Button
-    variant="contained"
-    onClick={() => handleSearch(searchInput)}
-    sx={{
-      borderRadius: 2,
-      textTransform: "none",
-      fontWeight: 600,
-      width: 100, // fixed width button
-      height: 40,
-      fontSize: "0.9rem",
-      whiteSpace: "nowrap",
-    }}
-  >
-    Search
-  </Button>
-</Box>
-
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 1,
+                  width: isMobile ? "100%" : "auto",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Autocomplete
+                  freeSolo
+                  options={searchOptions}
+                  inputValue={searchInput}
+                  onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
+                  onChange={(event, newValue) => {
+                    if (newValue && newValue.label) handleSearch(newValue.label);
+                  }}
+                  getOptionLabel={(option) =>
+                    typeof option === "string" ? option : option.label
+                  }
+                  sx={{
+                    width: isMobile ? "calc(100% - 100px)" : 340,
+                    minWidth: 0,
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search batches..."
+                      variant="outlined"
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          fontSize: "0.9rem",
+                          height: 45,
+                          "& fieldset": {
+                            borderWidth: "1.5px",
+                          },
+                        },
+                        "& label": {
+                          fontSize: "0.9rem",
+                        },
+                      }}
+                    />
+                  )}
+                />
+                <Button
+                  variant="contained"
+                  onClick={() => handleSearch(searchInput)}
+                  sx={{
+                    borderRadius: 2,
+                    textTransform: "none",
+                    fontWeight: 600,
+                    width: 100,
+                    height: 40,
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  Search
+                </Button>
+              </Box>
             )}
 
             {showBackButton && (
@@ -326,6 +329,7 @@ const Dashboard = () => {
                             flexDirection: "column",
                             justifyContent: "space-between",
                           }}
+                          onMouseEnter={key === "mindmap" ? triggerFlash : undefined}
                         >
                           <Typography variant="h6" fontWeight={700} sx={{ color: textColor }}>
                             {title}
@@ -377,6 +381,20 @@ const Dashboard = () => {
                 />
               </DialogContent>
             </Dialog>
+
+            <Snackbar
+              open={showFlash}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              sx={{ mt: 2 }}
+            >
+              <Alert
+                severity="info"
+                variant="filled"
+                sx={{ fontSize: "0.95rem", fontWeight: 500 }}
+              >
+                🎧 Mindmap includes detailed audio explanation for each chapter (accessible only on pc)!
+              </Alert>
+            </Snackbar>
           </CardContent>
         </Card>
       </Box>
