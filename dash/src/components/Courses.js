@@ -17,7 +17,7 @@ import server from "../environment";
 
 
 const classList = [
-  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 1 },
+  { id: '10', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/10.png', price: 49 },
   { id: '11', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/11.png', price: 0 },
   { id: '12', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/12.png', price: 49 },
   { id: '111', title: 'Class 11 (Neet + Boards)', description: 'Strengthen your foundation with core biology and medical entrance concepts.', image: '/images/11.png', price: 0 },
