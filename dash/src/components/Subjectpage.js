@@ -96,7 +96,6 @@ const chaptersData = {
       "hyperbola",
       "mathematical-reasoning ",
       "statistics",
-      "comp (11 maths)",
     ],
     physics: [
       "unit-measurements",
@@ -114,8 +113,7 @@ const chaptersData = {
       "ktg-and-thermodynamics",
       "oscillation",
       "wave-motion",
-      "complete class 11(1)",
-      "complete class 11(2)",
+
     ],
     chemistry: [
       "mole-concept",
@@ -137,9 +135,7 @@ const chaptersData = {
       "practical-organic-chemistry",
       "qualitative-analyses",
       "environmental-chemistry",
-      "comp-organic chemistry",
-      "comp-iorganic chemistry",
-      "comp-physical chemistry",    
+    
     ],
   },
   111: {
@@ -159,8 +155,7 @@ const chaptersData = {
       "ktg-and-thermodynamics",
       "oscillation",
       "wave-motion",
-      "complete class 11(1)",
-      "complete class 11(2)",
+
     ],
     chemistry: [
       "mole-concept",
@@ -182,9 +177,7 @@ const chaptersData = {
       "practical-organic-chemistry",
       "qualitative-analyses",
       "environmental-chemistry",
-      "comp organic chemistry",
-      "comp iorganic chemistry",
-      "comp physical chemistry",
+
     ],
     botany: [
       "the-living-world",
@@ -197,7 +190,6 @@ const chaptersData = {
       "photosynthesis-in-higher-plants",
       "respiration-in-plants",
       "plant-growth-and-development",
-      "comp botany",
     ],
     zoology : [
       "animal-kingdom",
@@ -208,7 +200,6 @@ const chaptersData = {
       "locomotion-and-movement",
       "neural-control-and-coordination",
       "chemical-control-and-integration",
-      "comp zoology",
     ],
   },
   12: {
@@ -228,7 +219,6 @@ const chaptersData = {
       "Vector Algebra",
       "3D-geometry",
       "probability",
-      "comp (12 maths)",
     ],
     physics: [
       "electric-charges-and-field",
@@ -245,8 +235,7 @@ const chaptersData = {
       "wave-optics",
       "modern-physics",
       "semiconductor",
-      "complete class 12(1)",
-      "complete class 12(2)",
+
     ],
     chemistry: [
       "solid-state",
@@ -267,9 +256,7 @@ const chaptersData = {
       "chemistry-in-everyday-life",
       "salt-analyses",
       "environmental-chemistry",
-      "comp organic chemistry",
-      "comp iorganic chemistry",
-      "comp physical chemistry",
+
     ],
   },
   121: {
@@ -288,8 +275,7 @@ const chaptersData = {
       "wave-optics",
       "modern-physics",
       "semiconductor",
-      "complete class 12(1)",
-      "complete class 12(2)",
+
     ],
     chemistry: [
       "solid-state",
@@ -308,9 +294,7 @@ const chaptersData = {
       "biomolecules",
       "polymers",
       "chemistry-in-everyday-life",
-      "comp organic chemistry",
-      "comp iorganic chemistry",
-      "comp physical chemistry",
+
     ],
     botany : [
       "sexual-reproduction-in-flowering-plants", 
@@ -321,7 +305,6 @@ const chaptersData = {
       "organisms-and-population",
       "ecosystem",
       "biodiversity-and-conservation",
-      "comp botany",
 
     ],
     zoology : [
@@ -331,7 +314,6 @@ const chaptersData = {
       "evolution",
       "biotechnology-principles-and-processes",
       "biotechnology-and-its-applications",
-      "comp zoology",
     ],
   },
 };

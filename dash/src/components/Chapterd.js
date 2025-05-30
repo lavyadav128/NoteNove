@@ -24,21 +24,81 @@ const ChapterDetail = () => {
     console.log("Route Params:", { classId, subject, slug });
   }, [classId, subject, slug]);
 
-  const pdfLinks = {
-    mindmap: {
-      pdf: `/images/mindmap/${slug}.pdf`,
-      audio: `/images/mindmap/${slug}.mp3`,
-    },
-    shortNotes: {
-      pdf: `/images/shortnotes/${slug}.pdf`,
-    },
-    completeNotes: {
-      pdf: `/images/completenotes/${slug}.pdf`,
-    },
-    oneShotNotes: {
-      pdf: `/images/oneshot/${slug}.pdf`,
-    },
-  };
+
+  const pdfLinks =
+  classId === "10"
+    ? {
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+          audio: `/images/shortnotes/${slug}.mp3`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      }
+    : classId === "11"
+    ? {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      }
+    : classId === "12"
+    ? {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      }
+    : classId === "111"
+    ? {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      }
+    : classId === "121"
+    ? {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      }
+    : {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+      };
+
+
+
+
 
   const handleBack = () => {
     navigate(-1);
@@ -57,7 +117,7 @@ const ChapterDetail = () => {
 
       if (response.ok && response.headers.get("content-type")?.includes("pdf")) {
         let audioRes = { ok: false };
-        if (label === "mindmap" && audio) {
+        if (label === "shortNotes" && audio) {
           audioRes = await fetch(audio, { method: "HEAD" });
         }
 
@@ -95,7 +155,7 @@ const ChapterDetail = () => {
           <body>
             <embed src="${pdf}" type="application/pdf" />
             ${
-              label === "mindmap" && audioRes.ok
+              label === "shortNotes" && audioRes.ok
                 ? `<audio id="audio" src="${audio}" autoplay controls></audio>`
                 : ""
             }
