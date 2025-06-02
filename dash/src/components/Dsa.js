@@ -168,116 +168,116 @@ const dsaTopics = [
   {
     day:"Day 14 : Stacks & Queues II",
     questions: [
-      { name: "Time needed to Buy Tickets", link: "https://leetcode.com/problems/time-needed-to-buy-tickets/", difficulty: "EASY" },
-      { name: "Next Smaller Element", link: "https://practice.geeksforgeeks.org/problems/next-larger-element-1587115620/1", difficulty: "MEDIUM" },
-      { name: "LRU Cache", link: "https://leetcode.com/problems/lru-cache/", difficulty: "MEDIUM" },
-      { name: "Celebrity Problem", link: "https://practice.geeksforgeeks.org/problems/the-celebrity-problem/1", difficulty: "MEDIUM" },
-      { name: "Get Min Element from Stack", link: "https://practice.geeksforgeeks.org/problems/special-stack/1", difficulty: "MEDIUM" }
+      { title: "Time needed to Buy Tickets", link: "https://leetcode.com/problems/time-needed-to-buy-tickets/", difficulty: "EASY" },
+      { title: "Next Smaller Element", link: "https://practice.geeksforgeeks.org/problems/next-larger-element-1587115620/1", difficulty: "MEDIUM" },
+      { title: "LRU Cache", link: "https://leetcode.com/problems/lru-cache/", difficulty: "MEDIUM" },
+      { title: "Celebrity Problem", link: "https://practice.geeksforgeeks.org/problems/the-celebrity-problem/1", difficulty: "MEDIUM" },
+      { title: "Get Min Element from Stack", link: "https://practice.geeksforgeeks.org/problems/special-stack/1", difficulty: "MEDIUM" }
     ]
   },
   {
     day:"Day 15 : Stacks & Queues III",
     questions: [
-      { name: "Sort a Stack", link: "https://practice.geeksforgeeks.org/problems/sort-a-stack/1", difficulty: "MEDIUM" },
-      { name: "Circular Tour / Gas Station", link: "https://leetcode.com/problems/gas-station/", difficulty: "MEDIUM" },
-      { name: "Rotten Oranges", link: "https://leetcode.com/problems/rotting-oranges/", difficulty: "MEDIUM" },
-      { name: "Stock Span", link: "https://practice.geeksforgeeks.org/problems/stock-span-problem-1587115621/1", difficulty: "MEDIUM" },
-      { name: "Max Area in Histogram", link: "https://leetcode.com/problems/largest-rectangle-in-histogram/", difficulty: "HARD" }
+      { title: "Sort a Stack", link: "https://practice.geeksforgeeks.org/problems/sort-a-stack/1", difficulty: "MEDIUM" },
+      { title: "Circular Tour / Gas Station", link: "https://leetcode.com/problems/gas-station/", difficulty: "MEDIUM" },
+      { title: "Rotten Oranges", link: "https://leetcode.com/problems/rotting-oranges/", difficulty: "MEDIUM" },
+      { title: "Stock Span", link: "https://practice.geeksforgeeks.org/problems/stock-span-problem-1587115621/1", difficulty: "MEDIUM" },
+      { title: "Max Area in Histogram", link: "https://leetcode.com/problems/largest-rectangle-in-histogram/", difficulty: "HARD" }
     ]
   },
   {
     day:"Day 16 : Binary Trees I",
     questions: [
-      { name: "Inorder Traversal", link: "https://leetcode.com/problems/binary-tree-inorder-traversal/", difficulty: "EASY" },
-      { name: "Preorder Traversal", link: "https://leetcode.com/problems/binary-tree-preorder-traversal/", difficulty: "EASY" },
-      { name: "Postorder Traversal", link: "https://leetcode.com/problems/binary-tree-postorder-traversal/", difficulty: "EASY" },
-      { name: "Level Order Traversal", link: "https://leetcode.com/problems/binary-tree-level-order-traversal/", difficulty: "MEDIUM" },
-      { name: "Symmetric Tree", link: "https://leetcode.com/problems/symmetric-tree/", difficulty: "EASY" },
-      { name: "Minimum Distance between Nodes", link: "https://leetcode.com/problems/minimum-distance-between-bst-nodes/", difficulty: "EASY" }
+      { title: "Inorder Traversal", link: "https://leetcode.com/problems/binary-tree-inorder-traversal/", difficulty: "EASY" },
+      { title: "Preorder Traversal", link: "https://leetcode.com/problems/binary-tree-preorder-traversal/", difficulty: "EASY" },
+      { title: "Postorder Traversal", link: "https://leetcode.com/problems/binary-tree-postorder-traversal/", difficulty: "EASY" },
+      { title: "Level Order Traversal", link: "https://leetcode.com/problems/binary-tree-level-order-traversal/", difficulty: "MEDIUM" },
+      { title: "Symmetric Tree", link: "https://leetcode.com/problems/symmetric-tree/", difficulty: "EASY" },
+      { title: "Minimum Distance between Nodes", link: "https://leetcode.com/problems/minimum-distance-between-bst-nodes/", difficulty: "EASY" }
     ]
   },
   {
     day:"Day 17 : Binary Trees II",
     questions: [
-      { name: "Are 2 Trees Identical or Not", link: "https://leetcode.com/problems/same-tree/", difficulty: "EASY" },
-      { name: "Morris Inorder Traversal", link: "https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/", difficulty: "EASY" },
-      { name: "Diameter of a Tree", link: "https://leetcode.com/problems/diameter-of-binary-tree/", difficulty: "EASY" },
-      { name: "Is Tree Height Balanced", link: "https://leetcode.com/problems/balanced-binary-tree/", difficulty: "EASY" },
-      { name: "Subtree of Another Tree", link: "https://leetcode.com/problems/subtree-of-another-tree/", difficulty: "EASY" },
-      { name: "Check if BT Mirror of itself or not", link: "https://practice.geeksforgeeks.org/problems/mirror-tree/1", difficulty: "EASY" }
+      { title: "Are 2 Trees Identical or Not", link: "https://leetcode.com/problems/same-tree/", difficulty: "EASY" },
+      { title: "Morris Inorder Traversal", link: "https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/", difficulty: "EASY" },
+      { title: "Diameter of a Tree", link: "https://leetcode.com/problems/diameter-of-binary-tree/", difficulty: "EASY" },
+      { title: "Is Tree Height Balanced", link: "https://leetcode.com/problems/balanced-binary-tree/", difficulty: "EASY" },
+      { title: "Subtree of Another Tree", link: "https://leetcode.com/problems/subtree-of-another-tree/", difficulty: "EASY" },
+      { title: "Check if BT Mirror of itself or not", link: "https://practice.geeksforgeeks.org/problems/mirror-tree/1", difficulty: "EASY" }
     ]
   },
   {
     day:"Day 18 : Binary Trees III",
     questions: [
-      { name: "Top View of a Tree", link: "https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1", difficulty: "MEDIUM" },
-      { name: "Bottom View of a Tree", link: "https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1", difficulty: "MEDIUM" },
-      { name: "Kth Level of Tree", link: "https://www.geeksforgeeks.org/print-nodes-at-k-distance-from-root/", difficulty: "MEDIUM" },
-      { name: "Lowest Common Ancestor (LCA)", link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", difficulty: "MEDIUM" },
-      { name: "Transform to Sum Tree", link: "https://practice.geeksforgeeks.org/problems/transform-to-sum-tree/1", difficulty: "MEDIUM" },
-      { name: "Construct BT from Inorder & Preorder", link: "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", difficulty: "MEDIUM" }
+      { title: "Top View of a Tree", link: "https://practice.geeksforgeeks.org/problems/top-view-of-binary-tree/1", difficulty: "MEDIUM" },
+      { title: "Bottom View of a Tree", link: "https://practice.geeksforgeeks.org/problems/bottom-view-of-binary-tree/1", difficulty: "MEDIUM" },
+      { title: "Kth Level of Tree", link: "https://www.geeksforgeeks.org/print-nodes-at-k-distance-from-root/", difficulty: "MEDIUM" },
+      { title: "Lowest Common Ancestor (LCA)", link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/", difficulty: "MEDIUM" },
+      { title: "Transform to Sum Tree", link: "https://practice.geeksforgeeks.org/problems/transform-to-sum-tree/1", difficulty: "MEDIUM" },
+      { title: "Construct BT from Inorder & Preorder", link: "https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/", difficulty: "MEDIUM" }
     ]
   },
   {
     day: "Day 19 : Binary Trees IV",
     questions: [
-      { name: "Construct BT from Inorder & Postorder", link: "https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/", difficulty: "MEDIUM" },
-      { name: "Flatten BT to LL", link: "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/", difficulty: "MEDIUM" },
-      { name: "Max Width of BT", link: "https://leetcode.com/problems/maximum-width-of-binary-tree/", difficulty: "MEDIUM" },
-      { name: "Zig Zag Traversal of BT", link: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", difficulty: "MEDIUM" },
-      { name: "Max Path Sum", link: "https://leetcode.com/problems/binary-tree-maximum-path-sum/", difficulty: "HARD" },
-      { name: "Kth Ancestor", link: "https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1", difficulty: "HARD" }
+      { title: "Construct BT from Inorder & Postorder", link: "https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/", difficulty: "MEDIUM" },
+      { title: "Flatten BT to LL", link: "https://leetcode.com/problems/flatten-binary-tree-to-linked-list/", difficulty: "MEDIUM" },
+      { title: "Max Width of BT", link: "https://leetcode.com/problems/maximum-width-of-binary-tree/", difficulty: "MEDIUM" },
+      { title: "Zig Zag Traversal of BT", link: "https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/", difficulty: "MEDIUM" },
+      { title: "Max Path Sum", link: "https://leetcode.com/problems/binary-tree-maximum-path-sum/", difficulty: "HARD" },
+      { title: "Kth Ancestor", link: "https://practice.geeksforgeeks.org/problems/kth-ancestor-in-a-tree/1", difficulty: "HARD" }
     ]
   },
   {
     day: "Day 20 : BST I",
     questions: [
-      { name: "Kth largest in BST", link: "https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1", difficulty: "EASY" },
-      { name: "Sorted Array to Balanced BST", link: "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/", difficulty: "EASY" },
-      { name: "Validate BST", link: "https://leetcode.com/problems/validate-binary-search-tree/", difficulty: "MEDIUM" },
-      { name: "Kth Smallest in BST", link: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", difficulty: "MEDIUM" },
-      { name: "LCA in BST", link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/", difficulty: "MEDIUM" }
+      { title: "Kth largest in BST", link: "https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1", difficulty: "EASY" },
+      { title: "Sorted Array to Balanced BST", link: "https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/", difficulty: "EASY" },
+      { title: "Validate BST", link: "https://leetcode.com/problems/validate-binary-search-tree/", difficulty: "MEDIUM" },
+      { title: "Kth Smallest in BST", link: "https://leetcode.com/problems/kth-smallest-element-in-a-bst/", difficulty: "MEDIUM" },
+      { title: "LCA in BST", link: "https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/", difficulty: "MEDIUM" }
     ]
   },
   {
     day: "Day 21 : BST II",
     questions: [
-      { name: "Populate Next Right Pointers", link: "https://leetcode.com/problems/populating-next-right-pointers-in-each-node/", difficulty: "MEDIUM" },
-      { name: "Recover BST", link: "https://leetcode.com/problems/recover-binary-search-tree/", difficulty: "MEDIUM" },
-      { name: "Construct from Preorder", link: "https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/", difficulty: "MEDIUM" },
-      { name: "BST Iterator", link: "https://leetcode.com/problems/binary-search-tree-iterator/", difficulty: "MEDIUM" },
-      { name: "Flatten BST to Sorted list", link: "https://www.geeksforgeeks.org/flatten-bst-to-sorted-list-increasing-order/", difficulty: "MEDIUM" }
+      { title: "Populate Next Right Pointers", link: "https://leetcode.com/problems/populating-next-right-pointers-in-each-node/", difficulty: "MEDIUM" },
+      { title: "Recover BST", link: "https://leetcode.com/problems/recover-binary-search-tree/", difficulty: "MEDIUM" },
+      { title: "Construct from Preorder", link: "https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/", difficulty: "MEDIUM" },
+      { title: "BST Iterator", link: "https://leetcode.com/problems/binary-search-tree-iterator/", difficulty: "MEDIUM" },
+      { title: "Flatten BST to Sorted list", link: "https://www.geeksforgeeks.org/flatten-bst-to-sorted-list-increasing-order/", difficulty: "MEDIUM" }
     ]
   },
   {
     day: "Day 22 : BST III",
     questions: [
-      { name: "Serialize & Deserialize BST", link: "https://leetcode.com/problems/serialize-and-deserialize-bst/", difficulty: "HARD" },
-      { name: "Merge 2 BSTs", link: "https://www.geeksforgeeks.org/merge-two-balanced-binary-search-trees/", difficulty: "HARD" },
-      { name: "Inorder Successor", link: "https://leetcode.com/problems/inorder-successor-in-bst/", difficulty: "MEDIUM" },
-      { name: "Inorder Predecessor", link: "https://www.geeksforgeeks.org/inorder-predecessor-successor-binary-search-tree/", difficulty: "MEDIUM" },
-      { name: "Largest BST in BT", link: "https://practice.geeksforgeeks.org/problems/largest-bst/1", difficulty: "HARD" }
+      { title: "Serialize & Deserialize BST", link: "https://leetcode.com/problems/serialize-and-deserialize-bst/", difficulty: "HARD" },
+      { title: "Merge 2 BSTs", link: "https://www.geeksforgeeks.org/merge-two-balanced-binary-search-trees/", difficulty: "HARD" },
+      { title: "Inorder Successor", link: "https://leetcode.com/problems/inorder-successor-in-bst/", difficulty: "MEDIUM" },
+      { title: "Inorder Predecessor", link: "https://www.geeksforgeeks.org/inorder-predecessor-successor-binary-search-tree/", difficulty: "MEDIUM" },
+      { title: "Largest BST in BT", link: "https://practice.geeksforgeeks.org/problems/largest-bst/1", difficulty: "HARD" }
     ]
   },
   {
     day: "Day 23 : Heaps",
     questions: [
-      { name: "Merge K Sorted Arrays", link: "https://www.geeksforgeeks.org/merge-k-sorted-arrays/", difficulty: "EASY" },
-      { name: "K most Frequent Elements", link: "https://leetcode.com/problems/top-k-frequent-elements/", difficulty: "MEDIUM" },
-      { name: "Heap Sort", link: "https://www.geeksforgeeks.org/heap-sort/", difficulty: "MEDIUM" },
-      { name: "Kth Smallest Element", link: "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/", difficulty: "MEDIUM" },
-      { name: "Median from Stream", link: "https://leetcode.com/problems/find-median-from-data-stream/", difficulty: "HARD" },
-      { name: "Smallest Range in K Sorted List", link: "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/", difficulty: "HARD" }
+      { title: "Merge K Sorted Arrays", link: "https://www.geeksforgeeks.org/merge-k-sorted-arrays/", difficulty: "EASY" },
+      { title: "K most Frequent Elements", link: "https://leetcode.com/problems/top-k-frequent-elements/", difficulty: "MEDIUM" },
+      { title: "Heap Sort", link: "https://www.geeksforgeeks.org/heap-sort/", difficulty: "MEDIUM" },
+      { title: "Kth Smallest Element", link: "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/", difficulty: "MEDIUM" },
+      { title: "Median from Stream", link: "https://leetcode.com/problems/find-median-from-data-stream/", difficulty: "HARD" },
+      { title: "Smallest Range in K Sorted List", link: "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/", difficulty: "HARD" }
     ]
   },
   {
     day: "Day 24 : Tries",
     questions: [
-      { name: "Longest Common Prefix", link: "https://leetcode.com/problems/longest-common-prefix/", difficulty: "EASY" },
-      { name: "Word Break Problem", link: "https://leetcode.com/problems/word-break/", difficulty: "MEDIUM" },
-      { name: "Implement a Phone Directory", link: "https://www.geeksforgeeks.org/phone-directory-using-trie/", difficulty: "MEDIUM" },
-      { name: "Implement a Trie", link: "https://leetcode.com/problems/implement-trie-prefix-tree/", difficulty: "MEDIUM" },
-      { name: "Longest String with All Prefix", link: "https://practice.geeksforgeeks.org/problems/longest-string-with-all-prefixes/1", difficulty: "MEDIUM" }
+      { title: "Longest Common Prefix", link: "https://leetcode.com/problems/longest-common-prefix/", difficulty: "EASY" },
+      { title: "Word Break Problem", link: "https://leetcode.com/problems/word-break/", difficulty: "MEDIUM" },
+      { title: "Implement a Phone Directory", link: "https://www.geeksforgeeks.org/phone-directory-using-trie/", difficulty: "MEDIUM" },
+      { title: "Implement a Trie", link: "https://leetcode.com/problems/implement-trie-prefix-tree/", difficulty: "MEDIUM" },
+      { title: "Longest String with All Prefix", link: "https://practice.geeksforgeeks.org/problems/longest-string-with-all-prefixes/1", difficulty: "MEDIUM" }
     ]
   },
   {
