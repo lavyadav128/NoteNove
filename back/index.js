@@ -16,8 +16,8 @@ const app = express();
 //  Middleware
 app.use(cors({
   origin: ['http://localhost:3001',
-           'https://notess-ei6q.onrender.com'
-            //'https://note-nove-fflk.vercel.app',
+           'https://notess-ei6q.onrender.com',
+           'https://note-nove-fflk.vercel.app',
             
   ], // Allow requests from your React frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
