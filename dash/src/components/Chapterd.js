@@ -9,9 +9,12 @@ import {
   Grid,
   Snackbar,
   Alert,
+  Modal,
+  IconButton
 } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const ChapterDetail = () => {
   const { classId, subject, slug } = useParams();
@@ -19,86 +22,56 @@ const ChapterDetail = () => {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [viewerContent, setViewerContent] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const modalRef = useRef(null);
 
   useEffect(() => {
-    console.log("Route Params:", { classId, subject, slug });
-  }, [classId, subject, slug]);
+    const wheelHandler = (e) => {
+      if (e.ctrlKey) e.preventDefault();
+    };
+    const gestureStartHandler = (e) => {
+      e.preventDefault();
+    };
 
+    window.addEventListener("wheel", wheelHandler, { passive: false });
+    window.addEventListener("gesturestart", gestureStartHandler);
+
+    return () => {
+      window.removeEventListener("wheel", wheelHandler);
+      window.removeEventListener("gesturestart", gestureStartHandler);
+    };
+  }, []);
 
   const pdfLinks =
-  classId === "10"
-    ? {
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-          audio: `/images/shortnotes/${slug}.mp3`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      }
-    : classId === "11"
-    ? {
-        mindmap: {
-          pdf: `/images/mindmap/${slug}.pdf`,
-        },
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      }
-    : classId === "12"
-    ? {
-        mindmap: {
-          pdf: `/images/mindmap/${slug}.pdf`,
-        },
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      }
-    : classId === "111"
-    ? {
-        mindmap: {
-          pdf: `/images/mindmap/${slug}.pdf`,
-        },
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      }
-    : classId === "121"
-    ? {
-        mindmap: {
-          pdf: `/images/mindmap/${slug}.pdf`,
-        },
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      }
-    : {
-        mindmap: {
-          pdf: `/images/mindmap/${slug}.pdf`,
-        },
-        shortNotes: {
-          pdf: `/images/shortnotes/${slug}.pdf`,
-        },
-        completeNotes: {
-          pdf: `/images/completenotes/${slug}.pdf`,
-        },
-      };
-
-
-
-
+    classId === "10"
+      ? {
+          shortNotes: {
+            pdf: `/images/shortnotes/${slug}.pdf`,
+            audio: `/images/shortnotes/${slug}.mp3`,
+          },
+          completeNotes: {
+            pdf: `/images/completenotes/${slug}.pdf`,
+          },
+          video: {
+            url: `/images/videos/${slug}.mp4`,
+          },
+        }
+      : {
+          mindmap: {
+            pdf: `/images/mindmap/${slug}.pdf`,
+          },
+          shortNotes: {
+            pdf: `/images/shortnotes/${slug}.pdf`,
+          },
+          completeNotes: {
+            pdf: `/images/completenotes/${slug}.pdf`,
+          },
+          video: {
+            url: `/images/videos/${slug}.mp4`,
+          },
+        };
 
   const handleBack = () => {
     navigate(-1);
@@ -107,74 +80,112 @@ const ChapterDetail = () => {
   const openPdfIfExists = async (e, linkObj, label) => {
     e.preventDefault();
 
-    const pdf = linkObj.pdf;
-    const audio = linkObj.audio;
-
-    const newTab = window.open("", "_blank");
-
     try {
-      const response = await fetch(pdf, { method: "HEAD" });
-
-      if (response.ok && response.headers.get("content-type")?.includes("pdf")) {
-        let audioRes = { ok: false };
-        if (label === "shortNotes" && audio) {
-          audioRes = await fetch(audio, { method: "HEAD" });
+      if (label === "video" && linkObj.url) {
+        const res = await fetch(linkObj.url, { method: "HEAD" });
+        if (res.ok && res.headers.get("content-type")?.includes("video")) {
+          setViewerContent(
+            <Box
+              sx={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                bgcolor: "#000",
+              }}
+            >
+              <video
+                controls
+                autoPlay
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  backgroundColor: "black",
+                }}
+              >
+                <source src={linkObj.url} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </Box>
+          );
+          setModalOpen(true);
+        } else {
+          setSnackbarMessage("This video file does not exist yet.");
+          setSnackbarOpen(true);
         }
+        return;
+      }
 
-        const viewerHtml = `
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8" />
-            <title>PDF Viewer</title>
-            <style>
-              html, body {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-              }
-              body {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                background: #f9f9f9;
-              }
-              embed {
-                flex-grow: 1;
-                width: 100%;
-                border: none;
-              }
-              audio {
-                width: 100%;
-                height: 60px;
-                border-top: 1px solid #ccc;
-                box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
-              }
-            </style>
-          </head>
-          <body>
-            <embed src="${pdf}" type="application/pdf" />
-            ${
-              label === "shortNotes" && audioRes.ok
-                ? `<audio id="audio" src="${audio}" autoplay controls></audio>`
-                : ""
-            }
-          </body>
-          </html>
-        `;
-
-        newTab.document.write(viewerHtml);
-        newTab.document.close();
-      } else {
-        newTab.close();
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+      const pdfRes = await fetch(linkObj.pdf, { method: "HEAD" });
+      if (!pdfRes.ok || !pdfRes.headers.get("content-type")?.includes("pdf")) {
         setSnackbarMessage("This PDF file does not exist yet.");
         setSnackbarOpen(true);
+        return;
       }
+
+      let audioExists = false;
+      if (label === "shortNotes" && linkObj.audio) {
+        const audioRes = await fetch(linkObj.audio, { method: "HEAD" });
+        audioExists = audioRes.ok;
+      }
+
+      setViewerContent(
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            bgcolor: "#f9f9f9",
+          }}
+        >
+          <Box
+            sx={{
+              flex: 1,
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              p: 1,
+            }}
+          >
+            <iframe
+              src={linkObj.pdf}
+              title="PDF Viewer"
+              style={{
+                width: "100%",
+                height: "100%",
+                border: "none",
+              }}
+            />
+          </Box>
+
+          {audioExists && (
+            <Box
+              sx={{
+                p: 1,
+                bgcolor: "#fff",
+                borderTop: "1px solid #ddd",
+              }}
+            >
+              <audio
+                controls
+                autoPlay
+                style={{
+                  width: "100%",
+                  maxHeight: "40px",
+                }}
+              >
+                <source src={linkObj.audio} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </Box>
+          )}
+        </Box>
+      );
+      setModalOpen(true);
+
     } catch (error) {
-      console.error("PDF open error:", error);
-      newTab.close();
-      if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+      console.error("Viewer open error:", error);
       setSnackbarMessage("Error checking the files.");
       setSnackbarOpen(true);
     }
@@ -182,6 +193,11 @@ const ChapterDetail = () => {
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setViewerContent(null);
   };
 
   if (!slug) {
@@ -273,7 +289,7 @@ const ChapterDetail = () => {
                       fullWidth
                       onClick={(e) => openPdfIfExists(e, link, label)}
                     >
-                      Open PDF
+                      {label === "video" ? "Play Video" : "Open PDF"}
                     </Button>
                   </CardActions>
                 </Card>
@@ -282,6 +298,41 @@ const ChapterDetail = () => {
           </Grid>
         </CardContent>
       </Card>
+
+      {/* Modal */}
+      <Modal open={modalOpen} onClose={handleModalClose}>
+        <Box
+          ref={modalRef}
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            bgcolor: "background.paper",
+            overflow: "hidden",
+          }}
+        >
+          <IconButton
+            onClick={handleModalClose}
+            sx={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              backgroundColor: "#fff",
+              boxShadow: 3,
+              zIndex: 1000,
+              "&:hover": {
+                backgroundColor: "#eee",
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+
+          <Box sx={{ width: "100%", height: "100%" }}>{viewerContent}</Box>
+        </Box>
+      </Modal>
 
       <Snackbar
         open={snackbarOpen}
@@ -307,6 +358,7 @@ const formatLabel = (key) => {
     case "shortNotes": return "Short Notes";
     case "completeNotes": return "Complete Notes";
     case "oneShotNotes": return "One Shot Notes";
+    case "video": return "Video";
     default: return key;
   }
 };
@@ -317,6 +369,7 @@ const getLabelDescription = (key) => {
     case "shortNotes": return "Concise notes and key points of this chapter.";
     case "completeNotes": return "Full chapter notes with detailed explanation and examples.";
     case "oneShotNotes": return "Quick revision notes for a one-shot recap before exams.";
+    case "video": return "Revise Concepts in Minutes";
     default: return "";
   }
 };
@@ -327,7 +380,9 @@ const getCardStyle = (key) => {
     shortNotes: ["#fff3e0", "#fb8c00"],
     completeNotes: ["#e8f5e9", "#4caf50"],
     oneShotNotes: ["#f3e5f5", "#9c27b0"],
+    video: ["#fbe9e7", "#d84315"],
   };
+
   const [bg, shadow] = colors[key] || ["#fff", "#ccc"];
   return {
     bgcolor: bg,
