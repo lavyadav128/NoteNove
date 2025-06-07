@@ -369,7 +369,7 @@ const getLabelDescription = (key) => {
     case "shortNotes": return "Concise notes and key points of this chapter.";
     case "completeNotes": return "Full chapter notes with detailed explanation and examples.";
     case "oneShotNotes": return "Quick revision notes for a one-shot recap before exams.";
-    case "video": return "Revise Concepts in Minutes";
+    case "video": return "Revise Concepts in Minutes  (COOMING SOON)";
     default: return "";
   }
 };
