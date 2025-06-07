@@ -308,6 +308,7 @@ const Dashboard = () => {
               </Button>
             )}
 
+            
             {isMainDashboard && showCards && (
               <Fade in={showCards} timeout={1000}>
                 <Box>
