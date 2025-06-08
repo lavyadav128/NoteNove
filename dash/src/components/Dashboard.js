@@ -393,7 +393,7 @@ const Dashboard = () => {
                 variant="filled"
                 sx={{ fontSize: "0.95rem", fontWeight: 500 }}
               >
-                🎧 Mindmap includes detailed audio explanation for each chapter of class 10!
+                🎧 ShortNotes includes detailed audio explanation for each chapter of class 10!
               </Alert>
             </Snackbar>
           </CardContent>
