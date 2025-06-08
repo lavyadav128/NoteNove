@@ -14,7 +14,7 @@ router.post("/chatbot", async (req, res) => {
   try {
     const { message } = req.body;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // or gemini-1.5-pro
+    const model = genAI.getGenerativeModel({model: "gemini-pro" }); // or gemini-1.5-pro
 
     const result = await model.generateContent(message);
 

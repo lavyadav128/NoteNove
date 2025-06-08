@@ -9,7 +9,8 @@ import purchaseRoutes from './routes/purchase.js';
 import chatbotRoutes from './routes/chatbot.js';
 
 
-dotenv.config(); // Load .env variables
+dotenv.config();
+console.log("Loaded ENV Key:", process.env.GOOGLE_GENAI_API_KEY); // ✅ Add here
 
 const app = express();
 
@@ -17,8 +18,6 @@ const app = express();
 app.use(cors({
   origin: ['http://localhost:3001',
            'https://notess-ei6q.onrender.com',
-           'https://note-nove-fflk.vercel.app',
-            
   ], // Allow requests from your React frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
