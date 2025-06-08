@@ -15,6 +15,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useState, useEffect, useRef } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
+
 
 const ChapterDetail = () => {
   const { classId, subject, slug } = useParams();
@@ -287,16 +289,33 @@ const ChapterDetail = () => {
                       {getLabelDescription(label)}
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      onClick={(e) => openPdfIfExists(e, link, label)}
-                    >
-                      {label === "video" ? "Play Video" : "Open PDF"}
-                    </Button>
-                  </CardActions>
+                  <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+  <Button
+    variant="contained"
+    color="primary"
+    onClick={(e) => openPdfIfExists(e, link, label)}
+    sx={{ flexGrow: 1 }}
+  >
+    {label === "video" ? "Play Video" : "Open PDF"}
+  </Button>
+  {label !== "video" && (
+    <IconButton
+      href={link.pdf}
+      download
+      sx={{
+        ml: 1,
+        bgcolor: "#fff",
+        border: "1px solid #ccc",
+        "&:hover": {
+          bgcolor: "#f0f0f0"
+        }
+      }}
+    >
+      <DownloadIcon />
+    </IconButton>
+  )}
+                </CardActions>
+
                 </Card>
               </Grid>
             ))}
