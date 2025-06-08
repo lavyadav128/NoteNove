@@ -131,6 +131,7 @@ const ChapterDetail = () => {
         audioExists = audioRes.ok;
       }
 
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       setViewerContent(
         <Box
           sx={{
@@ -149,7 +150,11 @@ const ChapterDetail = () => {
             }}
           >
             <iframe
-              src={linkObj.pdf}
+              src={
+                isMobile
+                  ? `https://docs.google.com/gview?embedded=true&url=https://notess-ei6q.onrender.com${linkObj.pdf}`
+                  : linkObj.pdf
+              }
               title="PDF Viewer"
               style={{
                 width: "100%",
@@ -158,7 +163,7 @@ const ChapterDetail = () => {
               }}
             />
           </Box>
-
+      
           {audioExists && (
             <Box
               sx={{
@@ -181,7 +186,7 @@ const ChapterDetail = () => {
             </Box>
           )}
         </Box>
-      );
+      );      
       setModalOpen(true);
 
     } catch (error) {
