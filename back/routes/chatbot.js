@@ -14,16 +14,21 @@ router.post("/chatbot", async (req, res) => {
   try {
     const { message } = req.body;
 
-    const model = genAI.getGenerativeModel({model: "gemini-pro" }); // or gemini-1.5-pro
+    // You must pass message as an array if it's a string
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-    const result = await model.generateContent(message);
+    const result = await model.generateContent([message]); // ✅ Pass message in array
 
-    const reply = result.response.text(); // Extract the plain response text
+    const response = await result.response; // ⛔ Optional: needed in some SDK versions
+    const reply = response.text();          // ✅ Extract plain text response
 
     res.status(200).json({ reply });
   } catch (error) {
     console.error("Gemini AI Error:", error);
-    res.status(500).json({ error: "Something went wrong with Gemini AI." });
+    res.status(500).json({
+      error: "Something went wrong with Gemini AI.",
+      details: error.message,
+    });
   }
 });
 
