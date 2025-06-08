@@ -6,28 +6,51 @@ dotenv.config();
 
 const router = express.Router();
 
-// ✅ Initialize Gemini SDK
+// Initialize with API key
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GENAI_API_KEY);
 
-// ✅ POST /api/chatbot
 router.post("/chatbot", async (req, res) => {
   try {
     const { message } = req.body;
 
-    // You must pass message as an array if it's a string
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    if (!message || typeof message !== "string") {
+      return res.status(400).json({ error: "Valid message is required" });
+    }
 
-    const result = await model.generateContent([message]); // ✅ Pass message in array
+    // For Gemini 1.5 (latest)
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-1.5-flash-latest", // Current recommended model
+      // Alternatively try: "gemini-1.5-pro-latest" or "gemini-1.0-pro"
+    });
 
-    const response = await result.response; // ⛔ Optional: needed in some SDK versions
-    const reply = response.text();          // ✅ Extract plain text response
+    // Start chat session (better for conversations)
+    const chat = model.startChat({
+      history: [], // Add previous messages here if needed
+      generationConfig: {
+        maxOutputTokens: 2000,
+        temperature: 0.9,
+      },
+    });
 
-    res.status(200).json({ reply });
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const text = response.text();
+
+    res.status(200).json({ reply: text });
+    
   } catch (error) {
-    console.error("Gemini AI Error:", error);
-    res.status(500).json({
-      error: "Something went wrong with Gemini AI.",
-      details: error.message,
+    console.error("Gemini Error:", error);
+    
+    // Enhanced error handling
+    const errorInfo = {
+      message: error.message,
+      status: error.status || 500,
+      ...(error.response?.data ? { details: error.response.data } : {})
+    };
+
+    res.status(errorInfo.status).json({
+      error: "AI service unavailable",
+      details: errorInfo
     });
   }
 });
