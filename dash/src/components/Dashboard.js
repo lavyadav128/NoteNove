@@ -76,25 +76,26 @@ const Dashboard = () => {
       "Includes theory, examples, and diagrams.",
       "Good for deep understanding and exam prep.",
     ],
-    oneShotNotes: [
-      "Ultra-condensed notes for rapid revision.",
-      "Only most important points and shortcuts.",
-      "Perfect for 1-day before exam brush-up.",
+    video: [
+      'Visual explanations for better understanding.',
+      'Concepts taught with animations and real-life examples.',
+      'Great for quick learning and long-term memory.',
     ],
+    
   };
 
   const screenshots = {
     mindmap: "/images/mindmap.png",
     shortNotes: "/images/shortNotes.png",
     completeNotes: "/images/completeNotes.png",
-    oneShotNotes: "/images/oneShotNotes.png",
+    video: "/images/oneShotNotes.png",
   };
 
   const noteCards = [
     { title: "Mindmap", color: "#ffffff", textColor: "#1565c0", key: "mindmap" },
     { title: "Short Notes", color: "#ffffff", textColor: "#ef6c00", key: "shortNotes" },
     { title: "Complete Notes", color: "#ffffff", textColor: "#2e7d32", key: "completeNotes" },
-    { title: "One Shot Notes", color: "#ffffff", textColor: "#8e24aa", key: "oneShotNotes" },
+    { title: "video", color: "#ffffff", textColor: "#8e24aa", key: "video" },
   ];
 
   const fallbackCourses = [

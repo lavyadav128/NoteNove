@@ -31,11 +31,11 @@ const resourceDescriptions = {
     'Includes theory, examples, and diagrams.',
     'Good for deep understanding and exam prep.',
   ],
-  oneShotNotes: [
-    'Ultra-condensed notes for rapid revision.',
-    'Only most important points and shortcuts.',
-    'Perfect for 1-day before exam brush-up.',
-  ],
+  video: [
+    'Visual explanations for better understanding.',
+    'Concepts taught with animations and real-life examples.',
+    'Great for quick learning and long-term memory.',
+  ],  
   mentorshipSession: [
     'One-on-one guidance from experts.',
     'Helps clear doubts and strengthen concepts.',
@@ -48,7 +48,7 @@ const screenshots = {
   mindmap: '/images/mindmap.png',
   shortNotes: '/images/shortNotes.png',
   completeNotes: '/images/completeNotes.png',
-  oneShotNotes: '/images/oneShotNotes.png',
+  video: '/images/oneShotNotes.png',
   mentorshipSession: '/images/mentorshipSession.png',
 };
 
@@ -73,7 +73,7 @@ const ExplorePage = () => {
     { title: 'Mindmap', color: '#e3f2fd', textColor: '#1565c0', key: 'mindmap' },
     { title: 'Short Notes', color: '#fff3e0', textColor: '#ef6c00', key: 'shortNotes' },
     { title: 'Complete Notes', color: '#e8f5e9', textColor: '#2e7d32', key: 'completeNotes' },
-    { title: 'One Shot Notes', color: '#f3e5f5', textColor: '#8e24aa', key: 'oneShotNotes' },
+    { title: 'video', color: '#f3e5f5', textColor: '#8e24aa', key: 'video' },
     { title: 'Mentorship Session', color: '#fffde7', textColor: '#f9a825', key: 'mentorshipSession' },
   ];
 
