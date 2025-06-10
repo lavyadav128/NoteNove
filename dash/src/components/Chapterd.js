@@ -124,16 +124,32 @@ if (label === "video" && linkObj.url) {
         p: 2,
       }}
     >
-      <iframe
-        width="100%"
-        height="100%"
-        src={embedUrl}
-        title="Video Player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        frameBorder="0"
-        style={{ borderRadius: "12px" }}
-      ></iframe>
+<Box
+  sx={{
+    position: "relative",
+    width: "100%",
+    paddingTop: "56.25%", // 16:9 aspect ratio
+    borderRadius: 2,
+    overflow: "hidden",
+  }}
+>
+  <iframe
+    src={embedUrl}
+    title="Video Player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+    frameBorder="0"
+    style={{
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      border: "none",
+    }}
+  ></iframe>
+</Box>
+
     </Box>
   );
 
@@ -355,9 +371,11 @@ if (label === "video" && linkObj.url) {
             left: 0,
             width: "100vw",
             height: "100vh",
-            bgcolor: "background.paper",
+            bgcolor: "#000", // for better video background
             overflow: "hidden",
+            zIndex: 1300,
           }}
+          
         >
           <IconButton
             onClick={handleModalClose}
