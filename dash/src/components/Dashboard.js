@@ -34,6 +34,7 @@ import Webclass from "./webclas";
 import Courses from "./Courses";
 import Authentication from "./authentication";
 
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -365,6 +366,7 @@ const Dashboard = () => {
               <Route path="/dsac" element={<Dsaclass />} />
               <Route path="/webc" element={<Webclass />} />
               <Route path="/cou" element={<Courses />} />
+
             </Routes>
 
             <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>

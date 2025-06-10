@@ -38,7 +38,7 @@ export default function LandingPage() {
           <Stack direction="row" spacing={1} alignItems="center">
             <SchoolIcon sx={{ color: '#FF9839' }} />
             <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333' }}>
-              Apne Notes
+              Note Nova
             </Typography>
           </Stack>
           <Stack direction="row" spacing={2}>

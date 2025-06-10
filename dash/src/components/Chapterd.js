@@ -16,6 +16,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useState, useEffect, useRef } from "react";
 import DownloadIcon from "@mui/icons-material/Download";
+import { chaptersData } from "./Subjectpage"; // adjust the path if needed
+
+
 
 
 const ChapterDetail = () => {
@@ -46,34 +49,39 @@ const ChapterDetail = () => {
     };
   }, []);
 
-  const pdfLinks =
-    classId === "10"
-      ? {
-          shortNotes: {
-            pdf: `/images/shortnotes/${slug}.pdf`,
-            audio: `/images/shortnotes/${slug}.mp3`,
-          },
-          completeNotes: {
-            pdf: `/images/completenotes/${slug}.pdf`,
-          },
-          video: {
-            url: `/images/videos/${slug}.mp4`,
-          },
-        }
-      : {
-          mindmap: {
-            pdf: `/images/mindmap/${slug}.pdf`,
-          },
-          shortNotes: {
-            pdf: `/images/shortnotes/${slug}.pdf`,
-          },
-          completeNotes: {
-            pdf: `/images/completenotes/${slug}.pdf`,
-          },
-          video: {
-            url: `/images/videos/${slug}.mp4`,
-          },
-        };
+  const chapterVideoUrl =
+  chaptersData[classId]?.[subject]?.find((ch) => ch.title === slug)?.videoUrl || null;
+
+const pdfLinks =
+  classId === "10"
+    ? {
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+          audio: `/images/shortnotes/${slug}.mp3`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+        video: {
+          url: chapterVideoUrl,
+        },
+      }
+    : {
+        mindmap: {
+          pdf: `/images/mindmap/${slug}.pdf`,
+        },
+        shortNotes: {
+          pdf: `/images/shortnotes/${slug}.pdf`,
+        },
+        completeNotes: {
+          pdf: `/images/completenotes/${slug}.pdf`,
+        },
+        video: {
+          url: chapterVideoUrl,
+        },
+      };
+
+
 
   const handleBack = () => {
     navigate(-1);
@@ -83,42 +91,56 @@ const ChapterDetail = () => {
     e.preventDefault();
 
     try {
-      if (label === "video" && linkObj.url) {
-        const res = await fetch(linkObj.url, { method: "HEAD" });
-        if (res.ok && res.headers.get("content-type")?.includes("video")) {
-          setViewerContent(
-            <Box
-              sx={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                bgcolor: "#000",
-              }}
-            >
-              <video
-                controls
-                autoPlay
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  backgroundColor: "black",
-                }}
-              >
-                <source src={linkObj.url} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </Box>
-          );
-          setModalOpen(true);
-        } else {
-          setSnackbarMessage("This video file does not exist yet.");
-          setSnackbarOpen(true);
-        }
-        return;
-      }
+if (label === "video" && linkObj.url) {
+  let embedUrl = linkObj.url;
+
+  // Convert youtu.be or watch?v= to embed format
+  try {
+    const urlObj = new URL(linkObj.url);
+
+    if (urlObj.hostname === "youtu.be") {
+      // youtu.be short link
+      embedUrl = `https://www.youtube.com/embed/${urlObj.pathname.slice(1)}`;
+    } else if (urlObj.hostname.includes("youtube.com") && urlObj.searchParams.get("v")) {
+      // standard YouTube link
+      embedUrl = `https://www.youtube.com/embed/${urlObj.searchParams.get("v")}`;
+    }
+  } catch (err) {
+    console.error("Invalid video URL:", err);
+    setSnackbarMessage("Invalid video link.");
+    setSnackbarOpen(true);
+    return;
+  }
+
+  setViewerContent(
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        bgcolor: "#000",
+        p: 2,
+      }}
+    >
+      <iframe
+        width="100%"
+        height="100%"
+        src={embedUrl}
+        title="Video Player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        frameBorder="0"
+        style={{ borderRadius: "12px" }}
+      ></iframe>
+    </Box>
+  );
+
+  setModalOpen(true);
+  return;
+}
+
 
       const pdfRes = await fetch(linkObj.pdf, { method: "HEAD" });
       if (!pdfRes.ok || !pdfRes.headers.get("content-type")?.includes("pdf")) {
