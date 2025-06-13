@@ -32,9 +32,11 @@ const Menu = () => {
   const menuItems = [
     { to: "/dsac", label: "DSA Sheet", idx: 1 },
     { to: "/webc", label: "Web-Dev", idx: 2 },
-    { to: "/cou", label: "Courses", idx: 3 },
-    { to: "/", label: "Logout", idx: 4, isLogout: true },
+    { to: "/cou", label: "Batches", idx: 3 },
+    { to: "/pre", label: "Premium Batches", idx: 4 },
+    { to: "/", label: "Logout", idx: 5, isLogout: true }, // ✅ now unique
   ];
+  
 
   return (
     <div

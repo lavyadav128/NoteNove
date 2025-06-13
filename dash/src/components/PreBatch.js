@@ -14,48 +14,15 @@ import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
 import server from "../environment";
 
-// ✅ UPDATED: Use imageUrl instead of image
 const classList = [
-  {
-    id: '10',
-    title: 'Class 10',
-    description: 'Master all subjects with our comprehensive Class 10 content.',
-    imageUrl: '/images/10.png',
-    price: 49,
-  },
-  {
-    id: '11',
-    title: 'Class 11 (Jee + Boards)',
-    description: 'Strengthen your foundation with advanced concepts.',
-    imageUrl: '/images/11.png',
-    price: 0,
-  },
-  {
-    id: '12',
-    title: 'Class 12 (Jee + Boards)',
-    description: 'Ace your boards and entrance exams with Class 12 content.',
-    imageUrl: '/images/12.png',
-    price: 0,
-  },
-  {
-    id: '111',
-    title: 'Class 11 (Neet + Boards)',
-    description: 'Strengthen your foundation with core biology and medical entrance concepts.',
-    imageUrl: '/images/11.png',
-    price: 0,
-  },
-  {
-    id: '121',
-    title: 'Class 12 (Neet + Boards)',
-    description: 'Ace your boards and NEET exam with in-depth Class 12 content.',
-    imageUrl: '/images/12.png',
-    price: 0,
-  },
+  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 99,"isPremium": true },
+  { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/p11.png', price: 99,"isPremium": true },
+  { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/p12.png', price: 99,"isPremium": true },
 ];
 
-// ✅ UPDATED: Renamed `image` to `imageUrl` inside props
-const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPurchase }) => {
+const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInfo, onPurchase }) => {
   const navigate = useNavigate();
+
   const isPurchased = !!purchaseInfo;
   const expiryDate = purchaseInfo?.expiryDate ? new Date(purchaseInfo.expiryDate) : null;
 
@@ -75,14 +42,19 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       batchTitle: title,
       price: price,
       description: description,
-      imageUrl: imageUrl, // ✅ FIXED: now sends correct value
+      imageUrl: image,
+      isPremium: isPremium,
     };
 
     if (price === 0) {
       try {
-        await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
+        await makeAuthenticatedRequest(
+          `${server}/api/save-purchase`,
+          'POST',
+          purchasePayload
+        );
         onPurchase(id);
-        navigate(`/class/${id}`);
+        navigate(`/premium/class/${id}`);
       } catch (err) {
         console.error('Error saving free access:', err);
         alert(err.message || 'Failed to grant access.');
@@ -103,9 +75,13 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       description: `Payment for ${title}`,
       handler: async function (response) {
         try {
-          await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
+          await makeAuthenticatedRequest(
+            `${server}/api/save-purchase`,
+            'POST',
+            purchasePayload
+          );
           onPurchase(id);
-          navigate(`/class/${id}`);
+          navigate(`/premium/class/${id}`);
         } catch (err) {
           console.error('Error saving purchase:', err);
           alert(err.message || 'Error saving your purchase.');
@@ -140,7 +116,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       <CardMedia
         component="img"
         height="220"
-        image={imageUrl} // ✅ FIXED
+        image={image}
         alt={title}
         sx={{ objectFit: 'cover', borderBottom: '1px solid #eee' }}
       />
@@ -183,7 +159,9 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
         </Button>
         <Button
           variant="contained"
-          onClick={() => (isPurchased ? navigate(`/class/${id}`) : handleBuyRedirect())}
+          onClick={() =>
+            isPurchased ? navigate(`/premium/class/${id}`) : handleBuyRedirect()
+          }
           sx={{
             width: '48%',
             fontWeight: 600,
@@ -229,7 +207,7 @@ const ClassCardPage = () => {
   };
 
   return (
-    <Box sx={{ py: 0, px: { xs: 2, sm: 5 } }}>
+    <Box sx={{ py: 0, px: { xs: 2, sm: 16 } }}>
       <Typography
         variant="h4"
         textAlign="center"

@@ -5,7 +5,6 @@ import dotenv from 'dotenv';     //  To load environment variables
 import userRoutes from './routes/users.routes.js'; // Make sure this exists and is correct
 
 import purchaseRoutes from './routes/purchase.js';
-
 import chatbotRoutes from './routes/chatbot.js';
 
 
@@ -31,6 +30,7 @@ app.use(express.json());
 app.use("/api", userRoutes); // Example: POST http://localhost:3000/api/register
 app.use('/api', purchaseRoutes);
 app.use('/api', chatbotRoutes); // e.g., POST /api/chatbot
+
 
 
 

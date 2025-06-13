@@ -1,4 +1,4 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import {
   Card,
   CardContent,
@@ -6,15 +6,21 @@ import {
   Grid,
   Box,
   Button,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useState } from "react";
 
 const subjects = {
-  10: ["mathematics", "physics", "biology", "chemistry","SST"],
+  10: ["mathematics", "physics", "biology", "chemistry", "SST"],
   11: ["mathematics", "physics", "chemistry"],
-  111: [ "physics", "chemistry","botany","zoology"],
+  111: ["physics", "chemistry", "botany", "zoology"],
   12: ["mathematics", "physics", "chemistry"],
-  121: [ "physics", "chemistry","botany","zoology"],
+  121: ["physics", "chemistry", "botany", "zoology"],
+  1: ["mathematics", "physics", "biology", "chemistry", "SST"],
+  2: ["mathematics", "physics", "chemistry"],
+  3: ["mathematics", "physics", "chemistry"],
 };
 
 const subjectInfo = {
@@ -27,11 +33,51 @@ const subjectInfo = {
   zoology: "Explore the biology, behavior, and classification of animals.",
 };
 
+const renderCard = (title, description, link) => (
+  <Card
+    sx={{
+      borderRadius: 3,
+      boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+      transition: "transform 0.2s ease, box-shadow 0.2s ease",
+      "&:hover": {
+        transform: "scale(1.03)",
+        boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+        backgroundColor: "#f9f9f9",
+      },
+    }}
+  >
+    <Link to={link} style={{ textDecoration: "none" }}>
+      <CardContent>
+        <Typography
+          variant="h6"
+          align="center"
+          sx={{ textTransform: "capitalize", fontWeight: 600, color: "#333" }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ mt: 0.5, color: "#555" }}
+        >
+          {description}
+        </Typography>
+      </CardContent>
+    </Link>
+  </Card>
+);
 
 const ClassPage = () => {
   const { classId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isPremium = location.pathname.includes("/premium");
   const classSubjects = subjects[classId] || [];
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setTabIndex(newValue);
+  };
 
   const handleBack = () => {
     navigate(-1);
@@ -50,53 +96,64 @@ const ClassPage = () => {
             backgroundColor: "#ffffff",
           }}
         >
-          <CardContent>
-            {/* Back Button */}
-            <Button
-              onClick={handleBack}
-              startIcon={<ArrowBackIosNewIcon />}
-              sx={{
-                mb: 3,
-                backgroundColor: "#fff",
-                color: "#333",
-                border: "1px solid #ddd",
-                borderRadius: 2,
-                textTransform: "none",
-                fontWeight: 600,
-                px: 2.5,
-                py: 1,
-                boxShadow: 1,
-                '&:hover': {
-                  backgroundColor: "#f5f5f5",
-                  boxShadow: 2,
-                },
-              }}
-            >
-              Back
-            </Button>
+          <Button
+            onClick={handleBack}
+            startIcon={<ArrowBackIosNewIcon />}
+            sx={{
+              mb: 3,
+              backgroundColor: "#fff",
+              color: "#333",
+              border: "1px solid #ddd",
+              borderRadius: 2,
+              textTransform: "none",
+              fontWeight: 600,
+              px: 2.5,
+              py: 1,
+              boxShadow: 1,
+              '&:hover': {
+                backgroundColor: "#f5f5f5",
+                boxShadow: 2,
+              },
+            }}
+          >
+            Back
+          </Button>
 
-            <Typography
-              variant="h4"
-              gutterBottom
-              textAlign="center"
-              sx={{ fontWeight: 700, mb: 4 }}
+          {isPremium && (
+            <Tabs
+              value={tabIndex}
+              onChange={handleTabChange}
+              centered
+              textColor="primary"
+              indicatorColor="primary"
+              sx={{ mb: 4 }}
             >
-              Subjects 
+              <Tab label="Subjects" />
+              <Tab label="Test Series" />
+              <Tab label="PYQ Series" />
+              <Tab label="Mentorship" />
+            </Tabs>
+          )}
+
+          {!isPremium && (
+            <Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 700, mb: 4 }}>
+              Subjects
             </Typography>
+          )}
 
+          {(tabIndex === 0 || !isPremium) && (
             <Grid container spacing={4} justifyContent="center">
               {classSubjects.map((subject) => (
                 <Grid item xs={12} sm={6} md={6} key={subject}>
                   <Link
-                    to={`/class/${classId}/${subject}`}
+                    to={`${isPremium ? "/premium/class" : "/class"}/${classId}/${subject}`}
                     style={{ textDecoration: "none" }}
                   >
                     <Card
                       sx={{
                         borderRadius: 3,
                         boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                        transition:
-                          "transform 0.2s ease, box-shadow 0.2s ease",
+                        transition: "transform 0.2s ease, box-shadow 0.2s ease",
                         "&:hover": {
                           transform: "scale(1.03)",
                           boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
@@ -108,11 +165,7 @@ const ClassPage = () => {
                         <Typography
                           variant="h6"
                           align="center"
-                          sx={{
-                            textTransform: "capitalize",
-                            fontWeight: 600,
-                            color: "#333",
-                          }}
+                          sx={{ textTransform: "capitalize", fontWeight: 600, color: "#333" }}
                         >
                           {subject}
                         </Typography>
@@ -129,7 +182,57 @@ const ClassPage = () => {
                 </Grid>
               ))}
             </Grid>
-          </CardContent>
+          )}
+
+          {isPremium && tabIndex === 1 && (
+            <Grid container spacing={4} justifyContent="center">
+              <Grid item xs={12} sm={6} md={6}>
+                {renderCard(
+                  "Chapter-wise Tests",
+                  "Evaluate topic-level mastery with individual chapter tests.",
+                  `/premium/class/${classId}/test-series/chapter-wise`
+                )}
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                {renderCard(
+                  "Full Syllabus Mock Tests",
+                  "Simulate real exam conditions with full-length mocks.",
+                  `/premium/class/${classId}/test-series/full-mocks`
+                )}
+              </Grid>
+            </Grid>
+          )}
+
+          {isPremium && tabIndex === 2 && (
+            <Grid container spacing={4} justifyContent="center">
+              <Grid item xs={12} sm={6} md={6}>
+                {renderCard(
+                  "Chapter-wise PYQs",
+                  "Practice previous year questions by topic.",
+                  `/premium/class/${classId}/pyq/chapter-wise`
+                )}
+              </Grid>
+              <Grid item xs={12} sm={6} md={6}>
+                {renderCard(
+                  "Full PYQ Papers",
+                  "Solve full question papers from previous years.",
+                  `/premium/class/${classId}/pyq/full-papers`
+                )}
+              </Grid>
+            </Grid>
+          )}
+
+          {isPremium && tabIndex === 3 && (
+            <Grid container spacing={4} justifyContent="center">
+              <Grid item xs={12} sm={6} md={6}>
+                {renderCard(
+                  "Book a Session",
+                  "Connect 1-on-1 with an expert mentor for personalized guidance.",
+                  `/premium/class/${classId}/mentorship`
+                )}
+              </Grid>
+            </Grid>
+          )}
         </Card>
       </Box>
     </Box>
@@ -137,7 +240,3 @@ const ClassPage = () => {
 };
 
 export default ClassPage;
-
-
-
-//              Subjects in Class {classId}

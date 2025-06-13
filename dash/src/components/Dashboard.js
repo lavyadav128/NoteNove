@@ -7,8 +7,6 @@ import {
   Typography,
   Paper,
   Button,
-  Dialog,
-  DialogContent,
   IconButton,
   TextField,
   Autocomplete,
@@ -18,22 +16,27 @@ import {
   Fade,
   useMediaQuery,
   useTheme,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import CloseIcon from "@mui/icons-material/Close";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
-
+import SchoolIcon from '@mui/icons-material/School';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import Dsaclass from "./dsaclass";
 import Webclass from "./webclas";
 import Courses from "./Courses";
+import PreBatch from "./PreBatch";
 import Authentication from "./authentication";
-
+import MyBatchesPage from "./MyBatchesPage";
+import server from "../environment";
+import NotificationPage from "./notification";
+import DoubtPage from "./doubt";
+import PaymentsPage from "./payment";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -41,15 +44,11 @@ const Dashboard = () => {
   const showBackButton = location.pathname !== "/dashboard";
   const isMainDashboard = location.pathname === "/dashboard";
 
-  const [purchases, setPurchases] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-  const [activeNoteKey, setActiveNoteKey] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [searchOptions, setSearchOptions] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
-  const [showCards, setShowCards] = useState(false);
-  const [showFlash, setShowFlash] = useState(false);
+  const [purchases, setPurchases] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const muiTheme = useTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
@@ -60,44 +59,6 @@ const Dashboard = () => {
     },
   });
 
-  const noteDescriptions = {
-    mindmap: [
-      "Visual representation of key topics and subtopics.",
-      "Helps in quick understanding and memory retention.",
-      "Connects concepts in a logical structure.",
-    ],
-    shortNotes: [
-      "Concise summary of chapters.",
-      "Highlights key formulas and definitions.",
-      "Ideal for last-minute revision.",
-    ],
-    completeNotes: [
-      "Detailed explanation of every topic.",
-      "Includes theory, examples, and diagrams.",
-      "Good for deep understanding and exam prep.",
-    ],
-    video: [
-      'Visual explanations for better understanding.',
-      'Concepts taught with animations and real-life examples.',
-      'Great for quick learning and long-term memory.',
-    ],
-    
-  };
-
-  const screenshots = {
-    mindmap: "/images/mindmap.png",
-    shortNotes: "/images/shortNotes.png",
-    completeNotes: "/images/completeNotes.png",
-    video: "/images/oneShotNotes.png",
-  };
-
-  const noteCards = [
-    { title: "Mindmap", color: "#ffffff", textColor: "#1565c0", key: "mindmap" },
-    { title: "Short Notes", color: "#ffffff", textColor: "#ef6c00", key: "shortNotes" },
-    { title: "Complete Notes", color: "#ffffff", textColor: "#2e7d32", key: "completeNotes" },
-    { title: "video", color: "#ffffff", textColor: "#8e24aa", key: "video" },
-  ];
-
   const fallbackCourses = [
     { title: "Class 10", route: "/cou" },
     { title: "Class 11 (Jee + Boards)", route: "/cou" },
@@ -107,23 +68,6 @@ const Dashboard = () => {
     { title: "DSA", route: "/dsac" },
     { title: "Web Development", route: "/webc" },
   ];
-
-  const triggerFlash = () => {
-    setShowFlash(true);
-    clearTimeout(window.flashTimeout);
-    window.flashTimeout = setTimeout(() => setShowFlash(false), 5000);
-  };
-
-  const handleOpenModal = (key) => {
-    setActiveNoteKey(key);
-    setOpenModal(true);
-    if (key === "mindmap") triggerFlash();
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-    setActiveNoteKey(null);
-  };
 
   const handleSearch = (selectedTitle) => {
     const allCourses = [...purchases, ...fallbackCourses];
@@ -140,27 +84,30 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPurchases = async () => {
       try {
-        const res = await axios.get("/api/user-purchases", {
+        const res = await axios.get(`${server}/api/user-purchases`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
 
+        if (!Array.isArray(res.data)) {
+          console.warn("⚠️ Unexpected response format:", res.data);
+          return;
+        }
+
         const mapped = res.data.map((item) => {
           const title = item.title?.trim();
           let route = "/cou";
-
-          if (title === "Class 10") route = "/cou";
-          else if (title === "Class 11 (Jee + Boards)") route = "/cou";
-          else if (title === "Class 12 (Jee + Boards)") route = "/cou";
-          else if (title === "Class 11 (Neet + Boards)") route = "/cou";
-          else if (title === "Class 12 (Neet + Boards)") route = "/cou";
-          else if (title === "DSA") route = "/dsac";
+          if (title === "DSA") route = "/dsac";
           else if (title === "Web Development") route = "/webc";
 
           return {
             title,
             route,
+            price: item.price,
+            expiryDate: item.expiryDate,
+            classId: item.classId,
+            image: `/images/p${item.classId}.png`,
           };
         });
 
@@ -182,58 +129,41 @@ const Dashboard = () => {
     setSearchOptions(options);
   }, [purchases]);
 
-  useEffect(() => {
-    if (isMainDashboard) {
-      const timer = setTimeout(() => setShowCards(true), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [isMainDashboard]);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box
         sx={{
           minHeight: "100vh",
-          background: darkMode
-            ? "linear-gradient(to right, #121212, #1e1e1e)"
-            : "linear-gradient(to right, #f0f2f5, #ffffff)",
+          backgroundColor: darkMode ? "#121212" : "#f9f9f9",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          px: isMobile ? 1 : 2,
-          py: isMobile ? 1 : 3,
+          px: 2,
+          py: 4,
         }}
       >
         <Card
           sx={{
             width: "98vw",
             height: "95vh",
-            borderRadius: isMobile ? 2 : 4,
+            borderRadius: 4,
             boxShadow: 6,
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
+            mx: "auto",
           }}
         >
-          <CardContent sx={{ flex: 1, overflowY: "auto", p: isMobile ? 1.5 : 3 }}>
-            <Box display="flex" justifyContent="flex-end" mb={1}>
+          <CardContent sx={{ flex: 1, overflowY: "auto", p: isMobile ? 2 : 4 }}>
+            <Box display="flex" justifyContent="flex-end" mb={2}>
               <IconButton onClick={() => setDarkMode(!darkMode)}>
                 {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
               </IconButton>
             </Box>
 
             {isMainDashboard && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: 1,
-                  width: isMobile ? "100%" : "auto",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
+              <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2} alignItems="center" justifyContent="center">
                 <Autocomplete
                   freeSolo
                   options={searchOptions}
@@ -245,42 +175,12 @@ const Dashboard = () => {
                   getOptionLabel={(option) =>
                     typeof option === "string" ? option : option.label
                   }
-                  sx={{
-                    width: isMobile ? "calc(100% - 100px)" : 340,
-                    minWidth: 0,
-                  }}
+                  sx={{ width: isMobile ? "100%" : 300 }}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      label="Search batches..."
-                      variant="outlined"
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          fontSize: "0.9rem",
-                          height: 45,
-                          "& fieldset": {
-                            borderWidth: "1.5px",
-                          },
-                        },
-                        "& label": {
-                          fontSize: "0.9rem",
-                        },
-                      }}
-                    />
+                    <TextField {...params} label="Search batches..." variant="outlined" />
                   )}
                 />
-                <Button
-                  variant="contained"
-                  onClick={() => handleSearch(searchInput)}
-                  sx={{
-                    borderRadius: 2,
-                    textTransform: "none",
-                    fontWeight: 600,
-                    width: 100,
-                    height: 40,
-                    fontSize: "0.9rem",
-                  }}
-                >
+                <Button variant="contained" onClick={() => handleSearch(searchInput)}>
                   Search
                 </Button>
               </Box>
@@ -290,73 +190,118 @@ const Dashboard = () => {
               <Button
                 onClick={() => navigate(-1)}
                 startIcon={<ArrowBackIosNewIcon />}
-                sx={{
-                  mb: 2,
-                  backgroundColor: "#fff",
-                  color: "#333",
-                  border: "1px solid #ddd",
-                  borderRadius: 2,
-                  textTransform: "none",
-                  fontWeight: 600,
-                  px: 2,
-                  py: 1,
-                  boxShadow: 1,
-                  "&:hover": {
-                    backgroundColor: "#f5f5f5",
-                  },
-                }}
+                sx={{ mt: 2 }}
               >
                 Back
               </Button>
             )}
 
-            
-            {isMainDashboard && showCards && (
-              <Fade in={showCards} timeout={1000}>
-                <Box>
-                  <Typography variant="h5" fontWeight={700} mt={5} gutterBottom>
-                    Explore Notes Resources
+            {isMainDashboard && (
+              <Fade in={true} timeout={1000}>
+                <Box mt={6}>
+                  <Typography variant="h5" fontWeight={700} gutterBottom>
+                    Dashboard Sections
                   </Typography>
 
-                  <Grid container spacing={5} mt={1}>
-                    {noteCards.map(({ title, color, textColor, key }) => (
-                      <Grid item xs={12} sm={6} key={key}>
-                        <Paper
-                          elevation={3}
-                          sx={{
-                            p: 2,
-                            borderRadius: 3,
-                            backgroundColor: color,
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                          }}
-                          onMouseEnter={key === "mindmap" ? triggerFlash : undefined}
-                        >
-                          <Typography variant="h6" fontWeight={700} sx={{ color: textColor }}>
-                            {title}
-                          </Typography>
-                          <ul style={{ paddingLeft: "1rem", marginTop: "0.5rem", color: "#444" }}>
-                            {noteDescriptions[key].map((point, idx) => (
-                              <li key={idx}>
-                                <Typography variant="body2">{point}</Typography>
-                              </li>
-                            ))}
-                          </ul>
-                          <Box textAlign="center" mt={2}>
-                            <Button
-                              variant="outlined"
-                              size="small"
-                              onClick={() => handleOpenModal(key)}
-                              sx={{ fontSize: "0.75rem", textTransform: "none", fontWeight: "bold" }}
-                            >
-                              Screenshot
-                            </Button>
-                          </Box>
-                        </Paper>
-                      </Grid>
-                    ))}
+                  {/* Spacing added below title */}
+                  <Box mt={6} />
+
+                  <Grid container spacing={6}>
+                    <Grid item xs={12} sm={6}>
+                      <Paper
+                        elevation={4}
+                        sx={{
+                          p: 5,
+                          borderRadius: 3,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "0.3s",
+                          "&:hover": {
+                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                            transform: "scale(1.03)",
+                          },
+                        }}
+                        onClick={() => navigate("/mybatches")}
+                      >
+                        <SchoolIcon fontSize="large" />
+                        <Typography variant="h6" fontWeight={600}>My Batches</Typography>
+                        <Typography variant="body2">Track your classes by Class ID.</Typography>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <Paper
+                        elevation={4}
+                        sx={{
+                          p: 5,
+                          borderRadius: 3,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "0.3s",
+                          "&:hover": {
+                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                            transform: "scale(1.03)",
+                          },
+                        }}
+                        onClick={() => navigate("/notifications")}
+                      >
+                        <NotificationsIcon fontSize="large" />
+                        <Typography variant="h6" fontWeight={600}>Notifications</Typography>
+                        <Typography variant="body2">View important messages from the owner.</Typography>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <Paper
+                        elevation={4}
+                        sx={{
+                          p: 5,
+                          borderRadius: 3,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "0.3s",
+                          "&:hover": {
+                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                            transform: "scale(1.03)",
+                          },
+                        }}
+                        onClick={() => navigate("/doubts")}
+                      >
+                        <HelpOutlineIcon fontSize="large" />
+                        <Typography variant="h6" fontWeight={600}>Doubt / Issue</Typography>
+                        <Typography variant="body2">Raise and track your academic or technical doubts.</Typography>
+                      </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <Paper
+                        elevation={4}
+                        sx={{
+                          p: 5,
+                          borderRadius: 3,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          cursor: "pointer",
+                          transition: "0.3s",
+                          "&:hover": {
+                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                            transform: "scale(1.03)",
+                          },
+                        }}
+                        onClick={() => navigate("/payments")}
+                      >
+                        <PaymentIcon fontSize="large" />
+                        <Typography variant="h6" fontWeight={600}>Payments</Typography>
+                        <Typography variant="body2">Manage your payments and subscriptions.</Typography>
+                      </Paper>
+                    </Grid>
                   </Grid>
                 </Box>
               </Fade>
@@ -367,38 +312,12 @@ const Dashboard = () => {
               <Route path="/dsac" element={<Dsaclass />} />
               <Route path="/webc" element={<Webclass />} />
               <Route path="/cou" element={<Courses />} />
-
+              <Route path="/pre" element={<PreBatch />} />
+              <Route path="/mybatches" element={<MyBatchesPage />} />
+              <Route path="/notifications" element={<NotificationPage />} />
+              <Route path="/doubts" element={<DoubtPage />} />
+              <Route path="/payments" element={<PaymentsPage />} />
             </Routes>
-
-            <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
-              <DialogContent sx={{ position: "relative", p: 3, textAlign: "center" }}>
-                <IconButton onClick={handleCloseModal} sx={{ position: "absolute", top: 8, right: 8 }}>
-                  <CloseIcon />
-                </IconButton>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                  {activeNoteKey && noteCards.find((c) => c.key === activeNoteKey)?.title} Preview
-                </Typography>
-                <img
-                  src={activeNoteKey ? screenshots[activeNoteKey] : ""}
-                  alt="Preview"
-                  style={{ width: "100%", borderRadius: 10 }}
-                />
-              </DialogContent>
-            </Dialog>
-
-            <Snackbar
-              open={showFlash}
-              anchorOrigin={{ vertical: "top", horizontal: "center" }}
-              sx={{ mt: 2 }}
-            >
-              <Alert
-                severity="info"
-                variant="filled"
-                sx={{ fontSize: "0.95rem", fontWeight: 500 }}
-              >
-                🎧 ShortNotes includes detailed audio explanation for each chapter of class 10!
-              </Alert>
-            </Snackbar>
           </CardContent>
         </Card>
       </Box>

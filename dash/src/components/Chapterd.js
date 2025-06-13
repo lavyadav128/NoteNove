@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
   Card,
@@ -29,6 +29,9 @@ const ChapterDetail = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [viewerContent, setViewerContent] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const location = useLocation();
+  const isPremium = location.pathname.includes("/premium");
+
 
   const modalRef = useRef(null);
 
