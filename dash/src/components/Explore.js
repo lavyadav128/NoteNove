@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const resourceDescriptions = {
   mindmap: [
@@ -31,11 +31,16 @@ const resourceDescriptions = {
     'Includes theory, examples, and diagrams.',
     'Good for deep understanding and exam prep.',
   ],
-  video: [
-    'Visual explanations for better understanding.',
-    'Concepts taught with animations and real-life examples.',
-    'Great for quick learning and long-term memory.',
-  ],  
+  testseries: [
+    'Chapter-wise and full syllabus mock tests.',
+    'Auto evaluation with score and solutions.',
+    'Enhances time management and confidence.',
+  ],
+  pyqseries: [
+    'Previous years’ questions with solutions.',
+    'Topic-wise arrangement for targeted prep.',
+    'Helps identify important and repeated concepts.',
+  ],
   mentorshipSession: [
     'One-on-one guidance from experts.',
     'Helps clear doubts and strengthen concepts.',
@@ -43,21 +48,22 @@ const resourceDescriptions = {
   ],
 };
 
-// 🔽 Define the public image URLs for each section
 const screenshots = {
   mindmap: '/images/mindmap.png',
   shortNotes: '/images/shortNotes.png',
   completeNotes: '/images/completeNotes.png',
-  video: '/images/oneShotNotes.png',
+  testseries: '/images/testseries.png',
+  pyqseries: '/images/pyqseries.png',
   mentorshipSession: '/images/mentorshipSession.png',
 };
 
-// ... imports remain the same
-
 const ExplorePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
+
+  const isPremium = location.pathname.startsWith('/premium');
 
   const handleOpen = (section) => {
     setActiveSection(section);
@@ -73,8 +79,13 @@ const ExplorePage = () => {
     { title: 'Mindmap', color: '#e3f2fd', textColor: '#1565c0', key: 'mindmap' },
     { title: 'Short Notes', color: '#fff3e0', textColor: '#ef6c00', key: 'shortNotes' },
     { title: 'Complete Notes', color: '#e8f5e9', textColor: '#2e7d32', key: 'completeNotes' },
-    { title: 'video', color: '#f3e5f5', textColor: '#8e24aa', key: 'video' },
-    { title: 'Mentorship Session', color: '#fffde7', textColor: '#f9a825', key: 'mentorshipSession' },
+    ...(isPremium
+      ? [
+          { title: 'Test Series', color: '#ede7f6', textColor: '#5e35b1', key: 'testseries' },
+          { title: 'PYQ Series', color: '#fce4ec', textColor: '#d81b60', key: 'pyqseries' },
+          { title: 'Mentorship Session', color: '#fffde7', textColor: '#f9a825', key: 'mentorshipSession' },
+        ]
+      : []),
   ];
 
   return (
@@ -184,7 +195,6 @@ const ExplorePage = () => {
         </Grid>
       </Card>
 
-      {/* Modal to show screenshot */}
       <Dialog open={openModal} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogContent
           sx={{
@@ -193,10 +203,7 @@ const ExplorePage = () => {
             textAlign: 'center',
           }}
         >
-          <IconButton
-            onClick={handleClose}
-            sx={{ position: 'absolute', top: 8, right: 8 }}
-          >
+          <IconButton onClick={handleClose} sx={{ position: 'absolute', top: 8, right: 8 }}>
             <CloseIcon />
           </IconButton>
           <Typography
@@ -226,4 +233,3 @@ const ExplorePage = () => {
 };
 
 export default ExplorePage;
-

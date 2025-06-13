@@ -231,7 +231,7 @@ const ClassCardPage = () => {
   };
 
   return (
-    <Box sx={{ py: 0, px: { xs: 2, sm: 5 } }}>
+    <Box sx={{ py: 0, px: { xs: 2, sm: 5, md: 10, lg: 5 } }}>
       <Typography
         variant="h4"
         textAlign="center"
