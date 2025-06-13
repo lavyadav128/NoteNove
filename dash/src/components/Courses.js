@@ -243,36 +243,47 @@ const ClassCardPage = () => {
 
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          flexWrap: isMobile ? 'nowrap' : 'nowrap',
-          overflowX: isMobile ? 'hidden' : 'auto',
+          display: isMobile ? 'flex' : 'block',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: isMobile ? 'calc(100vh - 150px)' : 'auto',
           overflowY: isMobile ? 'auto' : 'hidden',
-          gap: 3,
-          scrollSnapType: 'mandatory',
-          scrollSnapAlign: 'start',
-          WebkitOverflowScrolling: 'touch',
-          pb: 2,
-          px: 1,
         }}
       >
-        {classList.map((cls) => (
-          <Box
-            key={cls.id}
-            sx={{
-              flex: '0 0 auto',
-              width: 330,
-              scrollSnapAlign: 'start',
-              mb: isMobile ? 3 : 0,
-            }}
-          >
-            <ClassCard
-              {...cls}
-              purchaseInfo={purchasedBatches[cls.id]}
-              onPurchase={handlePurchaseUpdate}
-            />
-          </Box>
-        ))}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            flexWrap: isMobile ? 'nowrap' : 'nowrap',
+            overflowX: isMobile ? 'hidden' : 'auto',
+            overflowY: isMobile ? 'auto' : 'hidden',
+            gap: 3,
+            scrollSnapType: 'mandatory',
+            scrollSnapAlign: 'start',
+            WebkitOverflowScrolling: 'touch',
+            pb: 2,
+            px: 1,
+          }}
+        >
+          {classList.map((cls) => (
+            <Box
+              key={cls.id}
+              sx={{
+                flex: '0 0 auto',
+                width: 330,
+                scrollSnapAlign: 'start',
+                mb: isMobile ? 3 : 0,
+              }}
+            >
+              <ClassCard
+                {...cls}
+                purchaseInfo={purchasedBatches[cls.id]}
+                onPurchase={handlePurchaseUpdate}
+              />
+            </Box>
+          ))}
+        </Box>
       </Box>
     </Box>
   );
