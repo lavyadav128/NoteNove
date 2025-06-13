@@ -118,22 +118,50 @@ const ClassPage = () => {
           >
             Back
           </Button>
-
           {isPremium && (
-            <Tabs
-              value={tabIndex}
-              onChange={handleTabChange}
-              centered
-              textColor="primary"
-              indicatorColor="primary"
-              sx={{ mb: 4 }}
-            >
-              <Tab label="Subjects" />
-              <Tab label="Test Series" />
-              <Tab label="PYQ Series" />
-              <Tab label="Mentorship" />
-            </Tabs>
-          )}
+  <Box
+    sx={{
+      mb: 4,
+    }}
+  >
+    <Tabs
+      value={tabIndex}
+      onChange={handleTabChange}
+      textColor="primary"
+      indicatorColor="primary"
+      variant="standard" // default non-scrollable for desktop
+      centered
+      sx={{
+        display: { xs: 'none', sm: 'flex' },
+      }}
+    >
+      <Tab label="Subjects" />
+      <Tab label="Test Series" />
+      <Tab label="PYQ Series" />
+      <Tab label="Mentorship" />
+    </Tabs>
+
+    {/* Mobile-only scrollable tabs */}
+    <Tabs
+      value={tabIndex}
+      onChange={handleTabChange}
+      textColor="primary"
+      indicatorColor="primary"
+      variant="scrollable"
+      scrollButtons="auto"
+      allowScrollButtonsMobile
+      sx={{
+        display: { xs: 'flex', sm: 'none' },
+      }}
+    >
+      <Tab label="Subjects" />
+      <Tab label="Test Series" />
+      <Tab label="PYQ Series" />
+      <Tab label="Mentorship" />
+    </Tabs>
+  </Box>
+)}
+
 
           {!isPremium && (
             <Typography variant="h4" gutterBottom textAlign="center" sx={{ fontWeight: 700, mb: 4 }}>

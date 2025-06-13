@@ -172,7 +172,7 @@ const Dashboard = () => {
     flexWrap={{ xs: "nowrap", sm: "nowrap" }}
     sx={{ width: "100%", mb: 2 }}
   >
-    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: 300 } }}>
+    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: 500 } }}>
       <Autocomplete
         freeSolo
         options={searchOptions}
@@ -185,19 +185,31 @@ const Dashboard = () => {
           typeof option === "string" ? option : option.label
         }
         renderInput={(params) => (
-          <TextField {...params} label="Search batches..." variant="outlined" fullWidth />
+          <TextField
+            {...params}
+            label="Search batches..."
+            variant="outlined"
+            fullWidth
+            sx={{ height: "53px" }}
+          />
         )}
       />
     </Box>
     <Button
       variant="contained"
       onClick={() => handleSearch(searchInput)}
-      sx={{ whiteSpace: "nowrap" }}
+      sx={{
+        height: "50px",
+        px: 3,
+        whiteSpace: "nowrap",
+        flexShrink: 0,
+      }}
     >
       Search
     </Button>
   </Box>
 )}
+
 
 
             {showBackButton && (
@@ -220,7 +232,7 @@ const Dashboard = () => {
                   {/* Spacing added below title */}
                   <Box mt={6} />
 
-                  <Grid container spacing={6}>
+                  <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
                       <Paper
                         elevation={4}

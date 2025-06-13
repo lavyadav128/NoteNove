@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
 import server from "../environment";
 
-// ✅ UPDATED: Use imageUrl instead of image
 const classList = [
   {
     id: '10',
@@ -53,7 +52,6 @@ const classList = [
   },
 ];
 
-// ✅ UPDATED: Renamed `image` to `imageUrl` inside props
 const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPurchase }) => {
   const navigate = useNavigate();
   const isPurchased = !!purchaseInfo;
@@ -75,7 +73,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       batchTitle: title,
       price: price,
       description: description,
-      imageUrl: imageUrl, // ✅ FIXED: now sends correct value
+      imageUrl: imageUrl,
     };
 
     if (price === 0) {
@@ -140,7 +138,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       <CardMedia
         component="img"
         height="220"
-        image={imageUrl} // ✅ FIXED
+        image={imageUrl}
         alt={title}
         sx={{ objectFit: 'cover', borderBottom: '1px solid #eee' }}
       />
@@ -238,14 +236,14 @@ const ClassCardPage = () => {
       >
         Select Your Class
       </Typography>
-  
+
       <Box
         sx={{
           display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          overflowX: { xs: 'visible', sm: 'auto' },
+          flexDirection: 'row',
+          overflowX: 'auto',
           gap: 3,
-          scrollSnapType: { sm: 'x mandatory' },
+          scrollSnapType: 'x mandatory',
           WebkitOverflowScrolling: 'touch',
           pb: 2,
           px: 1,
@@ -256,7 +254,7 @@ const ClassCardPage = () => {
             key={cls.id}
             sx={{
               flex: '0 0 auto',
-              width: { xs: '100%', sm: 330 },
+              width: 330,
               scrollSnapAlign: 'start',
             }}
           >
@@ -270,7 +268,6 @@ const ClassCardPage = () => {
       </Box>
     </Box>
   );
-  
 };
 
 export default ClassCardPage;
