@@ -9,10 +9,12 @@ import {
   Box,
   Chip,
   Stack,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
-import server from "../environment";
+import server from '../environment';
 
 const classList = [
   {
@@ -198,6 +200,8 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
 
 const ClassCardPage = () => {
   const [purchasedBatches, setPurchasedBatches] = useState({});
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -240,10 +244,13 @@ const ClassCardPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
-          overflowX: 'auto',
+          flexDirection: isMobile ? 'column' : 'row',
+          flexWrap: isMobile ? 'nowrap' : 'nowrap',
+          overflowX: isMobile ? 'hidden' : 'auto',
+          overflowY: isMobile ? 'auto' : 'hidden',
           gap: 3,
-          scrollSnapType: 'x mandatory',
+          scrollSnapType: 'mandatory',
+          scrollSnapAlign: 'start',
           WebkitOverflowScrolling: 'touch',
           pb: 2,
           px: 1,
@@ -256,6 +263,7 @@ const ClassCardPage = () => {
               flex: '0 0 auto',
               width: 330,
               scrollSnapAlign: 'start',
+              mb: isMobile ? 3 : 0,
             }}
           >
             <ClassCard

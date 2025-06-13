@@ -190,7 +190,7 @@ const Dashboard = () => {
             label="Search batches..."
             variant="outlined"
             fullWidth
-            sx={{ height: "53px" }}
+            sx={{ height: "50px" }}
           />
         )}
       />
@@ -199,7 +199,7 @@ const Dashboard = () => {
       variant="contained"
       onClick={() => handleSearch(searchInput)}
       sx={{
-        height: "50px",
+        height: "45px",
         px: 3,
         whiteSpace: "nowrap",
         flexShrink: 0,
@@ -230,7 +230,7 @@ const Dashboard = () => {
                   </Typography>
 
                   {/* Spacing added below title */}
-                  <Box mt={6} />
+                  <Box mt={2} />
 
                   <Grid container spacing={3}>
                     <Grid item xs={12} sm={6}>
