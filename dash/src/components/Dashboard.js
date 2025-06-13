@@ -163,28 +163,42 @@ const Dashboard = () => {
             </Box>
 
             {isMainDashboard && (
-              <Box display="flex" flexDirection={{ xs: "column", sm: "row" }} gap={2} alignItems="center" justifyContent="center">
-                <Autocomplete
-                  freeSolo
-                  options={searchOptions}
-                  inputValue={searchInput}
-                  onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
-                  onChange={(event, newValue) => {
-                    if (newValue && newValue.label) handleSearch(newValue.label);
-                  }}
-                  getOptionLabel={(option) =>
-                    typeof option === "string" ? option : option.label
-                  }
-                  sx={{ width: isMobile ? "100%" : 300 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Search batches..." variant="outlined" />
-                  )}
-                />
-                <Button variant="contained" onClick={() => handleSearch(searchInput)}>
-                  Search
-                </Button>
-              </Box>
-            )}
+  <Box
+    display="flex"
+    flexDirection={{ xs: "row", sm: "row" }}
+    gap={1}
+    alignItems="center"
+    justifyContent="center"
+    flexWrap={{ xs: "nowrap", sm: "nowrap" }}
+    sx={{ width: "100%", mb: 2 }}
+  >
+    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: 300 } }}>
+      <Autocomplete
+        freeSolo
+        options={searchOptions}
+        inputValue={searchInput}
+        onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
+        onChange={(event, newValue) => {
+          if (newValue && newValue.label) handleSearch(newValue.label);
+        }}
+        getOptionLabel={(option) =>
+          typeof option === "string" ? option : option.label
+        }
+        renderInput={(params) => (
+          <TextField {...params} label="Search batches..." variant="outlined" fullWidth />
+        )}
+      />
+    </Box>
+    <Button
+      variant="contained"
+      onClick={() => handleSearch(searchInput)}
+      sx={{ whiteSpace: "nowrap" }}
+    >
+      Search
+    </Button>
+  </Box>
+)}
+
 
             {showBackButton && (
               <Button

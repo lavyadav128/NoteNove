@@ -59,7 +59,8 @@ import Web from './components/Web';
 import Authentication from './components/authentication';
 import { AuthProvider } from './contexts/AuthContext';
 import LandingPage from './components/landing';
-import Dashboard from './components/Dashboard';
+import MentorshipPage from './components/mentorship'; // adjust the path as needed
+
 
 
 
@@ -118,6 +119,10 @@ root.render(
             {/* PYQ Series Pages */}
             <Route path="/class/:classId/pyq/chapter-wise" element={<PYQSeries type="chapter-wise" />} />
             <Route path="/class/:classId/pyq/full-papers" element={<PYQSeries type="full-papers" />} />
+
+
+            <Route path="premium/class/:classId/mentorship" element={<MentorshipPage />} />
+
 
             {/* Fallback route */}
             <Route path="*" element={<Home />} />

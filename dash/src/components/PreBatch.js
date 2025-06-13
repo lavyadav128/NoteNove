@@ -15,7 +15,7 @@ import { makeAuthenticatedRequest } from './makeauth';
 import server from "../environment";
 
 const classList = [
-  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 99,"isPremium": true },
+  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 0,"isPremium": true },
   { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/p11.png', price: 99,"isPremium": true },
   { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/p12.png', price: 99,"isPremium": true },
 ];
@@ -207,37 +207,54 @@ const ClassCardPage = () => {
   };
 
   return (
-    <Box sx={{ py: 0, px: { xs: 2, sm: 16 } }}>
-      <Typography
-        variant="h4"
-        textAlign="center"
-        gutterBottom
-        sx={{ fontWeight: 800, mb: 4, color: '#1976d2' }}
-      >
-        Select Your Class
-      </Typography>
+<Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 16 } }}>
+  <Typography
+    variant="h5"
+    textAlign="center"
+    gutterBottom
+    sx={{
+      fontWeight: 800,
+      mb: { xs: 3, sm: 4 },
+      color: '#1976d2',
+      fontSize: { xs: '1.5rem', sm: '2rem' },
+    }}
+  >
+    Select Your Class
+  </Typography>
+
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: { xs: 'column', sm: 'row' },
+      flexWrap: { xs: 'nowrap', sm: 'wrap' },
+      justifyContent: { sm: 'center' },
+      alignItems: { xs: 'center', sm: 'stretch' },
+      gap: { xs: 2.5, sm: 3 },
+      overflowX: { xs: 'auto', sm: 'unset' },
+      scrollSnapType: { xs: 'x mandatory', sm: 'none' },
+      px: { xs: 0.5, sm: 1 },
+      pb: 3,
+    }}
+  >
+    {classList.map((cls) => (
       <Box
+        key={cls.id}
         sx={{
-          display: { xs: 'grid', sm: 'flex' },
-          gridTemplateColumns: { xs: '1fr', sm: 'unset' },
-          gap: 3,
-          overflowX: { xs: 'unset', sm: 'auto' },
-          scrollSnapType: { sm: 'x mandatory' },
-          pb: 2,
-          px: 1,
+          flex: { xs: '0 0 90%', sm: '1 0 300px' },
+          scrollSnapAlign: 'start',
+          mx: { xs: 'auto', sm: 0 },
         }}
       >
-        {classList.map((cls) => (
-          <Box key={cls.id} sx={{ flex: '0 0 auto', scrollSnapAlign: 'start' }}>
-            <ClassCard
-              {...cls}
-              purchaseInfo={purchasedBatches[cls.id]}
-              onPurchase={handlePurchaseUpdate}
-            />
-          </Box>
-        ))}
+        <ClassCard
+          {...cls}
+          purchaseInfo={purchasedBatches[cls.id]}
+          onPurchase={handlePurchaseUpdate}
+        />
       </Box>
-    </Box>
+    ))}
+  </Box>
+</Box>
+
   );
 };
 

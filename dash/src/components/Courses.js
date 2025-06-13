@@ -238,19 +238,28 @@ const ClassCardPage = () => {
       >
         Select Your Class
       </Typography>
+  
       <Box
         sx={{
-          display: { xs: 'grid', sm: 'flex' },
-          gridTemplateColumns: { xs: '1fr', sm: 'unset' },
+          display: 'flex',
+          flexDirection: { xs: 'column', sm: 'row' },
+          overflowX: { xs: 'visible', sm: 'auto' },
           gap: 3,
-          overflowX: { xs: 'unset', sm: 'auto' },
           scrollSnapType: { sm: 'x mandatory' },
+          WebkitOverflowScrolling: 'touch',
           pb: 2,
           px: 1,
         }}
       >
         {classList.map((cls) => (
-          <Box key={cls.id} sx={{ flex: '0 0 auto', scrollSnapAlign: 'start' }}>
+          <Box
+            key={cls.id}
+            sx={{
+              flex: '0 0 auto',
+              width: { xs: '100%', sm: 330 },
+              scrollSnapAlign: 'start',
+            }}
+          >
             <ClassCard
               {...cls}
               purchaseInfo={purchasedBatches[cls.id]}
@@ -261,6 +270,7 @@ const ClassCardPage = () => {
       </Box>
     </Box>
   );
+  
 };
 
 export default ClassCardPage;
