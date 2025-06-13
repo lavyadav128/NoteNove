@@ -15,7 +15,7 @@ import { makeAuthenticatedRequest } from './makeauth';
 import server from "../environment";
 
 const classList = [
-  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 0,"isPremium": true },
+  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 99,"isPremium": true },
   { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/p11.png', price: 99,"isPremium": true },
   { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/p12.png', price: 99,"isPremium": true },
 ];
