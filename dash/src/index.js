@@ -109,6 +109,8 @@ root.render(
 
             {/* Explore Page */}
             <Route path="/class/:classId/explore" element={<Explore />} />
+            <Route path="/premium/class/:classId/explore" element={<Explore />} />
+
 
             {/* Test Series Pages */}
             <Route path="/class/:classId/test-series/chapter-wise" element={<TestSeries type="chapter-wise" />} />
