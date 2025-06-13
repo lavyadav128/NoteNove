@@ -27,7 +27,7 @@ const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInf
   const expiryDate = purchaseInfo?.expiryDate ? new Date(purchaseInfo.expiryDate) : null;
 
   const handleExploreRedirect = () => {
-    navigate(`/premium/class/${id}/explore`);
+    navigate(`premium/class/${id}/explore`);
   };
 
   const handleBuyRedirect = async () => {

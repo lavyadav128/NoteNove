@@ -123,7 +123,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
   return (
     <Card
       sx={{
-        width: 3260,
+        width: 325,
         borderRadius: 4,
         overflow: 'hidden',
         boxShadow: 6,
