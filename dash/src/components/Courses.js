@@ -243,47 +243,34 @@ const ClassCardPage = () => {
 
       <Box
         sx={{
-          display: isMobile ? 'flex' : 'block',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: isMobile ? 'calc(100vh - 150px)' : 'auto',
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          flexWrap: isMobile ? 'nowrap' : 'nowrap',
+          alignItems: isMobile ? 'center' : 'stretch',
+          justifyContent: isMobile ? 'flex-start' : 'flex-start',
+          overflowX: isMobile ? 'hidden' : 'auto',
           overflowY: isMobile ? 'auto' : 'hidden',
+          gap: 3,
+          pb: 2,
+          px: isMobile ? 0 : 1,
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: isMobile ? 'column' : 'row',
-            flexWrap: isMobile ? 'nowrap' : 'nowrap',
-            overflowX: isMobile ? 'hidden' : 'auto',
-            overflowY: isMobile ? 'auto' : 'hidden',
-            gap: 3,
-            scrollSnapType: 'mandatory',
-            scrollSnapAlign: 'start',
-            WebkitOverflowScrolling: 'touch',
-            pb: 2,
-            px: 1,
-          }}
-        >
-          {classList.map((cls) => (
-            <Box
-              key={cls.id}
-              sx={{
-                flex: '0 0 auto',
-                width: 330,
-                scrollSnapAlign: 'start',
-                mb: isMobile ? 3 : 0,
-              }}
-            >
-              <ClassCard
-                {...cls}
-                purchaseInfo={purchasedBatches[cls.id]}
-                onPurchase={handlePurchaseUpdate}
-              />
-            </Box>
-          ))}
-        </Box>
+        {classList.map((cls) => (
+          <Box
+            key={cls.id}
+            sx={{
+              flex: '0 0 auto',
+              width: 330,
+              mb: isMobile ? 3 : 0,
+            }}
+          >
+            <ClassCard
+              {...cls}
+              purchaseInfo={purchasedBatches[cls.id]}
+              onPurchase={handlePurchaseUpdate}
+            />
+          </Box>
+        ))}
       </Box>
     </Box>
   );
