@@ -129,6 +129,8 @@ const WebClass = () => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
+
+  //grid container
   return (
     <Box sx={{ flexGrow: 1, py: 0, px: 3 }}>
       <Typography
@@ -141,7 +143,7 @@ const WebClass = () => {
         Full Stack Web Development
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 1 : 15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 0.2 : 15}>
         <Grid item xs={11.5} md={5}>
           <Card
             sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}
