@@ -141,7 +141,7 @@ const DSAClass = () => {
         DSA Practice Sheet
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 3 : 15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 1 : 15}>
         <Grid item xs={12} md={5}>
           <Card
             sx={{

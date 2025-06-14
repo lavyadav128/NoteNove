@@ -1271,8 +1271,8 @@ const SubjectPage = () => {
         <Box display="flex" justifyContent="center">
           <Card
             sx={{
-              width: "95vw",
-              maxWidth: 1100,
+              width: "100vw",
+              maxWidth: 12000,
               borderRadius: 4,
               boxShadow:
                 "0 4px 8px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.15)",
