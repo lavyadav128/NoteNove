@@ -11,6 +11,8 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +29,9 @@ const classDetails = {
 
 const DSAClass = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [highlightDesc, setHighlightDesc] = useState(false);
   const [purchaseInfo, setPurchaseInfo] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -136,57 +141,119 @@ const DSAClass = () => {
         DSA Practice Sheet
       </Typography>
 
-      <Grid container justifyContent="center" spacing={15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 3 : 15}>
         <Grid item xs={12} md={5}>
           <Card
-            sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}
+            sx={{
+              height: "100%",
+              borderRadius: 4,
+              boxShadow: 8,
+              backgroundColor: "#ffffff",
+              display: "flex",
+              flexDirection: "column",
+            }}
           >
             <CardMedia
               component="img"
               height="260"
               image={classDetails.image}
               alt={classDetails.title}
-              sx={{ objectFit: "cover", borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }}
+              sx={{
+                objectFit: "cover",
+                borderTopLeftRadius: "16px",
+                borderTopRightRadius: "16px",
+              }}
             />
             <CardContent sx={{ flexGrow: 1, px: 3 }}>
-              <Typography variant="h5" fontWeight={600}>{classDetails.title}</Typography>
-              <Typography variant="body2" color="text.secondary" mt={1}>{classDetails.description}</Typography>
+              <Typography variant="h5" fontWeight={600}>
+                {classDetails.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" mt={1}>
+                {classDetails.description}
+              </Typography>
               <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                 <Button
                   variant="contained"
                   color="success"
-                  sx={{ borderRadius: "50px", pointerEvents: "none", px: 2, py: 0.5, fontWeight: 600, fontSize: "1rem", textTransform: "none" }}
+                  sx={{
+                    borderRadius: "50px",
+                    pointerEvents: "none",
+                    px: 2,
+                    py: 0.5,
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    textTransform: "none",
+                  }}
                 >
                   FREE
                 </Button>
                 {isPurchased && (
                   <Box
-                    sx={{ bgcolor: "#1976d2", color: "#fff", fontWeight: 500, px: 1.5, py: 0.3, borderRadius: 50, ml: "auto", userSelect: "none", fontSize: "1rem" }}
+                    sx={{
+                      bgcolor: "#1976d2",
+                      color: "#fff",
+                      fontWeight: 500,
+                      px: 1.5,
+                      py: 0.3,
+                      borderRadius: 50,
+                      ml: "auto",
+                      userSelect: "none",
+                      fontSize: "1rem",
+                    }}
                   >
                     Purchased
                   </Box>
                 )}
               </Box>
               {isPurchased && expiryDate && (
-                <Typography variant="caption" color="text.secondary" fontWeight={600} mt={1} display="block">
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  fontWeight={600}
+                  mt={1}
+                  display="block"
+                >
                   Expires on: {expiryDate.toLocaleDateString()}
                 </Typography>
               )}
             </CardContent>
-            <CardActions sx={{ px: 3, pb: 3, pt: 1, justifyContent: "space-between" }}>
+            <CardActions
+              sx={{
+                px: 3,
+                pb: 3,
+                pt: 1,
+                justifyContent: "space-between",
+              }}
+            >
               <Button
                 variant="outlined"
                 color="primary"
                 onClick={handleExploreClick}
-                sx={{ width: "48%", fontWeight: 600, borderRadius: 2, transition: "0.2s",    textTransform: "none",  "&:hover": { transform: "scale(1.03)" } }}
+                sx={{
+                  width: "48%",
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  transition: "0.2s",
+                  textTransform: "none",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
               >
                 Explore
               </Button>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => (isPurchased ? handleExploreRedirect() : handleBuyRedirect())}
-                sx={{ width: "48%", fontWeight: 600, borderRadius: "8px", transition: "0.2s", textTransform: "none", "&:hover": { transform: "scale(1.03)" } }}
+                onClick={() =>
+                  isPurchased ? handleExploreRedirect() : handleBuyRedirect()
+                }
+                sx={{
+                  width: "48%",
+                  fontWeight: 600,
+                  borderRadius: "8px",
+                  transition: "0.2s",
+                  textTransform: "none",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
               >
                 {isPurchased ? "Study" : "Buy"}
               </Button>
@@ -196,19 +263,55 @@ const DSAClass = () => {
 
         <Grid item xs={12} md={6}>
           <Card
-            sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#f5f5f5", p: 3, transition: "box-shadow 0.5s, transform 0.3s", ...(highlightDesc && { boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)", transform: "scale(1.02)" }) }}
+            sx={{
+              height: "100%",
+              borderRadius: 4,
+              boxShadow: 8,
+              backgroundColor: "#f5f5f5",
+              p: 3,
+              transition: "box-shadow 0.5s, transform 0.3s",
+              ...(highlightDesc && {
+                boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)",
+                transform: "scale(1.02)",
+              }),
+            }}
           >
-            <Typography variant="h6" fontWeight={600} color="primary" gutterBottom>
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              color="primary"
+              gutterBottom
+            >
               What You'll Learn:
             </Typography>
             <Box component="ul" sx={{ pl: 2, m: 0 }}>
-              {["Master the fundamentals of Data Structures & Algorithms", "Learn with a structured 34-day roadmap", "Most frequent and expected questions", "Solve 200+ curated LeetCode problems", "Prepare for top service-based companies", "Get personalized mentorship & doubt support", "Prepare for top product-based companies"].map((point, index) => (
+              {[
+                "Master the fundamentals of Data Structures & Algorithms",
+                "Learn with a structured 34-day roadmap",
+                "Most frequent and expected questions",
+                "Solve 200+ curated LeetCode problems",
+                "Prepare for top service-based companies",
+                "Get personalized mentorship & doubt support",
+                "Prepare for top product-based companies",
+              ].map((point, index) => (
                 <Typography
                   key={index}
                   component="li"
                   variant="body1"
                   color="text.secondary"
-                  sx={{ mb: 1.5, fontSize: "1rem", lineHeight: 1.6, listStyle: "none", position: "relative", pl: 3, "&::before": { content: '"✅"', position: "absolute", left: 0 } }}
+                  sx={{
+                    mb: 1.5,
+                    fontSize: "1rem",
+                    lineHeight: 1.6,
+                    listStyle: "none",
+                    position: "relative",
+                    pl: 3,
+                    "&::before": {
+                      content: '"✅"',
+                      position: "absolute",
+                      left: 0,
+                    },
+                  }}
                 >
                   {point}
                 </Typography>
@@ -219,7 +322,15 @@ const DSAClass = () => {
               variant="outlined"
               color="secondary"
               onClick={handleOpenModal}
-              sx={{ mt: 3, fontWeight: 600, borderRadius: 2, alignSelf: "center", display: "block", mx: "auto", textTransform: 'none' }}
+              sx={{
+                mt: 3,
+                fontWeight: 600,
+                borderRadius: 2,
+                alignSelf: "center",
+                display: "block",
+                mx: "auto",
+                textTransform: "none",
+              }}
             >
               View Screenshot
             </Button>

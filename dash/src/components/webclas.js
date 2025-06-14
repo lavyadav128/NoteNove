@@ -11,13 +11,13 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { makeAuthenticatedRequest } from "./makeauth";
 import server from "../environment";
-
-
 
 const classDetails = {
   id: "web",
@@ -29,6 +29,9 @@ const classDetails = {
 
 const WebClass = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [highlightDesc, setHighlightDesc] = useState(false);
   const [purchaseInfo, setPurchaseInfo] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -138,7 +141,7 @@ const WebClass = () => {
         Full Stack Web Development
       </Typography>
 
-      <Grid container justifyContent="center" spacing={15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 3 : 15}>
         <Grid item xs={12} md={5}>
           <Card
             sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}
@@ -180,8 +183,14 @@ const WebClass = () => {
                 variant="outlined"
                 color="primary"
                 onClick={handleExploreClick}
-                sx={{ width: "48%", fontWeight: 600, borderRadius: 2, transition: "0.2s",  textTransform: "none", // MUST be at this level
-                  "&:hover": { transform: "scale(1.03)" } }}
+                sx={{
+                  width: "48%",
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  transition: "0.2s",
+                  "&:hover": { transform: "scale(1.03)" }
+                }}
               >
                 Explore
               </Button>
@@ -189,8 +198,14 @@ const WebClass = () => {
                 variant="contained"
                 color="primary"
                 onClick={() => (isPurchased ? handleExploreRedirect() : handleBuyRedirect())}
-                sx={{ width: "48%", fontWeight: 600, borderRadius: "8px", transition: "0.2s",    textTransform: "none", // MUST be at this level
-                  "&:hover": { transform: "scale(1.03)" } }}
+                sx={{
+                  width: "48%",
+                  fontWeight: 600,
+                  borderRadius: 2,
+                  textTransform: "none",
+                  transition: "0.2s",
+                  "&:hover": { transform: "scale(1.03)" }
+                }}
               >
                 {isPurchased ? "Study" : "Buy"}
               </Button>
@@ -200,19 +215,51 @@ const WebClass = () => {
 
         <Grid item xs={12} md={6}>
           <Card
-            sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#f5f5f5", p: 3, transition: "box-shadow 0.5s, transform 0.3s", ...(highlightDesc && { boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)", transform: "scale(1.02)" }) }}
+            sx={{
+              height: "100%",
+              borderRadius: 4,
+              boxShadow: 8,
+              backgroundColor: "#f5f5f5",
+              p: 3,
+              transition: "box-shadow 0.5s, transform 0.3s",
+              ...(highlightDesc && {
+                boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)",
+                transform: "scale(1.02)",
+              }),
+            }}
           >
             <Typography variant="h6" fontWeight={600} color="primary" gutterBottom>
               What You'll Learn:
             </Typography>
             <Box component="ul" sx={{ pl: 2, m: 0 }}>
-              {["HTML, CSS, and JavaScript (Responsive Web Design)", "Modern frameworks like React or Angular", "Server-side programming (Node.js, Express.js, or others)", "RESTful APIs and routing", "Authentication and Authorization", "CRUD operations","Hosting (Vercel, render, or traditional servers)", "Relational databases (MySQL, PostgreSQL"].map((point, index) => (
+              {[
+                "HTML, CSS, and JavaScript (Responsive Web Design)",
+                "Modern frameworks like React or Angular",
+                "Server-side programming (Node.js, Express.js, or others)",
+                "RESTful APIs and routing",
+                "Authentication and Authorization",
+                "CRUD operations",
+                "Hosting (Vercel, render, or traditional servers)",
+                "Relational databases (MySQL, PostgreSQL",
+              ].map((point, index) => (
                 <Typography
                   key={index}
                   component="li"
                   variant="body1"
                   color="text.secondary"
-                  sx={{ mb: 1.5, fontSize: "1rem", lineHeight: 1.6, listStyle: "none", position: "relative", pl: 3, "&::before": { content: '"✅"', position: "absolute", left: 0 } }}
+                  sx={{
+                    mb: 1.5,
+                    fontSize: "1rem",
+                    lineHeight: 1.6,
+                    listStyle: "none",
+                    position: "relative",
+                    pl: 3,
+                    "&::before": {
+                      content: '"✅"',
+                      position: "absolute",
+                      left: 0,
+                    },
+                  }}
                 >
                   {point}
                 </Typography>
@@ -223,7 +270,15 @@ const WebClass = () => {
               variant="outlined"
               color="secondary"
               onClick={handleOpenModal}
-              sx={{ mt: 3, fontWeight: 600, borderRadius: 2, alignSelf: "center", display: "block", mx: "auto", textTransform: 'none' }}
+              sx={{
+                mt: 3,
+                fontWeight: 600,
+                borderRadius: 2,
+                alignSelf: "center",
+                display: "block",
+                mx: "auto",
+                textTransform: "none",
+              }}
             >
               View Screenshot
             </Button>

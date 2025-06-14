@@ -182,8 +182,10 @@ const MyBatchesPage = () => {
   const paidBatches = batches.filter((batch) => batch.price && batch.price > 0);
   const displayBatches = tab === 0 ? freeBatches : paidBatches;
 
+
+//2nd line
   return (
-    <Box sx={{ px: { xs: 2, md: 17 }, py: 0 }}>
+    <Box sx={{ px: { xs: 1, md: 17 }, py: 0 }}>   
       <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 800, color: '#1976d2' }}>
         My Batches
       </Typography>
