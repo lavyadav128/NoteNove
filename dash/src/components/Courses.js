@@ -101,7 +101,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       currency: 'INR',
       name: 'Atom Classes',
       description: `Payment for ${title}`,
-      handler: async function (response) {
+      handler: async function () {
         try {
           await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
           onPurchase(id);
@@ -200,6 +200,8 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
 
 const ClassCardPage = () => {
   const [purchasedBatches, setPurchasedBatches] = useState({});
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -242,13 +244,15 @@ const ClassCardPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: 'row',
-          overflowX: 'auto',
-          overflowY: 'hidden',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'center' : 'flex-start',
+          justifyContent: isMobile ? 'center' : 'flex-start',
+          overflowX: isMobile ? 'hidden' : 'auto',
+          overflowY: isMobile ? 'auto' : 'hidden',
           gap: 3,
           pb: 2,
-          px: 1,
-          scrollSnapType: 'x mandatory',
+          px: isMobile ? 2 : 1,
+          scrollSnapType: isMobile ? 'none' : 'x mandatory',
           '&::-webkit-scrollbar': { height: 8 },
           '&::-webkit-scrollbar-thumb': {
             backgroundColor: '#ccc',
@@ -261,7 +265,11 @@ const ClassCardPage = () => {
             key={cls.id}
             sx={{
               flex: '0 0 auto',
-              scrollSnapAlign: 'start',
+              scrollSnapAlign: isMobile ? 'none' : 'start',
+              display: 'flex',
+              justifyContent: 'center',
+              width: isMobile ? '100%' : 'auto',
+              px: isMobile ? 0 : 0,
             }}
           >
             <ClassCard
