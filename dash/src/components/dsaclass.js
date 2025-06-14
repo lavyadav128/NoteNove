@@ -142,7 +142,7 @@ const DSAClass = () => {
       </Typography>
 
       <Grid container justifyContent="center" spacing={isMobile ? 1 : 15}>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={11.5} md={5}>
           <Card
             sx={{
               height: "100%",
@@ -261,7 +261,7 @@ const DSAClass = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6}>
+        <Grid item xs={11.5} md={6}>
           <Card
             sx={{
               height: "100%",
