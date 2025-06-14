@@ -138,7 +138,7 @@ const ExplorePage = () => {
             fontSize: { xs: '1.5rem', sm: '2.25rem' },
           }}
         >
-          Explore Notes Resources
+          Explore Batch Resources
         </Typography>
 
         <Grid container spacing={3} justifyContent="center">

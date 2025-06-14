@@ -123,7 +123,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
   return (
     <Card
       sx={{
-        width: 315,
+        width: 325,
         borderRadius: 4,
         overflow: 'hidden',
         boxShadow: 6,
@@ -200,8 +200,6 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
 
 const ClassCardPage = () => {
   const [purchasedBatches, setPurchasedBatches] = useState({});
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -244,15 +242,18 @@ const ClassCardPage = () => {
       <Box
         sx={{
           display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          flexWrap: isMobile ? 'nowrap' : 'nowrap',
-          alignItems: isMobile ? 'center' : 'stretch',
-          justifyContent: isMobile ? 'flex-start' : 'flex-start',
-          overflowX: isMobile ? 'hidden' : 'auto',
-          overflowY: isMobile ? 'auto' : 'hidden',
+          flexDirection: 'row',
+          overflowX: 'auto',
+          overflowY: 'hidden',
           gap: 3,
           pb: 2,
-          px: isMobile ? 0 : 1,
+          px: 1,
+          scrollSnapType: 'x mandatory',
+          '&::-webkit-scrollbar': { height: 8 },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#ccc',
+            borderRadius: 4,
+          },
         }}
       >
         {classList.map((cls) => (
@@ -260,8 +261,7 @@ const ClassCardPage = () => {
             key={cls.id}
             sx={{
               flex: '0 0 auto',
-              width: 330,
-              mb: isMobile ? 3 : 0,
+              scrollSnapAlign: 'start',
             }}
           >
             <ClassCard
