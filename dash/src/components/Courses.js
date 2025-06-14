@@ -231,7 +231,7 @@ const ClassCardPage = () => {
   };
 
   return (
-    <Box sx={{ py: 0, px: { xs: 2, sm: 5, md: 10, lg: 5 } }}>
+    <Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 5 } }}>
       <Typography
         variant="h4"
         textAlign="center"
@@ -249,9 +249,9 @@ const ClassCardPage = () => {
           justifyContent: isMobile ? 'center' : 'flex-start',
           overflowX: isMobile ? 'hidden' : 'auto',
           overflowY: isMobile ? 'auto' : 'hidden',
-          gap: 3,
+          gap: isMobile ? 2 : 3,
           pb: 2,
-          px: isMobile ? 2 : 1,
+          px: isMobile ? 1 : 1,
           scrollSnapType: isMobile ? 'none' : 'x mandatory',
           '&::-webkit-scrollbar': { height: 8 },
           '&::-webkit-scrollbar-thumb': {
@@ -269,7 +269,7 @@ const ClassCardPage = () => {
               display: 'flex',
               justifyContent: 'center',
               width: isMobile ? '100%' : 'auto',
-              px: isMobile ? 0 : 0,
+              px: 0,
             }}
           >
             <ClassCard
