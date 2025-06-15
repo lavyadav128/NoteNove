@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -11,8 +13,8 @@ import {
   Dialog,
   DialogContent,
   IconButton,
-  useMediaQuery,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
@@ -20,14 +22,14 @@ import { makeAuthenticatedRequest } from "./makeauth";
 import server from "../environment";
 
 const classDetails = {
-  id: "web",
+  id: "dsa",
   title: "Web Development",
-  description: "Learn web development with our interactive platform  ",
+  description: "Ace coding interviews with our 34-day DSA program ",
   image: "/images/dsa_files/web.png",
   price: 0,
 };
 
-const WebClass = () => {
+const DSAClass = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -54,7 +56,6 @@ const WebClass = () => {
         }
       }
     };
-
     fetchPurchases();
   }, []);
 
@@ -129,57 +130,92 @@ const WebClass = () => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-
-  //grid container
   return (
     <Box sx={{ flexGrow: 1, py: 0, px: 3 }}>
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        mb={3}
-        textAlign="center"
-        color="primary"
-      >
-        Full Stack Web Development
+      <Typography variant="h4" fontWeight={700} mb={3} textAlign="center" color="primary">
+      Fullstack Web Development
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 2 : 15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 2 : 10}>
         <Grid item xs={12} md={5}>
           <Card
-            sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}
+            sx={{
+              height: "100%",
+              borderRadius: 4,
+              boxShadow: 6,
+              backgroundColor: "#ffffff",
+              display: "flex",
+              flexDirection: "column",
+              transition: "0.3s ease",
+              maxWidth: isMobile ? "95%" : 400,
+              mx: "auto",
+            }}
           >
             <CardMedia
               component="img"
-              height="260"
+              height="240"
               image={classDetails.image}
               alt={classDetails.title}
-              sx={{ objectFit: "cover", borderTopLeftRadius: "16px", borderTopRightRadius: "16px" }}
+              sx={{
+                objectFit: "cover",
+                borderTopLeftRadius: 16,
+                borderTopRightRadius: 16,
+              }}
             />
             <CardContent sx={{ flexGrow: 1, px: 3 }}>
-              <Typography variant="h5" fontWeight={600}>{classDetails.title}</Typography>
-              <Typography variant="body2" color="text.secondary" mt={1}>{classDetails.description}</Typography>
+              <Typography variant="h5" fontWeight={600}>
+                {classDetails.title}
+              </Typography>
+              <Typography variant="body2" color="text.secondary" mt={1}>
+                {classDetails.description}
+              </Typography>
+
               <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                 <Button
                   variant="contained"
                   color="success"
-                  sx={{ borderRadius: "50px", pointerEvents: "none", px: 2, py: 0.5, fontWeight: 600, fontSize: "1rem", textTransform: "none" }}
+                  sx={{
+                    borderRadius: "50px",
+                    pointerEvents: "none",
+                    px: 2,
+                    py: 0.5,
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    textTransform: "none",
+                  }}
                 >
                   FREE
                 </Button>
                 {isPurchased && (
                   <Box
-                    sx={{ bgcolor: "#1976d2", color: "#fff", fontWeight: 500, px: 1.5, py: 0.3, borderRadius: 50, ml: "auto", userSelect: "none", fontSize: "1rem" }}
+                    sx={{
+                      bgcolor: "#1976d2",
+                      color: "#fff",
+                      fontWeight: 500,
+                      px: 1.5,
+                      py: 0.3,
+                      borderRadius: 50,
+                      ml: "auto",
+                      fontSize: "1rem",
+                    }}
                   >
                     Purchased
                   </Box>
                 )}
               </Box>
               {isPurchased && expiryDate && (
-                <Typography variant="caption" color="text.secondary" fontWeight={600} mt={1} display="block">
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  fontWeight={600}
+                  mt={1}
+                  display="block"
+                >
                   Expires on: {expiryDate.toLocaleDateString()}
                 </Typography>
               )}
             </CardContent>
+
             <CardActions sx={{ px: 3, pb: 3, pt: 1, justifyContent: "space-between" }}>
               <Button
                 variant="outlined"
@@ -190,8 +226,7 @@ const WebClass = () => {
                   fontWeight: 600,
                   borderRadius: 2,
                   textTransform: "none",
-                  transition: "0.2s",
-                  "&:hover": { transform: "scale(1.03)" }
+                  "&:hover": { transform: "scale(1.03)" },
                 }}
               >
                 Explore
@@ -199,14 +234,15 @@ const WebClass = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => (isPurchased ? handleExploreRedirect() : handleBuyRedirect())}
+                onClick={() =>
+                  isPurchased ? handleExploreRedirect() : handleBuyRedirect()
+                }
                 sx={{
                   width: "48%",
                   fontWeight: 600,
                   borderRadius: 2,
                   textTransform: "none",
-                  transition: "0.2s",
-                  "&:hover": { transform: "scale(1.03)" }
+                  "&:hover": { transform: "scale(1.03)" },
                 }}
               >
                 {isPurchased ? "Study" : "Buy"}
@@ -215,7 +251,7 @@ const WebClass = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={11.5} md={5}>
+        <Grid item xs={11.5} md={6}>
           <Card
             sx={{
               height: "100%",
@@ -300,7 +336,7 @@ const WebClass = () => {
             <img
               src="/images/dsa_files/webss.png"
               alt="DSA Preview"
-              style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10, margin: "0 auto" }}
+              style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10 }}
             />
           </Box>
         </DialogContent>
@@ -309,4 +345,5 @@ const WebClass = () => {
   );
 };
 
-export default WebClass;
+export default DSAClass;
+

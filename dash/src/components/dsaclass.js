@@ -54,7 +54,6 @@ const DSAClass = () => {
         }
       }
     };
-
     fetchPurchases();
   }, []);
 
@@ -131,37 +130,34 @@ const DSAClass = () => {
 
   return (
     <Box sx={{ flexGrow: 1, py: 0, px: 3 }}>
-      <Typography
-        variant="h4"
-        fontWeight={700}
-        mb={3}
-        textAlign="center"
-        color="primary"
-      >
+      <Typography variant="h4" fontWeight={700} mb={3} textAlign="center" color="primary">
         DSA Practice Sheet
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 2 : 15}>
+      <Grid container justifyContent="center" spacing={isMobile ? 2 : 10}>
         <Grid item xs={12} md={5}>
           <Card
             sx={{
               height: "100%",
               borderRadius: 4,
-              boxShadow: 8,
+              boxShadow: 6,
               backgroundColor: "#ffffff",
               display: "flex",
               flexDirection: "column",
+              transition: "0.3s ease",
+              maxWidth: isMobile ? "95%" : 400,
+              mx: "auto",
             }}
           >
             <CardMedia
               component="img"
-              height="260"
+              height="240"
               image={classDetails.image}
               alt={classDetails.title}
               sx={{
                 objectFit: "cover",
-                borderTopLeftRadius: "16px",
-                borderTopRightRadius: "16px",
+                borderTopLeftRadius: 16,
+                borderTopRightRadius: 16,
               }}
             />
             <CardContent sx={{ flexGrow: 1, px: 3 }}>
@@ -171,6 +167,7 @@ const DSAClass = () => {
               <Typography variant="body2" color="text.secondary" mt={1}>
                 {classDetails.description}
               </Typography>
+
               <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
                 <Button
                   variant="contained"
@@ -197,7 +194,6 @@ const DSAClass = () => {
                       py: 0.3,
                       borderRadius: 50,
                       ml: "auto",
-                      userSelect: "none",
                       fontSize: "1rem",
                     }}
                   >
@@ -217,14 +213,8 @@ const DSAClass = () => {
                 </Typography>
               )}
             </CardContent>
-            <CardActions
-              sx={{
-                px: 3,
-                pb: 3,
-                pt: 1,
-                justifyContent: "space-between",
-              }}
-            >
+
+            <CardActions sx={{ px: 3, pb: 3, pt: 1, justifyContent: "space-between" }}>
               <Button
                 variant="outlined"
                 color="primary"
@@ -233,7 +223,6 @@ const DSAClass = () => {
                   width: "48%",
                   fontWeight: 600,
                   borderRadius: 2,
-                  transition: "0.2s",
                   textTransform: "none",
                   "&:hover": { transform: "scale(1.03)" },
                 }}
@@ -249,8 +238,7 @@ const DSAClass = () => {
                 sx={{
                   width: "48%",
                   fontWeight: 600,
-                  borderRadius: "8px",
-                  transition: "0.2s",
+                  borderRadius: 2,
                   textTransform: "none",
                   "&:hover": { transform: "scale(1.03)" },
                 }}
@@ -276,12 +264,7 @@ const DSAClass = () => {
               }),
             }}
           >
-            <Typography
-              variant="h6"
-              fontWeight={600}
-              color="primary"
-              gutterBottom
-            >
+            <Typography variant="h6" fontWeight={600} color="primary" gutterBottom>
               What You'll Learn:
             </Typography>
             <Box component="ul" sx={{ pl: 2, m: 0 }}>
@@ -350,7 +333,7 @@ const DSAClass = () => {
             <img
               src="/images/dsa_files/dsass.png"
               alt="DSA Preview"
-              style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10, margin: "0 auto" }}
+              style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10 }}
             />
           </Box>
         </DialogContent>

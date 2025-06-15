@@ -8,7 +8,9 @@ import {
   CardActions,
   Box,
   Chip,
-  Stack,
+  Stack,  
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
@@ -178,6 +180,8 @@ const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInf
 
 const ClassCardPage = () => {
   const [purchasedBatches, setPurchasedBatches] = useState({});
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const fetchPurchases = async () => {
@@ -207,54 +211,56 @@ const ClassCardPage = () => {
   };
 
   return (
-<Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 16 } }}>
-  <Typography
-    variant="h5"
-    textAlign="center"
-    gutterBottom
-    sx={{
-      fontWeight: 800,
-      mb: { xs: 3, sm: 4 },
-      color: '#1976d2',
-      fontSize: { xs: '1.5rem', sm: '2rem' },
-    }}
-  >
-    Select Your Class
-  </Typography>
+    <Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 16 } }}>
+      <Typography
+        variant="h4"
+        textAlign="center"
+        gutterBottom
+        sx={{ fontWeight: 800, mb: 4, color: '#1976d2' }}
+      >
+        Select Your Class
+      </Typography>
 
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: { xs: 'column', sm: 'row' },
-      flexWrap: { xs: 'nowrap', sm: 'wrap' },
-      justifyContent: { sm: 'center' },
-      alignItems: { xs: 'center', sm: 'stretch' },
-      gap: { xs: 2.5, sm: 3 },
-      overflowX: { xs: 'auto', sm: 'unset' },
-      scrollSnapType: { xs: 'x mandatory', sm: 'none' },
-      px: { xs: 0.5, sm: 1 },
-      pb: 3,
-    }}
-  >
-    {classList.map((cls) => (
       <Box
-        key={cls.id}
         sx={{
-          flex: { xs: '0 0 90%', sm: '1 0 300px' },
-          scrollSnapAlign: 'start',
-          mx: { xs: 'auto', sm: 0 },
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'center' : 'flex-start',
+          justifyContent: isMobile ? 'center' : 'flex-start',
+          overflowX: isMobile ? 'hidden' : 'auto',
+          overflowY: isMobile ? 'auto' : 'hidden',
+          gap: isMobile ? 1 : 3,
+          pb: 2,
+          px: isMobile ? 0.5 : 1,
+          scrollSnapType: isMobile ? 'none' : 'x mandatory',
+          '&::-webkit-scrollbar': { height: 8 },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#ccc',
+            borderRadius: 4,
+          },
         }}
       >
-        <ClassCard
-          {...cls}
-          purchaseInfo={purchasedBatches[cls.id]}
-          onPurchase={handlePurchaseUpdate}
-        />
+        {classList.map((cls) => (
+          <Box
+            key={cls.id}
+            sx={{
+              flex: '0 0 auto',
+              scrollSnapAlign: isMobile ? 'none' : 'start',
+              display: 'flex',
+              justifyContent: 'center',
+              width: isMobile ? '100%' : 'auto',
+              px: 0,
+            }}
+          >
+            <ClassCard
+              {...cls}
+              purchaseInfo={purchasedBatches[cls.id]}
+              onPurchase={handlePurchaseUpdate}
+            />
+          </Box>
+        ))}
       </Box>
-    ))}
-  </Box>
-</Box>
-
+    </Box>
   );
 };
 
