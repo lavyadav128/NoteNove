@@ -21,7 +21,7 @@ import server from "../environment";
 const classDetails = {
   id: "web",
   title: "Web Development",
-  description: "Ace coding interviews with our 34-day DSA program ",
+  description: "Create modern, responsive web apps with our structured fullstack roadmap",
   image: "/images/dsa_files/web.png",
   price: 0,
 };
@@ -156,6 +156,11 @@ const DSAClass = () => {
             borderRadius: 4,
             boxShadow: 6,
             mx: "auto",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "scale(1.03)",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+            },
           }}
         >
           <CardMedia
@@ -260,6 +265,10 @@ const DSAClass = () => {
             backgroundColor: "#f5f5f5",
             p: 3,
             transition: "box-shadow 0.5s, transform 0.3s",
+            "&:hover": {
+              transform: "scale(1.03)",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+            },
             ...(highlightDesc && {
               boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)",
               transform: "scale(1.02)",
@@ -286,7 +295,7 @@ const DSAClass = () => {
                 variant="body1"
                 color="text.secondary"
                 sx={{
-                  mb: 2,
+                  mb: 0.6,
                   fontSize: "1rem",
                   listStyle: "none",
                   pl: 3,
