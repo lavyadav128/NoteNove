@@ -24,6 +24,10 @@ import SchoolIcon from '@mui/icons-material/School';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import PaymentIcon from '@mui/icons-material/Payment';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import TelegramIcon from '@mui/icons-material/Telegram';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
@@ -60,11 +64,8 @@ const Dashboard = () => {
   });
 
   const fallbackCourses = [
-    { title: "Class 10", route: "/cou" },
-    { title: "Class 11 (Jee + Boards)", route: "/cou" },
-    { title: "Class 12 (Jee + Boards)", route: "/cou" },
-    { title: "Class 11 (Neet + Boards)", route: "/cou" },
-    { title: "Class 12 (Neet + Boards)", route: "/cou" },
+    { title: "premium Batches", route: "/pre" },
+    { title: "Batches", route: "/cou" },
     { title: "DSA", route: "/dsac" },
     { title: "Web Development", route: "/webc" },
   ];
@@ -100,6 +101,7 @@ const Dashboard = () => {
           let route = "/cou";
           if (title === "DSA") route = "/dsac";
           else if (title === "Web Development") route = "/webc";
+          else if (title === "premium Batches") route = "/pre";
 
           return {
             title,
@@ -123,11 +125,9 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    const allCourses = [...purchases, ...fallbackCourses];
-    const uniqueTitles = Array.from(new Set(allCourses.map((course) => course.title)));
-    const options = uniqueTitles.map((title) => ({ label: title }));
+    const options = fallbackCourses.map((course) => ({ label: course.title }));
     setSearchOptions(options);
-  }, [purchases]);
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -163,54 +163,55 @@ const Dashboard = () => {
             </Box>
 
             {isMainDashboard && (
-  <Box
-    display="flex"
-    flexDirection={{ xs: "row", sm: "row" }}
-    gap={1}
-    alignItems="center"
-    justifyContent="center"
-    flexWrap={{ xs: "nowrap", sm: "nowrap" }}
-    sx={{ width: "100%", mb: 2 }}
-  >
-    <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: 500 } }}>
-      <Autocomplete
-        freeSolo
-        options={searchOptions}
-        inputValue={searchInput}
-        onInputChange={(event, newInputValue) => setSearchInput(newInputValue)}
-        onChange={(event, newValue) => {
-          if (newValue && newValue.label) handleSearch(newValue.label);
-        }}
-        getOptionLabel={(option) =>
-          typeof option === "string" ? option : option.label
-        }
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search batches..."
-            variant="outlined"
-            fullWidth
-            sx={{ height: "50px" }}
-          />
-        )}
-      />
-    </Box>
-    <Button
-      variant="contained"
-      onClick={() => handleSearch(searchInput)}
-      sx={{
-        height: "45px",
-        px: 3,
-        whiteSpace: "nowrap",
-        flexShrink: 0,
-      }}
-    >
-      Search
-    </Button>
-  </Box>
-)}
-
-
+              <Box
+                display="flex"
+                flexDirection={{ xs: "row", sm: "row" }}
+                gap={1}
+                alignItems="center"
+                justifyContent="center"
+                flexWrap={{ xs: "nowrap", sm: "nowrap" }}
+                sx={{ width: "100%", mb: 2 }}
+              >
+                <Box sx={{ flexGrow: 1, maxWidth: { xs: "100%", sm: 500 } }}>
+                  <Autocomplete
+                    freeSolo
+                    options={searchOptions}
+                    inputValue={searchInput}
+                    onInputChange={(event, newInputValue) =>
+                      setSearchInput(newInputValue)
+                    }
+                    onChange={(event, newValue) => {
+                      if (newValue && newValue.label)
+                        handleSearch(newValue.label);
+                    }}
+                    getOptionLabel={(option) =>
+                      typeof option === "string" ? option : option.label
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Search batches..."
+                        variant="outlined"
+                        fullWidth
+                        sx={{ height: "50px" }}
+                      />
+                    )}
+                  />
+                </Box>
+                <Button
+                  variant="contained"
+                  onClick={() => handleSearch(searchInput)}
+                  sx={{
+                    height: "45px",
+                    px: 3,
+                    whiteSpace: "nowrap",
+                    flexShrink: 0,
+                  }}
+                >
+                  Search
+                </Button>
+              </Box>
+            )}
 
             {showBackButton && (
               <Button
@@ -222,117 +223,190 @@ const Dashboard = () => {
               </Button>
             )}
 
-            {isMainDashboard && (
-              <Fade in={true} timeout={1000}>
-                <Box mt={6}>
-                  <Typography variant="h5" fontWeight={700} gutterBottom>
-                    Dashboard Sections
-                  </Typography>
+{isMainDashboard && (
+  <Fade in={true} timeout={1000}>
+    <Box mt={6}>
+      <Typography variant="h5" fontWeight={700} gutterBottom>
+        Dashboard Sections
+      </Typography>
 
-                  {/* Spacing added below title */}
-                  <Box mt={2} />
+      <Box mt={2} />
 
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                      <Paper
-                        elevation={4}
-                        sx={{
-                          p: 5,
-                          borderRadius: 3,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          transition: "0.3s",
-                          "&:hover": {
-                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
-                            transform: "scale(1.03)",
-                          },
-                        }}
-                        onClick={() => navigate("/mybatches")}
-                      >
-                        <SchoolIcon fontSize="large" />
-                        <Typography variant="h6" fontWeight={600}>My Batches</Typography>
-                        <Typography variant="body2">Track your classes by Class ID.</Typography>
-                      </Paper>
-                    </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={12} sm={6}>
+          <Paper
+            elevation={4}
+            sx={{
+              p: 5,
+              borderRadius: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": {
+                boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                transform: "scale(1.03)",
+              },
+            }}
+            onClick={() => navigate("/mybatches")}
+          >
+            <SchoolIcon fontSize="large" />
+            <Typography variant="h6" fontWeight={600}>
+              My Batches
+            </Typography>
+            <Typography variant="body2">
+              Track your classes by Class ID.
+            </Typography>
+          </Paper>
+        </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <Paper
-                        elevation={4}
-                        sx={{
-                          p: 5,
-                          borderRadius: 3,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          transition: "0.3s",
-                          "&:hover": {
-                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
-                            transform: "scale(1.03)",
-                          },
-                        }}
-                        onClick={() => navigate("/notifications")}
-                      >
-                        <NotificationsIcon fontSize="large" />
-                        <Typography variant="h6" fontWeight={600}>Notifications</Typography>
-                        <Typography variant="body2">View important messages from the owner.</Typography>
-                      </Paper>
-                    </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper
+            elevation={4}
+            sx={{
+              p: 5,
+              borderRadius: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": {
+                boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                transform: "scale(1.03)",
+              },
+            }}
+            onClick={() => navigate("/notifications")}
+          >
+            <NotificationsIcon fontSize="large" />
+            <Typography variant="h6" fontWeight={600}>
+              Notifications
+            </Typography>
+            <Typography variant="body2">
+              View important messages from the owner.
+            </Typography>
+          </Paper>
+        </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <Paper
-                        elevation={4}
-                        sx={{
-                          p: 5,
-                          borderRadius: 3,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          transition: "0.3s",
-                          "&:hover": {
-                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
-                            transform: "scale(1.03)",
-                          },
-                        }}
-                        onClick={() => navigate("/doubts")}
-                      >
-                        <HelpOutlineIcon fontSize="large" />
-                        <Typography variant="h6" fontWeight={600}>Doubt / Issue</Typography>
-                        <Typography variant="body2">Raise and track your academic or technical doubts.</Typography>
-                      </Paper>
-                    </Grid>
+        <Grid item xs={12} sm={6}>
+          <Paper
+            elevation={4}
+            sx={{
+              p: 5,
+              borderRadius: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": {
+                boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                transform: "scale(1.03)",
+              },
+            }}
+            onClick={() => navigate("/doubts")}
+          >
+            <HelpOutlineIcon fontSize="large" />
+            <Typography variant="h6" fontWeight={600}>
+              Doubt / Issue
+            </Typography>
+            <Typography variant="body2">
+              Raise and track your academic or technical doubts.
+            </Typography>
+          </Paper>
+        </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <Paper
-                        elevation={4}
-                        sx={{
-                          p: 5,
-                          borderRadius: 3,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          cursor: "pointer",
-                          transition: "0.3s",
-                          "&:hover": {
-                            boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
-                            transform: "scale(1.03)",
-                          },
-                        }}
-                        onClick={() => navigate("/payments")}
-                      >
-                        <PaymentIcon fontSize="large" />
-                        <Typography variant="h6" fontWeight={600}>Payments</Typography>
-                        <Typography variant="body2">Manage your payments and subscriptions.</Typography>
-                      </Paper>
-                    </Grid>
-                  </Grid>
-                </Box>
-              </Fade>
-            )}
+        <Grid item xs={12} sm={6}>
+          <Paper
+            elevation={4}
+            sx={{
+              p: 5,
+              borderRadius: 3,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              cursor: "pointer",
+              transition: "0.3s",
+              "&:hover": {
+                boxShadow: "0px 0px 20px 4px rgba(0, 123, 255, 0.4)",
+                transform: "scale(1.03)",
+              },
+            }}
+            onClick={() => navigate("/payments")}
+          >
+            <PaymentIcon fontSize="large" />
+            <Typography variant="h6" fontWeight={600}>
+              Payments
+            </Typography>
+            <Typography variant="body2">
+              Manage your payments and subscriptions.
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
 
+
+
+
+      {/* 📞 Contact With Us Section - At the bottom */}
+      <Box mt={8} textAlign="center">
+        <Typography variant="h6" fontWeight={700} mb={2}>
+          📞 Contact With Us
+        </Typography>
+        <Box
+          display="flex"
+          justifyContent="center"
+          gap={3}
+          flexWrap="wrap"
+        >
+          <IconButton
+            component="a"
+            href="https://whatsapp.com/channel/0029VbBV3BB5kg732Ch60Q1R"
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#0077b5" }}
+          >
+            <LinkedInIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://whatsapp.com/channel/0029VbBV3BB5kg732Ch60Q1R"
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#25D366" }}
+          >
+            <WhatsAppIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://www.instagram.com/crrack_it?igsh=MWI5d2FodmJocjFvbw=="
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#E4405F" }}
+          >
+            <InstagramIcon fontSize="large" />
+          </IconButton>
+          <IconButton
+            component="a"
+            href="https://t.me/+PiG4n-LCEw0yMDg1"
+            target="_blank"
+            rel="noopener"
+            sx={{ color: "#0088cc" }}
+          >
+            <TelegramIcon fontSize="large" />
+          </IconButton>
+        </Box>
+      </Box>
+    </Box>
+  </Fade>
+)}
+
+
+
+
+
+            {/* Routes */}
             <Routes>
               <Route path="/auth" element={<Authentication />} />
               <Route path="/dsac" element={<Dsaclass />} />
@@ -352,9 +426,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
-
 
 
 

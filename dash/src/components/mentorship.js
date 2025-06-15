@@ -34,7 +34,11 @@ const MentorshipPage = () => {
     }
   };
 
-  const renderCard = (title, description, path) => (
+  const handleJoinWhatsApp = () => {
+    window.open("https://chat.whatsapp.com/BfPYESB5kKgGwSoSP3HZ6f", "_blank");
+  };
+
+  const renderCard = (title, description) => (
     <Card
       sx={{
         borderRadius: 3,
@@ -66,9 +70,7 @@ const MentorshipPage = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() =>
-              navigate(`/premium/class/${classId}/mentorship/${path}`)
-            }
+            onClick={handleJoinWhatsApp}
             sx={{
               textTransform: "none",
               px: 3,
@@ -132,7 +134,7 @@ const MentorshipPage = () => {
           <Grid container spacing={4} justifyContent="center">
             {mentorshipOptions.map((opt) => (
               <Grid item xs={12} sm={6} md={6} key={opt.title}>
-                {renderCard(opt.title, opt.description, opt.linkPath)}
+                {renderCard(opt.title, opt.description)}
               </Grid>
             ))}
           </Grid>

@@ -34,9 +34,8 @@ const Menu = () => {
     { to: "/webc", label: "Web-Dev", idx: 2 },
     { to: "/cou", label: "Batches", idx: 3 },
     { to: "/pre", label: "Premium Batches", idx: 4 },
-    { to: "/", label: "Logout", idx: 5, isLogout: true }, // ✅ now unique
+    { to: "/", label: "Logout", idx: 5, isLogout: true },
   ];
-  
 
   return (
     <div
@@ -86,7 +85,15 @@ const Menu = () => {
 
       {/* Desktop Menus */}
       {!isMobile && (
-        <div className="menus" style={{ marginLeft: "auto" }}>
+        <div
+          className="menus"
+          style={{
+            marginLeft: "auto",
+            display: "flex",
+            justifyContent: "flex-end",
+            flex: 1,
+          }}
+        >
           <ul
             style={{
               display: "flex",
@@ -113,7 +120,7 @@ const Menu = () => {
                     display: "flex",
                     alignItems: "center",
                     height: "100%",
-                    padding: "0 8px",
+                    padding: "0 10px",
                     cursor: "pointer",
                     lineHeight: 1,
                   }}
