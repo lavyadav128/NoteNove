@@ -143,8 +143,8 @@ const WebClass = () => {
         Full Stack Web Development
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 0.2 : 15}>
-        <Grid item xs={11.5} md={5}>
+      <Grid container justifyContent="center" spacing={isMobile ? 2 : 15}>
+        <Grid item xs={12} md={5}>
           <Card
             sx={{ height: "100%", borderRadius: 4, boxShadow: 8, backgroundColor: "#ffffff", display: "flex", flexDirection: "column" }}
           >
