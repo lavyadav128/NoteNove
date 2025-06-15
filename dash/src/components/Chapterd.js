@@ -820,7 +820,7 @@ const getCardStyle = (key) => {
       transform: "scale(1.03)",
       boxShadow: `0 10px 25px ${shadow}66, 0 12px 30px ${shadow}99`,
     },
-    height: "100%",
+    height: { xs: 160, sm: "100%" }, // 👈 This line adds shorter height on mobile
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
