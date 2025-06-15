@@ -8,9 +8,13 @@ import {
   Collapse,
   Snackbar,
   Alert,
+  Dialog,
+  DialogContent,
+  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
@@ -45,6 +49,8 @@ const WebDevTopics = () => {
   const [expandedTopic, setExpandedTopic] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [pdfUrl, setPdfUrl] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -56,22 +62,23 @@ const WebDevTopics = () => {
   const openPdfIfExists = async (e, topicSlug, slug) => {
     e.preventDefault();
     const url = `/images/fullstack/${topicSlug}/${slug}.pdf`;
-    const newTab = window.open("", "_blank");
 
     try {
       const response = await fetch(url, { method: "HEAD" });
       const contentType = response.headers.get("content-type") || "";
 
       if (response.ok && contentType.includes("pdf")) {
-        newTab.location.href = url;
+        const viewerUrl = isMobile
+          ? `https://docs.google.com/gview?embedded=true&url=${window.location.origin}${url}`
+          : url;
+        setPdfUrl(viewerUrl);
+        setModalOpen(true);
       } else {
-        newTab.close();
         if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
         setSnackbarMessage("This PDF file does not exist yet.");
         setSnackbarOpen(true);
       }
     } catch (error) {
-      newTab.close();
       if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
       setSnackbarMessage("Error checking the file.");
       setSnackbarOpen(true);
@@ -90,6 +97,11 @@ const WebDevTopics = () => {
     setSnackbarOpen(false);
   };
 
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setPdfUrl(null);
+  };
+
   const cardStyle = {
     bgcolor: "#e3f2fd",
     borderRadius: 3,
@@ -99,8 +111,7 @@ const WebDevTopics = () => {
       transform: "scale(1.03)",
       boxShadow: "0 10px 25px #1976d266, 0 12px 30px #1976d299",
     },
-    height: { xs: "fit-content",// or a fixed height like "250px"
-       sm: "100%" },
+    height: { xs: "fit-content", sm: "100%" },
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -238,6 +249,47 @@ const WebDevTopics = () => {
           {content}
         </Card>
       )}
+
+      <Dialog
+        open={modalOpen}
+        onClose={handleCloseModal}
+        fullScreen
+        PaperProps={{
+          sx: {
+            backgroundColor: "#000",
+            position: "relative",
+          },
+        }}
+      >
+        <IconButton
+          onClick={handleCloseModal}
+          sx={{
+            position: "absolute",
+            top: 12,
+            right: 12,
+            color: "#fff",
+            zIndex: 10,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+        <DialogContent
+          sx={{
+            p: 0,
+            height: "100vh",
+          }}
+        >
+          {pdfUrl && (
+            <iframe
+              src={pdfUrl}
+              width="100%"
+              height="100%"
+              style={{ border: "none" }}
+              title="PDF Viewer"
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Snackbar
         open={snackbarOpen}
