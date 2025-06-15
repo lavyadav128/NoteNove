@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import DownloadIcon from "@mui/icons-material/Download";
 import { useParams, useNavigate } from "react-router-dom";
 
 const pyqData = {
@@ -92,6 +93,15 @@ const FullPyqPage = () => {
     }
   };
 
+  const handleDownloadPdf = (slug) => {
+    const link = document.createElement("a");
+    link.href = `/images/pyq/${slug}`;
+    link.download = slug;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const papers = pyqData[classId] || [];
 
   return (
@@ -140,6 +150,7 @@ const FullPyqPage = () => {
                     sx={{
                       borderRadius: 2,
                       transition: "0.2s",
+                      position: "relative",
                       "&:hover": {
                         transform: "scale(1.01)",
                         boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
@@ -150,13 +161,18 @@ const FullPyqPage = () => {
                       <Typography variant="subtitle1" fontWeight={600} gutterBottom align="center">
                         {paper.title}
                       </Typography>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={(e) => openPdfIfExists(e, paper.slug)}
-                      >
-                        View PDF
-                      </Button>
+                      <Box display="flex" width="100%" alignItems="center">
+                        <Button
+                          variant="contained"
+                          onClick={(e) => openPdfIfExists(e, paper.slug)}
+                          sx={{ flex: 1 }}
+                        >
+                          View PDF
+                        </Button>
+                        <IconButton onClick={() => handleDownloadPdf(paper.slug)}>
+                          <DownloadIcon />
+                        </IconButton>
+                      </Box>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -206,7 +222,7 @@ const FullPyqPage = () => {
               gutterBottom
               sx={{ mb: 4 }}
             >
-              Full PYQ Papers - Class {classId}
+              Full PYQ Papers 
             </Typography>
 
             <Grid container spacing={3}>
@@ -217,6 +233,7 @@ const FullPyqPage = () => {
                     sx={{
                       borderRadius: 3,
                       transition: "0.2s",
+                      position: "relative",
                       "&:hover": {
                         transform: "scale(1.02)",
                         boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
@@ -227,13 +244,18 @@ const FullPyqPage = () => {
                       <Typography variant="subtitle1" fontWeight={600} gutterBottom align="center">
                         {paper.title}
                       </Typography>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={(e) => openPdfIfExists(e, paper.slug)}
-                      >
-                        View PDF
-                      </Button>
+                      <Box display="flex" width="100%" alignItems="center">
+                        <Button
+                          variant="contained"
+                          onClick={(e) => openPdfIfExists(e, paper.slug)}
+                          sx={{ flex: 1 }}
+                        >
+                          View PDF
+                        </Button>
+                        <IconButton onClick={() => handleDownloadPdf(paper.slug)}>
+                          <DownloadIcon />
+                        </IconButton>
+                      </Box>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -243,7 +265,6 @@ const FullPyqPage = () => {
         )}
       </Box>
 
-      {/* PDF Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
         <Box
           sx={{
@@ -273,7 +294,6 @@ const FullPyqPage = () => {
         </Box>
       </Modal>
 
-      {/* Snackbar */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

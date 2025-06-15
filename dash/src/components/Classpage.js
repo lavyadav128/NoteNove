@@ -214,18 +214,12 @@ const ClassPage = () => {
 
       {isPremium && tabIndex === 1 && (
         <Grid container spacing={4} justifyContent="center">
-          <Grid item xs={12} sm={6} md={6}>
-            {renderCard(
-              "Chapter-wise Tests",
-              "Evaluate topic-level mastery with individual chapter tests.",
-              `/premium/class/${classId}/test-series/chapter-wise`
-            )}
-          </Grid>
+
           <Grid item xs={12} sm={6} md={6}>
             {renderCard(
               "Full Syllabus Mock Tests",
               "Simulate real exam conditions with full-length mocks.",
-              `/premium/class/${classId}/test-series/full-mocks`
+              `/premium/class/${classId}/test`
             )}
           </Grid>
         </Grid>

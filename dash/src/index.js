@@ -113,8 +113,7 @@ root.render(
 
 
             {/* Test Series Pages */}
-            <Route path="/class/:classId/test-series/chapter-wise" element={<TestSeries type="chapter-wise" />} />
-            <Route path="/class/:classId/test-series/full-mocks" element={<TestSeries type="full-mocks" />} />
+            <Route path="/premium/class/:classId/test" element={<TestSeries />} />
 
 
 

@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
@@ -215,20 +214,39 @@ const ChapterDetail = () => {
         Chapter: {formattedChapter}
       </Typography>
 
-      <Grid container spacing={4}>
+      <Grid container spacing={3}>
         {Object.entries(pdfLinks).map(([label, link]) => (
           <Grid item xs={12} sm={6} key={label}>
-            <Card sx={getCardStyle(label)}>
+            <Card
+              sx={{
+                borderRadius: "16px",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                transition: "transform 0.2s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.02)",
+                  boxShadow: "0 6px 24px rgba(0, 0, 0, 0.15)",
+                },
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
               <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600 }}>
+                <Typography variant="h6" fontWeight={600} gutterBottom>
                   {formatLabel(label)}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {getLabelDescription(label)}
                 </Typography>
               </CardContent>
-              <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Button variant="contained" color="primary" onClick={(e) => openPdfIfExists(e, link, label)} sx={{ flexGrow: 1 }}>
+              <CardActions sx={{ justifyContent: "space-between", px: 2, pb: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={(e) => openPdfIfExists(e, link, label)}
+                >
                   {label === "video" ? "Play Video" : "Open PDF"}
                 </Button>
                 {label !== "video" && (
@@ -324,32 +342,6 @@ const getLabelDescription = (key) => {
     case "video": return "Revise Concepts in Minutes  (COMING SOON ...)";
     default: return "";
   }
-};
-
-const getCardStyle = (key) => {
-  const colors = {
-    mindmap: ["#e3f2fd", "#1976d2"],
-    shortNotes: ["#fff3e0", "#fb8c00"],
-    completeNotes: ["#e8f5e9", "#4caf50"],
-    oneShotNotes: ["#f3e5f5", "#9c27b0"],
-    video: ["#fbe9e7", "#d84315"],
-  };
-
-  const [bg, shadow] = colors[key] || ["#fff", "#ccc"];
-  return {
-    bgcolor: bg,
-    borderRadius: 3,
-    boxShadow: `0 4px 12px rgba(0, 0, 0, 0.1), 0 6px 20px ${shadow}40`,
-    transition: "transform 0.2s ease, box-shadow 0.2s ease",
-    "&:hover": {
-      transform: "scale(1.03)",
-      boxShadow: `0 10px 25px ${shadow}66, 0 12px 30px ${shadow}99`,
-    },
-    height: { sm: "100%" }, // 👈 This line adds shorter height on mobile
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  };
 };
 
 export default ChapterDetail;

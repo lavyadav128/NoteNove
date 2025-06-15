@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import CloseIcon from "@mui/icons-material/Close";
+import DownloadIcon from "@mui/icons-material/Download";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTheme } from "@mui/material/styles";
@@ -85,8 +86,12 @@ const WebDevTopics = () => {
     }
   };
 
-  const handleOpenNotes = (topicSlug, slug, e) => {
-    openPdfIfExists(e, topicSlug, slug);
+  const handleDownload = (topicSlug, slug) => {
+    const url = `/images/fullstack/${topicSlug}/${slug}.pdf`;
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${slug}.pdf`;
+    a.click();
   };
 
   const handleToggleExpand = (slug) => {
@@ -103,19 +108,21 @@ const WebDevTopics = () => {
   };
 
   const cardStyle = {
-    bgcolor: "#e3f2fd",
-    borderRadius: 3,
-    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1), 0 6px 20px #1976d240",
-    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+    backgroundColor: "#ffffff",
+    borderRadius: "20px",
+    boxShadow:
+      "0 4px 8px rgba(0, 0, 0, 0.12), 0 6px 20px rgba(25, 118, 210, 0.2)",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
     "&:hover": {
-      transform: "scale(1.03)",
-      boxShadow: "0 10px 25px #1976d266, 0 12px 30px #1976d299",
+      transform: "scale(1.02)",
+      boxShadow:
+        "0 8px 16px rgba(0, 0, 0, 0.15), 0 12px 32px rgba(25, 118, 210, 0.3)",
     },
-    height: { xs: "fit-content", sm: "100%" },
+    padding: 2,
+    height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    p: 2,
   };
 
   const content = (
@@ -196,32 +203,65 @@ const WebDevTopics = () => {
                             .toLowerCase()
                             .replace(/\s+/g, "-")}`;
                           return (
-                            <Button
+                            <Box
                               key={index}
-                              variant="outlined"
-                              color="primary"
-                              fullWidth
-                              sx={{ mb: 1, textTransform: "none" }}
-                              onClick={(e) =>
-                                handleOpenNotes(topic.slug, subSlug, e)
-                              }
+                              display="flex"
+                              alignItems="center"
+                              gap={1}
+                              mb={1}
                             >
-                              {sub}
-                            </Button>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                fullWidth
+                                sx={{ textTransform: "none" }}
+                                onClick={(e) =>
+                                  openPdfIfExists(e, topic.slug, subSlug)
+                                }
+                              >
+                                {sub}
+                              </Button>
+                              <IconButton
+                                onClick={() =>
+                                  handleDownload(topic.slug, subSlug)
+                                }
+                                size="small"
+                                sx={{
+                                  bgcolor: "#f0f0f0",
+                                  "&:hover": { bgcolor: "#e0e0e0" },
+                                }}
+                              >
+                                <DownloadIcon fontSize="small" />
+                              </IconButton>
+                            </Box>
                           );
                         })}
                       </Box>
                     </Collapse>
                   </>
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={(e) => handleOpenNotes(topic.slug, topic.slug, e)}
-                  >
-                    Open Notes
-                  </Button>
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      onClick={(e) =>
+                        openPdfIfExists(e, topic.slug, topic.slug)
+                      }
+                    >
+                      Open Notes
+                    </Button>
+                    <IconButton
+                      onClick={() => handleDownload(topic.slug, topic.slug)}
+                      size="small"
+                      sx={{
+                        bgcolor: "#f0f0f0",
+                        "&:hover": { bgcolor: "#e0e0e0" },
+                      }}
+                    >
+                      <DownloadIcon fontSize="small" />
+                    </IconButton>
+                  </Box>
                 )}
               </Card>
             </Grid>
@@ -238,8 +278,8 @@ const WebDevTopics = () => {
       ) : (
         <Card
           sx={{
-            width: "95vw",
-            maxWidth: 12000,
+            width: "100vw",
+            maxWidth: 1355,
             borderRadius: 4,
             boxShadow:
               "0 4px 8px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.15)",
@@ -267,7 +307,11 @@ const WebDevTopics = () => {
             position: "absolute",
             top: 12,
             right: 12,
-            color: "#fff",
+            color: "#000",
+            bgcolor: "#fff",
+            "&:hover": {
+              bgcolor: "#eee",
+            },
             zIndex: 10,
           }}
         >
