@@ -119,8 +119,7 @@ root.render(
 
 
             {/* PYQ Series Pages */}
-            <Route path="/class/:classId/pyq/chapter-wise" element={<PYQSeries type="chapter-wise" />} />
-            <Route path="/class/:classId/pyq/full-papers" element={<PYQSeries type="full-papers" />} />
+            <Route path="/premium/class/:classId/pyq" element={<PYQSeries />} />
 
 
             <Route path="premium/class/:classId/mentorship" element={<MentorshipPage />} />
