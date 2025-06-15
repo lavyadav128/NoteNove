@@ -27,17 +27,24 @@ export default function LandingPage() {
       {/* Top AppBar */}
       <AppBar
         position="static"
-        elevation={1} // Add a small elevation shadow to separate AppBar
+        elevation={1}
         sx={{
           background: 'transparent',
-          boxShadow: '0 2px 6px rgba(0,0,0,0.1)', // subtle shadow for separation
-          borderBottom: '1px solid #ffddb5', // optional subtle border
+          boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+          borderBottom: '1px solid #ffddb5',
         }}
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Stack direction="row" spacing={1} alignItems="center">
             <SchoolIcon sx={{ color: '#FF9839' }} />
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#333' }}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 'bold',
+                color: '#333',
+                fontSize: { xs: '1rem', sm: '1.25rem' },
+              }}
+            >
               Note Nova
             </Typography>
           </Stack>
@@ -48,6 +55,9 @@ export default function LandingPage() {
               sx={{
                 backgroundColor: '#FF9839',
                 '&:hover': { backgroundColor: '#e07e25' },
+                fontSize: { xs: '0.75rem', sm: '1rem' },
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1 },
               }}
             >
               Login
@@ -61,26 +71,41 @@ export default function LandingPage() {
         maxWidth="lg"
         sx={{
           flex: 1,
-          py: 6,
+          py: { xs: 4, sm: 6 },
           display: 'flex',
           alignItems: 'center',
         }}
       >
-        <Grid container spacing={4} alignItems="center">
+        <Grid
+          container
+          spacing={4}
+          alignItems="center"
+          direction={{ xs: 'column-reverse', md: 'row' }}
+        >
           {/* Left Content */}
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' } }}>
             <Typography
               variant="h3"
               component="h1"
               gutterBottom
-              sx={{ fontWeight: 'bold', color: '#333' }}
+              sx={{
+                fontWeight: 'bold',
+                color: '#333',
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
+              }}
             >
               All You Need to{' '}
               <span style={{ color: '#FF9839' }}>Study, Revise, & Conquer</span>
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-              Smart notes, mind maps, and quick revision tools — all in one
-              place.
+            <Typography
+              variant="h6"
+              color="text.secondary"
+              sx={{
+                mb: 4,
+                fontSize: { xs: '1rem', sm: '1.2rem' },
+              }}
+            >
+              Smart notes, mind maps, and quick revision tools — all in one place.
             </Typography>
             <Button
               component={Link}
@@ -93,6 +118,7 @@ export default function LandingPage() {
                 borderRadius: '30px',
                 px: 5,
                 py: 1.5,
+                fontSize: { xs: '0.9rem', sm: '1rem' },
               }}
             >
               Get Started
@@ -104,15 +130,19 @@ export default function LandingPage() {
             item
             xs={12}
             md={6}
-            sx={{ display: 'flex', justifyContent: 'center' }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              mb: { xs: 4, md: 0 },
+            }}
           >
             <Box
               component="img"
               src={'ai.png'}
               alt="AI Student"
               sx={{
-                width: '380px', // increased size
-                height: '380px', // increased size
+                width: { xs: '240px', sm: '300px', md: '380px' },
+                height: { xs: '240px', sm: '300px', md: '380px' },
                 borderRadius: '50%',
                 objectFit: 'cover',
                 boxShadow: '0 6px 24px rgba(0, 0, 0, 0.2)',
