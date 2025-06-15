@@ -1224,8 +1224,8 @@ const SubjectPage = () => {
               >
                 <Card
                   sx={{
-                    height: { xs: 80, sm: 140, md: 160 }, // 👈 Set smaller height on mobile (xs)
-                    minHeight: 120,
+                    height: { xs: 60, sm: 80, md: 100 }, // 👈 Set smaller height on mobile (xs)
+                    minHeight: 100,
                     borderRadius: 3,
                     boxShadow:
                       "0 4px 12px rgba(25, 118, 210, 0.15), 0 6px 20px rgba(25, 118, 210, 0.25)",
