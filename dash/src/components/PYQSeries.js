@@ -20,25 +20,25 @@ import { useParams, useNavigate } from "react-router-dom";
 
 const pyqData = {
   1: [
-    { title: "Full PYQ Paper 1", slug: "11.pdf" },
-    { title: "Full PYQ Paper 2", slug: "12.pdf" },
-    { title: "Full PYQ Paper 3", slug: "13.pdf" },
-    { title: "Full PYQ Paper 4", slug: "14.pdf" },
-    { title: "Full PYQ Paper 5", slug: "15.pdf" },
+    { title: "Full PYQ (Paper 1)", slug: "11.pdf" },
+    { title: "Full PYQ (Paper 2)", slug: "12.pdf" },
+    { title: "Full PYQ (Paper 3)", slug: "13.pdf" },
+    { title: "Full PYQ (Paper 4)", slug: "14.pdf" },
+    { title: "Full PYQ (Paper 5)", slug: "15.pdf" },
   ],
   2: [
-    { title: "Full PYQ Paper 1", slug: "21.pdf" },
-    { title: "Full PYQ Paper 2", slug: "22.pdf" },
-    { title: "Full PYQ Paper 3", slug: "23.pdf" },
-    { title: "Full PYQ Paper 4", slug: "24.pdf" },
-    { title: "Full PYQ Paper 5", slug: "25.pdf" },
+    { title: "Full PYQ (Paper 1)", slug: "21.pdf" },
+    { title: "Full PYQ (Paper 2)", slug: "22.pdf" },
+    { title: "Full PYQ (Paper 3)", slug: "23.pdf" },
+    { title: "Full PYQ (Paper 4)", slug: "24.pdf" },
+    { title: "Full PYQ (Paper 5)", slug: "25.pdf" },
   ],
   3: [
-    { title: "Full PYQ Paper 1", slug: "31.pdf" },
-    { title: "Full PYQ Paper 2", slug: "32.pdf" },
-    { title: "Full PYQ Paper 3", slug: "33.pdf" },
-    { title: "Full PYQ Paper 4", slug: "34.pdf" },
-    { title: "Full PYQ Paper 5", slug: "35.pdf" },
+    { title: "Full PYQ (Paper 1)", slug: "31.pdf" },
+    { title: "Full PYQ (Paper 2)", slug: "32.pdf" },
+    { title: "Full PYQ (Paper 3)", slug: "33.pdf" },
+    { title: "Full PYQ (Paper 4)", slug: "34.pdf" },
+    { title: "Full PYQ (Paper 5)", slug: "35.pdf" },
   ],
 };
 

@@ -74,6 +74,8 @@ import ChatBot from './components/chatbot';
 // ➕ New Components for Test Series and PYQ
 import TestSeries from './components/TestSeries';
 import PYQSeries from './components/PYQSeries';
+import TestAttemptPage from "./components/testattempt";
+
 
 
 
@@ -114,6 +116,8 @@ root.render(
 
             {/* Test Series Pages */}
             <Route path="/premium/class/:classId/test" element={<TestSeries />} />
+            <Route path="/attempt-test" element={<TestAttemptPage />} />
+
 
 
 
