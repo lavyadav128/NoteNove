@@ -1,10 +1,7 @@
-
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
-  Grid,
   Card,
   CardContent,
   CardMedia,
@@ -22,7 +19,7 @@ import { makeAuthenticatedRequest } from "./makeauth";
 import server from "../environment";
 
 const classDetails = {
-  id: "dsa",
+  id: "web",
   title: "Web Development",
   description: "Ace coding interviews with our 34-day DSA program ",
   image: "/images/dsa_files/web.png",
@@ -131,13 +128,37 @@ const DSAClass = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <Box sx={{ flexGrow: 1, py: 0, px: 3 }}>
+    <Box sx={{ flexGrow: 1, py: 0, px: 18 }}>
       <Typography variant="h4" fontWeight={700} mb={3} textAlign="center" color="primary">
-      Fullstack Web Development
+        Fullstack Web Development
       </Typography>
 
-      <Grid container justifyContent="center" spacing={isMobile ? 2 : 10}>
-        <Grid item xs={12} md={5}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "center" : "flex-start",
+          justifyContent: isMobile ? "center" : "flex-start",
+          overflowX: isMobile ? "hidden" : "auto",
+          overflowY: isMobile ? "auto" : "hidden",
+          gap: isMobile ? 2 : 15,
+          pb: 2,
+          px: isMobile ? 0.5 : 1,
+          scrollSnapType: isMobile ? "none" : "x mandatory",
+          "&::-webkit-scrollbar": { height: 8 },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#ccc",
+            borderRadius: 4,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            scrollSnapAlign: isMobile ? "none" : "start",
+            flexShrink: 0,
+            width: isMobile ? "100%" : "auto",
+          }}
+        >
           <Card
             sx={{
               height: "100%",
@@ -249,9 +270,15 @@ const DSAClass = () => {
               </Button>
             </CardActions>
           </Card>
-        </Grid>
+        </Box>
 
-        <Grid item xs={11.5} md={6}>
+        <Box
+          sx={{
+            scrollSnapAlign: isMobile ? "none" : "start",
+            flexShrink: 0,
+            width: isMobile ? "100%" : "auto",
+          }}
+        >
           <Card
             sx={{
               height: "100%",
@@ -286,7 +313,7 @@ const DSAClass = () => {
                   variant="body1"
                   color="text.secondary"
                   sx={{
-                    mb: 1.5,
+                    mb: 2.5,
                     fontSize: "1rem",
                     lineHeight: 1.6,
                     listStyle: "none",
@@ -321,8 +348,8 @@ const DSAClass = () => {
               View Screenshot
             </Button>
           </Card>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       <Dialog open={openModal} onClose={handleCloseModal} maxWidth="sm" fullWidth>
         <DialogContent sx={{ position: "relative", p: 3, textAlign: "center" }}>
@@ -346,4 +373,3 @@ const DSAClass = () => {
 };
 
 export default DSAClass;
-

@@ -229,7 +229,7 @@ const ClassCardPage = () => {
           justifyContent: isMobile ? 'center' : 'flex-start',
           overflowX: isMobile ? 'hidden' : 'auto',
           overflowY: isMobile ? 'auto' : 'hidden',
-          gap: isMobile ? 1 : 3,
+          gap: isMobile ? 2 : 3,
           pb: 2,
           px: isMobile ? 0.5 : 1,
           scrollSnapType: isMobile ? 'none' : 'x mandatory',
