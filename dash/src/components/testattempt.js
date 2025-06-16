@@ -116,7 +116,7 @@ const TestAttemptPage = () => {
           p: isMobile ? 2 : 4,
           width: isMobile ? "100%" : "100%",
           maxWidth: isMobile ? "100%" : "9000px",
-          height: isMobile ? "100%" : "700px",
+          height: isMobile ? "95%" : "700px",
           boxShadow: 10,
           backgroundColor: "#ffffff",
           maxHeight: isMobile ? "100%" : "95vh",
