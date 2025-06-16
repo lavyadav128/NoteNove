@@ -49,7 +49,7 @@ const TestAttemptPage = () => {
     if (paused || submitted) return;
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev === 0) {
+        if (prev === 1) {
           handleSubmit();
           return 0;
         }
