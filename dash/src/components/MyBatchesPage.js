@@ -100,9 +100,18 @@ const MyBatchesPage = () => {
     // Determine if it's premium: from backend OR manually set by classId
     const isPremium = batch.isPremium === true || MANUAL_PREMIUM_IDS.includes(batch.classId);
 
-    const studyLink = isPremium
-      ? `/premium/class/${batch.classId}`
-      : `/class/${batch.classId}`;
+    let studyLink = '';
+
+    if (batch.classId === 'dsa') {
+      studyLink = '/dsa';
+    } else if (batch.classId === 'web') {
+      studyLink = '/web';
+    } else {
+      studyLink = isPremium
+        ? `/premium/class/${batch.classId}`
+        : `/class/${batch.classId}`;
+    };
+    
 
     return (
       <Grid item xs={12} sm={6} md={4} key={batch.classId}>

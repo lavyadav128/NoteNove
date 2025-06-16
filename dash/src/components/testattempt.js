@@ -102,24 +102,24 @@ const TestAttemptPage = () => {
       display="flex"
       flexDirection="column"
       justifyContent={isMobile ? "flex-start" : "center"}
-      alignItems="center"
+      alignItems={isMobile ? "stretch" : "center"}
       sx={{
         background: "linear-gradient(120deg, #f6f9fc, #e9f0f9)",
+        minHeight: "100vh",
         overflowY: "auto",
       }}
     >
       <Card
         sx={{
           p: isMobile ? 2 : 4,
-          width: "100%",
-          maxWidth: "9000px",
-          height:"700px",
-          borderRadius: 5,
+          width: isMobile ? "100%" : "100%",
+          maxWidth: isMobile ? "100%" : "9000px",
+          height: isMobile ? "auto" : "700px",
           boxShadow: 10,
           backgroundColor: "#ffffff",
-          border: "2px solid #1976d2",
-          maxHeight: "95vh",
+          maxHeight: isMobile ? "none" : "95vh",
           overflowY: "auto",
+          borderRadius: isMobile ? 0 : 2,
         }}
       >
         {/* Header */}

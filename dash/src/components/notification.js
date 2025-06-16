@@ -6,9 +6,12 @@ import {
   Card,
   CardContent,
   Chip,
-  Paper,
   Divider,
-  CircularProgress
+  CircularProgress,
+  Snackbar,
+  Alert,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 
@@ -32,8 +35,8 @@ const dummyNotifications = [
     title: 'Welcome to the Platform!',
     message: 'Explore free and paid batches curated just for you.',
     timestamp: '2025-06-10T08:00:00Z',
-    isNew: false
-  }
+    isNew: true
+  },
 ];
 
 const formatDate = (isoString) => {
@@ -43,31 +46,58 @@ const formatDate = (isoString) => {
 
 const NotificationsPage = () => {
   const [notifications, setNotifications] = useState([]);
+  const [popupNotif, setPopupNotif] = useState(null);
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
-    // Simulate API call
+    // Simulate fetching from API
     setTimeout(() => {
+      const seen = JSON.parse(localStorage.getItem('seenNotifIds')) || [];
       setNotifications(dummyNotifications);
+
+      const unseen = dummyNotifications.find(
+        (notif) => notif.isNew && !seen.includes(notif.id)
+      );
+
+      if (unseen) {
+        setPopupNotif(unseen);
+        setOpen(true);
+        localStorage.setItem('seenNotifIds', JSON.stringify([...seen, unseen.id]));
+      }
     }, 1000);
   }, []);
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 700 }}>
-        <NotificationsActiveIcon sx={{ mr: 1 }} />
+    <Box sx={{ p: isMobile ? 2 : 4 }}>
+      <Typography
+        variant={isMobile ? 'h5' : 'h4'}
+        align="center"
+        gutterBottom
+        sx={{ fontWeight: 700 }}
+      >
+        <NotificationsActiveIcon sx={{ mr: 1, fontSize: isMobile ? 24 : 32 }} />
         Notifications
       </Typography>
-      <Divider sx={{ mb: 4 }} />
+      <Divider sx={{ mb: isMobile ? 2 : 4 }} />
 
       {notifications.length === 0 ? (
         <CircularProgress sx={{ display: 'block', mx: 'auto', mt: 6 }} />
       ) : (
-        <Grid container spacing={3}>
+        <Grid container spacing={isMobile ? 2 : 3}>
           {notifications.map((notif) => (
             <Grid item xs={12} sm={6} md={4} key={notif.id}>
-              <Card elevation={6} sx={{ borderRadius: 3, backgroundColor: '#f9f9ff' }}>
+              <Card
+                elevation={4}
+                sx={{
+                  borderRadius: 3,
+                  backgroundColor: '#f9f9ff',
+                  p: isMobile ? 1 : 2,
+                }}
+              >
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                     {notif.title}
                     {notif.isNew && (
                       <Chip
@@ -90,6 +120,23 @@ const NotificationsPage = () => {
           ))}
         </Grid>
       )}
+
+      {/* New notification popup */}
+      <Snackbar
+        open={open}
+        autoHideDuration={5000}
+        onClose={() => setOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert
+          onClose={() => setOpen(false)}
+          severity="info"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          📢 {popupNotif?.title} — {popupNotif?.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

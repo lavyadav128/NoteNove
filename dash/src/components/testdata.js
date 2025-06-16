@@ -1,7 +1,7 @@
 const testData = {
   1: [
     {
-      title: " Test- 1",
+      title: " CBSE (Test- 1)",
       questions: [
         // Maths (1–3)
         {

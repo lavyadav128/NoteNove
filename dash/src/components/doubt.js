@@ -7,10 +7,12 @@ import {
   Paper,
   Grid,
   Snackbar,
-  Alert
+  Alert,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
-import { makeAuthenticatedRequest } from './makeauth'; // or your fetch wrapper
+import { makeAuthenticatedRequest } from './makeauth';
 import server from '../environment';
 
 const DoubtPage = () => {
@@ -23,6 +25,9 @@ const DoubtPage = () => {
   const [loading, setLoading] = useState(false);
   const [successSnackbar, setSuccessSnackbar] = useState(false);
   const [errorSnackbar, setErrorSnackbar] = useState(false);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -52,15 +57,29 @@ const DoubtPage = () => {
   };
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" align="center" gutterBottom fontWeight="bold">
+    <Box sx={{ px: isMobile ? 2 : 4, py: 3 }}>
+      <Typography
+        variant={isMobile ? 'h5' : 'h4'}
+        align="center"
+        gutterBottom
+        fontWeight="bold"
+      >
         <HelpOutlineIcon sx={{ mr: 1 }} />
         Ask a Doubt
       </Typography>
 
-      <Paper elevation={4} sx={{ maxWidth: 600, mx: 'auto', p: 4, mt: 4 }}>
+      <Paper
+        elevation={4}
+        sx={{
+          maxWidth: 600,
+          mx: 'auto',
+          p: isMobile ? 2 : 4,
+          mt: 4,
+          borderRadius: 3
+        }}
+      >
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={3}>
+          <Grid container spacing={isMobile ? 2 : 3}>
             <Grid item xs={12}>
               <TextField
                 label="Subject"
@@ -107,14 +126,30 @@ const DoubtPage = () => {
       </Paper>
 
       {/* Snackbar Alerts */}
-      <Snackbar open={successSnackbar} autoHideDuration={4000} onClose={() => setSuccessSnackbar(false)}>
-        <Alert onClose={() => setSuccessSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+      <Snackbar
+        open={successSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setSuccessSnackbar(false)}
+      >
+        <Alert
+          onClose={() => setSuccessSnackbar(false)}
+          severity="success"
+          sx={{ width: '100%' }}
+        >
           Doubt submitted successfully!
         </Alert>
       </Snackbar>
 
-      <Snackbar open={errorSnackbar} autoHideDuration={4000} onClose={() => setErrorSnackbar(false)}>
-        <Alert onClose={() => setErrorSnackbar(false)} severity="error" sx={{ width: '100%' }}>
+      <Snackbar
+        open={errorSnackbar}
+        autoHideDuration={4000}
+        onClose={() => setErrorSnackbar(false)}
+      >
+        <Alert
+          onClose={() => setErrorSnackbar(false)}
+          severity="error"
+          sx={{ width: '100%' }}
+        >
           Failed to submit doubt. Please try again.
         </Alert>
       </Snackbar>
