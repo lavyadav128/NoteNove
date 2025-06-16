@@ -139,7 +139,7 @@ const FullPyqPage = () => {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Full PYQ Papers - Class {classId}
+              Full PYQ Papers
             </Typography>
 
             <Grid container spacing={2}>
