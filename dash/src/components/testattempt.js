@@ -73,8 +73,10 @@ const TestAttemptPage = () => {
   const handleSubmit = () => {
     let sc = 0;
     responses.forEach((ans, i) => {
-      if (ans === questions[i].answer) sc += 4;
-      else if (ans !== null) sc -= 1;
+      const correct = questions[i].answer?.trim();
+      const user = ans?.trim();
+      if (user === correct) sc += 4;
+      else if (user) sc -= 1;
     });
     setScore(sc);
     setSubmitted(true);
