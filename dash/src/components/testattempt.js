@@ -106,6 +106,8 @@ const TestAttemptPage = () => {
       sx={{
         background: "linear-gradient(120deg, #f6f9fc, #e9f0f9)",
         minHeight: "100vh",
+        height: "100vh",
+        width: "100vw",
         overflowY: "auto",
       }}
     >
@@ -114,10 +116,10 @@ const TestAttemptPage = () => {
           p: isMobile ? 2 : 4,
           width: isMobile ? "100%" : "100%",
           maxWidth: isMobile ? "100%" : "9000px",
-          height: isMobile ? "auto" : "700px",
+          height: isMobile ? "100%" : "700px",
           boxShadow: 10,
           backgroundColor: "#ffffff",
-          maxHeight: isMobile ? "none" : "95vh",
+          maxHeight: isMobile ? "100%" : "95vh",
           overflowY: "auto",
           borderRadius: isMobile ? 0 : 2,
         }}
