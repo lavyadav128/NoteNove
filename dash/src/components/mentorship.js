@@ -6,8 +6,10 @@ import {
   Typography,
   Button,
   Grid,
+  useMediaQuery,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useTheme } from "@mui/material/styles";
 
 const mentorshipOptions = [
   {
@@ -25,6 +27,8 @@ const mentorshipOptions = [
 const MentorshipPage = () => {
   const { classId } = useParams();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleBack = () => {
     if (window.history.length > 2) {
@@ -88,20 +92,8 @@ const MentorshipPage = () => {
 
   return (
     <Box p={4} sx={{ backgroundColor: "#f5f7fa", minHeight: "100vh" }}>
-      <Box
-        display={{ xs: "none", sm: "flex" }} // 👈 Hides card on mobile only
-        justifyContent="center"
-      >
-        <Card
-          sx={{
-            width: "95vw",
-            minHeight: "85vh",
-            borderRadius: 5,
-            boxShadow: 10,
-            p: 4,
-            backgroundColor: "#ffffff",
-          }}
-        >
+      {isMobile ? (
+        <>
           <Button
             onClick={handleBack}
             startIcon={<ArrowBackIosNewIcon />}
@@ -141,8 +133,61 @@ const MentorshipPage = () => {
               </Grid>
             ))}
           </Grid>
-        </Card>
-      </Box>
+        </>
+      ) : (
+        <Box display="flex" justifyContent="center">
+          <Card
+            sx={{
+              width: "95vw",
+              minHeight: "85vh",
+              borderRadius: 5,
+              boxShadow: 10,
+              p: 4,
+              backgroundColor: "#ffffff",
+            }}
+          >
+            <Button
+              onClick={handleBack}
+              startIcon={<ArrowBackIosNewIcon />}
+              sx={{
+                mb: 3,
+                backgroundColor: "#fff",
+                color: "#333",
+                border: "1px solid #ddd",
+                borderRadius: 2,
+                textTransform: "none",
+                fontWeight: 600,
+                px: 2.5,
+                py: 1,
+                boxShadow: 1,
+                "&:hover": {
+                  backgroundColor: "#f5f5f5",
+                  boxShadow: 2,
+                },
+              }}
+            >
+              Back
+            </Button>
+
+            <Typography
+              variant="h4"
+              gutterBottom
+              textAlign="center"
+              sx={{ fontWeight: 700, mb: 4 }}
+            >
+              Mentorship & Guidance
+            </Typography>
+
+            <Grid container spacing={4} justifyContent="center">
+              {mentorshipOptions.map((opt) => (
+                <Grid item xs={12} sm={6} md={6} key={opt.title}>
+                  {renderCard(opt.title, opt.description)}
+                </Grid>
+              ))}
+            </Grid>
+          </Card>
+        </Box>
+      )}
     </Box>
   );
 };

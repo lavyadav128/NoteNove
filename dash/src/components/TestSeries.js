@@ -128,7 +128,7 @@ const FullTestSeriesPage = () => {
               gutterBottom
               sx={{ mb: 3 }}
             >
-              Full Test Series - Class {classId}
+              Full Test Series
             </Typography>
 
             {renderTests()}
@@ -176,7 +176,7 @@ const FullTestSeriesPage = () => {
               gutterBottom
               sx={{ mb: 4 }}
             >
-              Full Test Series 
+              Full Test Series
             </Typography>
 
             {renderTests()}
