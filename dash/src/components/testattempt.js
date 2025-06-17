@@ -1,3 +1,4 @@
+// ✅ FULL CODE WITH REVIEW BUTTON AFTER SUBMIT + QUESTION BUTTONS IN HORIZONTAL SCROLL
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -35,9 +36,9 @@ const TestAttemptPage = () => {
       Array(questions.length).fill(false)
   );
   const [submitted, setSubmitted] = useState(false);
+  const [reviewMode, setReviewMode] = useState(false);
   const [score, setScore] = useState(0);
-
-  const [timeLeft, setTimeLeft] = useState(3 * 60 * 60); // 3 hours
+  const [timeLeft, setTimeLeft] = useState(3 * 60 * 60);
   const [paused, setPaused] = useState(false);
 
   const subjects = [...new Set(questions.map((q) => q.subject))];
@@ -97,6 +98,8 @@ const TestAttemptPage = () => {
   };
 
   const q = questions[currentQIndex];
+  const userAns = responses[currentQIndex];
+  const correctAns = q?.answer?.trim();
 
   return (
     <Box
@@ -126,7 +129,6 @@ const TestAttemptPage = () => {
           borderRadius: isMobile ? 0 : 2,
         }}
       >
-        {/* Header */}
         <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
           <Typography variant="h5" fontWeight="bold">
             Test Attempt
@@ -144,12 +146,10 @@ const TestAttemptPage = () => {
           </Box>
         </Box>
 
-        {/* Test Title */}
         <Typography variant="h6" textAlign="center" fontWeight={600} mb={2}>
           {state.testTitle}
         </Typography>
 
-        {/* Subject Tabs */}
         <Tabs
           value={false}
           onChange={(e, val) => handleSubjectTab(val)}
@@ -161,8 +161,15 @@ const TestAttemptPage = () => {
           ))}
         </Tabs>
 
-        {/* Question Navigation Circles */}
-        <Box mt={2} mb={3} display="flex" flexWrap="wrap" justifyContent="center" gap={1}>
+        {/* ✅ Horizontally scrollable question buttons */}
+        <Box
+          mt={2}
+          mb={3}
+          display="flex"
+          overflow="auto"
+          whiteSpace="nowrap"
+          sx={{ scrollbarWidth: "thin" }}
+        >
           {questions.map((_, idx) => {
             let bg = "#e0e0e0";
             if (responses[idx]) bg = "#4caf50";
@@ -182,6 +189,7 @@ const TestAttemptPage = () => {
                   fontSize: "0.75rem",
                   fontWeight: "bold",
                   px: 0,
+                  mx: 0.5,
                 }}
                 size="small"
               >
@@ -191,7 +199,6 @@ const TestAttemptPage = () => {
           })}
         </Box>
 
-        {/* Question Section */}
         {!submitted && q && (
           <Box>
             <Typography variant="subtitle1" gutterBottom fontWeight={600}>
@@ -279,15 +286,56 @@ const TestAttemptPage = () => {
           </Box>
         )}
 
-        {/* Result */}
         {submitted && (
           <Box textAlign="center" mt={4}>
-            <Typography variant="h4" gutterBottom>
-              You scored {score} out of {questions.length * 4}
-            </Typography>
-            <Typography variant="h6" color={score >= 0 ? "success.main" : "error.main"}>
-              ({questions.length} questions: +4 correct, -1 wrong)
-            </Typography>
+            {!reviewMode ? (
+              <>
+                <Typography variant="h4" gutterBottom>
+                  You scored {score} out of {questions.length * 4}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color={score >= 0 ? "success.main" : "error.main"}
+                  gutterBottom
+                >
+                  ({questions.length} questions: +4 correct, -1 wrong)
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => setReviewMode(true)}
+                >
+                  Review Answers
+                </Button>
+              </>
+            ) : (
+              <Box textAlign="left">
+                <Typography variant="subtitle1" gutterBottom fontWeight={600}>
+                  Q{currentQIndex + 1}. {q.question}
+                </Typography>
+                {q.options.map((opt, j) => {
+                  const isCorrect = opt.trim() === correctAns;
+                  const isUser = opt.trim() === userAns;
+                  return (
+                    <Box
+                      key={j}
+                      p={1}
+                      borderRadius={2}
+                      mb={1}
+                      sx={{
+                        backgroundColor: isCorrect
+                          ? "#c8e6c9"
+                          : isUser
+                          ? "#ffcdd2"
+                          : "#f5f5f5",
+                      }}
+                    >
+                      <Typography fontSize="0.9rem">{opt}</Typography>
+                    </Box>
+                  );
+                })}
+              </Box>
+            )}
           </Box>
         )}
       </Card>
