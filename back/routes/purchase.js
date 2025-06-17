@@ -98,7 +98,6 @@
 
 
 // ✅ BACKEND ROUTES: /routes/purchase.js
-
 import express from 'express';
 import Purchase from '../schema/purchase.model.js';
 import auth from '../model/authh.js';
@@ -108,18 +107,12 @@ import { sendWhatsAppMessage } from '../services/twilioservice.js';
 const router = express.Router();
 
 // ✅ POST /api/save-purchase
-// POST /api/save-purchase
 router.post('/save-purchase', auth, async (req, res) => {
-  const { classId, batchTitle, price, description, imageUrl } = req.body;
+  const { classId, batchTitle, price, description, imageUrl, isPremium } = req.body;
   const userId = req.user._id;
 
-  // ✅ Add this line to log the incoming payload
-  console.log("🔺 Purchase Payload:", {
-    classId,
-    batchTitle,
-    price,
-    description,
-    imageUrl,
+  console.log(" Purchase Payload:", {
+    classId, batchTitle, price, description, imageUrl, isPremium,
   });
 
   try {
@@ -134,9 +127,8 @@ router.post('/save-purchase', auth, async (req, res) => {
       description: description || '',
       imageUrl: imageUrl || '',
       expiryDate,
+      isPremium: !!isPremium, // ✅ Ensure boolean
     };
-
-    console.log("👉 Saving Purchase Data", purchaseData); // Already present
 
     await Purchase.findOneAndUpdate(
       { userId, classId },
@@ -144,7 +136,6 @@ router.post('/save-purchase', auth, async (req, res) => {
       { upsert: true, new: true }
     );
 
-    // ✅ Send WhatsApp if paid
     if (price > 0) {
       const user = await User.findById(userId);
       if (user?.phone) {
@@ -160,7 +151,6 @@ router.post('/save-purchase', auth, async (req, res) => {
   }
 });
 
-
 // ✅ GET /api/user-purchases
 router.get('/user-purchases', auth, async (req, res) => {
   const userId = req.user._id;
@@ -170,7 +160,7 @@ router.get('/user-purchases', auth, async (req, res) => {
     const purchases = await Purchase.find({
       userId,
       expiryDate: { $gt: now },
-    }).select('classId title description imageUrl price expiryDate -_id');
+    }).select('classId title description imageUrl price expiryDate isPremium -_id'); // ✅ include isPremium
 
     res.status(200).json(purchases);
   } catch (err) {
@@ -200,6 +190,7 @@ router.post('/purchase-access', auth, async (req, res) => {
 });
 
 export default router;
+
 
 
 

@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 const purchaseSchema = new mongoose.Schema({
@@ -18,7 +17,7 @@ const purchaseSchema = new mongoose.Schema({
   description: { 
     type: String, 
     required: true,
-    default: "" // Add default to ensure it's never empty
+    default: "" 
   },
   price: { 
     type: Number, 
@@ -33,11 +32,15 @@ const purchaseSchema = new mongoose.Schema({
   expiryDate: { 
     type: Date, 
     required: true 
+  },
+  isPremium: { 
+    type: Boolean, // ✅ updated to Boolean
+    required: true 
   }
 }, { 
   timestamps: true,
-  strict: true, // Enforces only defined fields are saved
-  validateBeforeSave: true // Ensures validation before saving
+  strict: true,
+  validateBeforeSave: true
 });
 
 export default mongoose.model('Purchase', purchaseSchema);

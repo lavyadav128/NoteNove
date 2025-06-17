@@ -88,7 +88,10 @@ const MentorshipPage = () => {
 
   return (
     <Box p={4} sx={{ backgroundColor: "#f5f7fa", minHeight: "100vh" }}>
-      <Box display="flex" justifyContent="center">
+      <Box
+        display={{ xs: "none", sm: "flex" }} // 👈 Hides card on mobile only
+        justifyContent="center"
+      >
         <Card
           sx={{
             width: "95vw",

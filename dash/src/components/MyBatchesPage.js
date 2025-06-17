@@ -19,64 +19,30 @@ import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
 import server from '../environment';
 
-const batchMetadata = {
-  '10': {
-    description: 'Class 10 foundation course with Maths, Science, and more.',
-    imageUrl: '/images/10.png',
-  },
-  '11': {
-    description: 'Class 11 JEE + Boards complete preparation.',
-    imageUrl: '/images/11.png',
-  },
-  '12': {
-    description: 'Class 12 JEE + Boards with all subjects & practice tests.',
-    imageUrl: '/images/12.png',
-  },
-  '111': {
-    description: 'NEET Class 11 + Boards with focus on Biology & Chemistry.',
-    imageUrl: '/images/11.png',
-  },
-  '121': {
-    description: 'NEET Class 12 full year preparation with crash courses.',
-    imageUrl: '/images/12.png',
-  },
-  '1': {
-    description: 'Class 10 foundation course with Maths, Science, and more.',
-    imageUrl: '/images/p10.png',
-  },
-  '2': {
-    description: 'Class 11 JEE + Boards complete preparation.',
-    imageUrl: '/images/p11.png',
-  },
-  '3': {
-    description: 'Class 12 JEE + Boards with all subjects & practice tests.',
-    imageUrl: '/images/p12.png',
-  },
-  'web': {
-    description: "Learn web development with our interactive platform",
-    imageUrl: "/images/dsa_files/web.png",
-  },
-  'dsa': {
-    description: "Ace coding interviews with our 34-day DSA program",
-    imageUrl: "/images/dsa_files/dsa.png",
-  },
-};
-
-const MANUAL_PREMIUM_IDS = ['1','2', '3']; // Add any other IDs as needed
-
 const MyBatchesPage = () => {
   const [batches, setBatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tab, setTab] = useState(0); // 0: Free, 1: Paid
   const navigate = useNavigate();
+  const premiumClassIds = ['2', '3', '1']; // Add any classId you consider premium
+
 
   useEffect(() => {
     const fetchPurchasedBatches = async () => {
       try {
         const res = await makeAuthenticatedRequest(`${server}/api/user-purchases`);
+
+
+
         const responseData = Array.isArray(res) ? res : res.data;
-        setBatches(Array.isArray(responseData) ? responseData : []);
+        const enrichedBatches = (Array.isArray(responseData) ? responseData : []).map(batch => ({
+          ...batch,
+          isPremium: premiumClassIds.includes(batch.classId) || batch.isPremium === true,
+        }));
+        setBatches(enrichedBatches);
+
+        
       } catch (err) {
         if (err.response?.status === 401) {
           navigate('/login');
@@ -92,13 +58,10 @@ const MyBatchesPage = () => {
   }, [navigate]);
 
   const renderBatchCard = (batch) => {
-    const metadata = batchMetadata[batch.classId] || {};
-    const description = batch.description?.trim() || metadata.description || 'No description available.';
-    const imageUrl = batch.imageUrl?.trim() || metadata.imageUrl || '/images/default.png';
+    const description = batch.description?.trim() || 'No description available.';
+    const imageUrl = batch.imageUrl?.trim() || '/images/default.png';
     const expiryDate = batch.expiryDate ? new Date(batch.expiryDate) : null;
-
-    // Determine if it's premium: from backend OR manually set by classId
-    const isPremium = batch.isPremium === true || MANUAL_PREMIUM_IDS.includes(batch.classId);
+    const isPremium = batch.isPremium === true;
 
     let studyLink = '';
 
@@ -110,8 +73,7 @@ const MyBatchesPage = () => {
       studyLink = isPremium
         ? `/premium/class/${batch.classId}`
         : `/class/${batch.classId}`;
-    };
-    
+    }
 
     return (
       <Grid item xs={12} sm={6} md={4} key={batch.classId}>
@@ -191,10 +153,8 @@ const MyBatchesPage = () => {
   const paidBatches = batches.filter((batch) => batch.price && batch.price > 0);
   const displayBatches = tab === 0 ? freeBatches : paidBatches;
 
-
-//2nd line
   return (
-    <Box sx={{ px: { xs: 1, md: 17 }, py: 0 }}>   
+    <Box sx={{ px: { xs: 1, md: 17 }, py: 0 }}>
       <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 800, color: '#1976d2' }}>
         My Batches
       </Typography>

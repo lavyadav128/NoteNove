@@ -69,7 +69,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       alert('Please login first');
       return;
     }
-
+  
     const purchasePayload = {
       classId: id,
       batchTitle: title,
@@ -77,7 +77,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       description: description,
       imageUrl: imageUrl,
     };
-
+  
     if (price === 0) {
       try {
         await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
@@ -89,36 +89,49 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       }
       return;
     }
-
+  
     if (!window.Razorpay) {
       alert('Payment gateway not loaded');
       return;
     }
-
-    const options = {
-      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
-      amount: price * 100,
-      currency: 'INR',
-      name: 'Atom Classes',
-      description: `Payment for ${title}`,
-      handler: async function () {
-        try {
-          await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
-          onPurchase(id);
-          navigate(`/class/${id}`);
-        } catch (err) {
-          console.error('Error saving purchase:', err);
-          alert(err.message || 'Error saving your purchase.');
-        }
-      },
-      prefill: { name: '', email: '', contact: '' },
-      notes: { batchId: id },
-      theme: { color: '#1976d2' },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+  
+    try {
+      // Step 1: Create order from backend
+      const order = await makeAuthenticatedRequest(`${server}/api/create-order`, 'POST', {
+        amount: price,
+        receipt: `receipt_${id}_${Date.now()}`,
+      });
+  
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'Atom Classes',
+        description: `Payment for ${title}`,
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
+            onPurchase(id);
+            navigate(`/class/${id}`);
+          } catch (err) {
+            console.error('Error saving purchase:', err);
+            alert(err.message || 'Error saving your purchase.');
+          }
+        },
+        prefill: { name: '', email: '', contact: '' },
+        notes: { batchId: id },
+        theme: { color: '#1976d2' },
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error('Payment error:', err);
+      alert('Failed to initiate payment. Try again.');
+    }
   };
+  
 
   return (
     <Card

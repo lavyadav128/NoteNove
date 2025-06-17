@@ -18,12 +18,16 @@ import { useNavigate } from "react-router-dom";
 import { makeAuthenticatedRequest } from "./makeauth";
 import server from "../environment";
 
+// ...imports stay the same
+
 const classDetails = {
   id: "dsa",
   title: "Dsa Sheet",
-  description: "Ace coding interviews with our 34-day DSA program ",
-  image: "/images/dsa_files/dsa.png",
-  price: 0,
+  description: "Ace coding interviews with our 34-day DSA program",
+  imageUrl: "/images/dsa_files/dsa.png",
+  price: 10, // ✅ Updated Price
+  isPremium:true,
+
 };
 
 const DSAClass = () => {
@@ -75,13 +79,15 @@ const DSAClass = () => {
       alert("Please login first");
       return;
     }
-
+  
     const purchasePayload = {
       classId: classDetails.id,
       batchTitle: classDetails.title,
       price: classDetails.price,
+      imageUrl: classDetails.imageUrl,
+      description: classDetails.description,
     };
-
+  
     if (classDetails.price === 0) {
       try {
         await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
@@ -93,36 +99,49 @@ const DSAClass = () => {
       }
       return;
     }
-
-    if (!window.Razorpay) {
-      alert("Payment gateway not loaded");
-      return;
+  
+    // ✅ 1. Call backend to create Razorpay order
+    try {
+      const orderRes = await makeAuthenticatedRequest(`${server}/api/create-order`, "POST", {
+        amount: classDetails.price,
+        receipt: `receipt_dsa_${Date.now()}`,
+      });
+  
+      if (!orderRes || !orderRes.id) {
+        throw new Error("Invalid Razorpay order response");
+      }
+  
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
+        amount: classDetails.price * 100,
+        currency: "INR",
+        name: "Atom Classes",
+        description: `Payment for ${classDetails.title}`,
+        order_id: orderRes.id, // ✅ Pass order_id from backend
+        handler: async function (response) {
+          try {
+            // You can optionally verify response.razorpay_signature here
+            await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
+            handlePurchaseUpdate();
+            navigate(`/dsa`);
+          } catch (err) {
+            console.error("Error saving purchase:", err);
+            alert(err.message || "Error saving your purchase.");
+          }
+        },
+        prefill: { name: "", email: "", contact: "" },
+        notes: { batchId: classDetails.id },
+        theme: { color: "#1976d2" },
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Failed to create Razorpay order:", err);
+      alert("Payment initialization failed. Please try again.");
     }
-
-    const options = {
-      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
-      amount: classDetails.price * 100,
-      currency: "INR",
-      name: "Atom Classes",
-      description: `Payment for ${classDetails.title}`,
-      handler: async function (response) {
-        try {
-          await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
-          handlePurchaseUpdate();
-          navigate(`/dsa`);
-        } catch (err) {
-          console.error("Error saving purchase:", err);
-          alert(err.message || "Error saving your purchase.");
-        }
-      },
-      prefill: { name: "", email: "", contact: "" },
-      notes: { batchId: classDetails.id },
-      theme: { color: "#1976d2" },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
   };
+  
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -149,7 +168,7 @@ const DSAClass = () => {
           pb: 2,
         }}
       >
-        {/* Card 1 - Purchase Card */}
+        {/* Purchase Card */}
         <Card
           sx={{
             width: isMobile ? "100%" : 400,
@@ -166,7 +185,7 @@ const DSAClass = () => {
           <CardMedia
             component="img"
             height="200"
-            image={classDetails.image}
+            image={classDetails.imageUrl}
             alt={classDetails.title}
             sx={{ objectFit: "cover", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
           />
@@ -181,7 +200,7 @@ const DSAClass = () => {
             <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
               <Button
                 variant="contained"
-                color="success"
+                color={classDetails.price === 0 ? "success" : "warning"}
                 sx={{
                   borderRadius: "50px",
                   pointerEvents: "none",
@@ -192,7 +211,7 @@ const DSAClass = () => {
                   textTransform: "none",
                 }}
               >
-                FREE
+                {classDetails.price === 0 ? "FREE" : `₹${classDetails.price}`}
               </Button>
               {isPurchased && (
                 <Box
@@ -251,12 +270,12 @@ const DSAClass = () => {
                 textTransform: "none",
               }}
             >
-              {isPurchased ? "Study" : "Buy"}
+              {isPurchased ? "Study" : "Buy Now"}
             </Button>
           </CardActions>
         </Card>
 
-        {/* Card 2 - Description */}
+        {/* Description Card */}
         <Card
           sx={{
             width: isMobile ? "100%" : 400,

@@ -8,23 +8,22 @@ import {
   CardActions,
   Box,
   Chip,
-  Stack,  
+  Stack,
   useMediaQuery,
   useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeAuthenticatedRequest } from './makeauth';
-import server from "../environment";
+import server from '../environment';
 
 const classList = [
-  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', image: '/images/p10.png', price: 99,"isPremium": true },
-  { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', image: '/images/p11.png', price: 99,"isPremium": true },
-  { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', image: '/images/p12.png', price: 99,"isPremium": true },
+  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', imageUrl: '/images/p10.png', price: 99, isPremium: true },
+  { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', imageUrl: '/images/p11.png', price: 99, isPremium: true },
+  { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', imageUrl: '/images/p12.png', price: 99, isPremium: true },
 ];
 
-const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInfo, onPurchase }) => {
+const ClassCard = ({ id, title, description, imageUrl, price, isPremium, purchaseInfo, onPurchase }) => {
   const navigate = useNavigate();
-
   const isPurchased = !!purchaseInfo;
   const expiryDate = purchaseInfo?.expiryDate ? new Date(purchaseInfo.expiryDate) : null;
 
@@ -44,17 +43,13 @@ const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInf
       batchTitle: title,
       price: price,
       description: description,
-      imageUrl: image,
+      imageUrl: imageUrl,
       isPremium: isPremium,
     };
 
     if (price === 0) {
       try {
-        await makeAuthenticatedRequest(
-          `${server}/api/save-purchase`,
-          'POST',
-          purchasePayload
-        );
+        await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
         onPurchase(id);
         navigate(`/premium/class/${id}`);
       } catch (err) {
@@ -69,33 +64,46 @@ const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInf
       return;
     }
 
-    const options = {
-      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
-      amount: price * 100,
-      currency: 'INR',
-      name: 'Atom Classes',
-      description: `Payment for ${title}`,
-      handler: async function (response) {
-        try {
-          await makeAuthenticatedRequest(
-            `${server}/api/save-purchase`,
-            'POST',
-            purchasePayload
-          );
-          onPurchase(id);
-          navigate(`/premium/class/${id}`);
-        } catch (err) {
-          console.error('Error saving purchase:', err);
-          alert(err.message || 'Error saving your purchase.');
-        }
-      },
-      prefill: { name: '', email: '', contact: '' },
-      notes: { batchId: id },
-      theme: { color: '#1976d2' },
-    };
+    try {
+      const orderResponse = await fetch(`${server}/api/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount: price, receipt: `receipt_${id}_${Date.now()}` }),
+      });
 
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+      const order = await orderResponse.json();
+
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
+        amount: order.amount,
+        currency: 'INR',
+        name: 'Atom Classes',
+        description: `Payment for ${title}`,
+        order_id: order.id,
+        handler: async function (response) {
+          try {
+            await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
+            onPurchase(id);
+            navigate(`/premium/class/${id}`);
+          } catch (err) {
+            console.error('Error saving purchase:', err);
+            alert(err.message || 'Error saving your purchase.');
+          }
+        },
+        prefill: { name: '', email: '', contact: '' },
+        notes: { batchId: id },
+        theme: { color: '#1976d2' },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error('Failed to create Razorpay order:', err);
+      alert('Failed to initiate payment. Try again.');
+    }
   };
 
   return (
@@ -118,7 +126,7 @@ const ClassCard = ({ id, title, description, image, price,isPremium, purchaseInf
       <CardMedia
         component="img"
         height="220"
-        image={image}
+        image={imageUrl}
         alt={title}
         sx={{ objectFit: 'cover', borderBottom: '1px solid #eee' }}
       />

@@ -1,3 +1,5 @@
+
+
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -18,12 +20,15 @@ import { useNavigate } from "react-router-dom";
 import { makeAuthenticatedRequest } from "./makeauth";
 import server from "../environment";
 
+// ...imports stay the same
+
 const classDetails = {
   id: "web",
   title: "Web Development",
   description: "Create modern, responsive web apps with our structured fullstack roadmap",
-  image: "/images/dsa_files/web.png",
+  imageUrl: "/images/dsa_files/web.png",
   price: 0,
+  isPremium:true,
 };
 
 const DSAClass = () => {
@@ -75,13 +80,15 @@ const DSAClass = () => {
       alert("Please login first");
       return;
     }
-
+  
     const purchasePayload = {
       classId: classDetails.id,
       batchTitle: classDetails.title,
       price: classDetails.price,
+      imageUrl: classDetails.imageUrl,
+      description: classDetails.description,
     };
-
+  
     if (classDetails.price === 0) {
       try {
         await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
@@ -93,36 +100,49 @@ const DSAClass = () => {
       }
       return;
     }
-
-    if (!window.Razorpay) {
-      alert("Payment gateway not loaded");
-      return;
+  
+    // ✅ 1. Call backend to create Razorpay order
+    try {
+      const orderRes = await makeAuthenticatedRequest(`${server}/api/create-order`, "POST", {
+        amount: classDetails.price,
+        receipt: `receipt_dsa_${Date.now()}`,
+      });
+  
+      if (!orderRes || !orderRes.id) {
+        throw new Error("Invalid Razorpay order response");
+      }
+  
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
+        amount: classDetails.price * 100,
+        currency: "INR",
+        name: "Atom Classes",
+        description: `Payment for ${classDetails.title}`,
+        order_id: orderRes.id, // ✅ Pass order_id from backend
+        handler: async function (response) {
+          try {
+            // You can optionally verify response.razorpay_signature here
+            await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
+            handlePurchaseUpdate();
+            navigate(`/web`);
+          } catch (err) {
+            console.error("Error saving purchase:", err);
+            alert(err.message || "Error saving your purchase.");
+          }
+        },
+        prefill: { name: "", email: "", contact: "" },
+        notes: { batchId: classDetails.id },
+        theme: { color: "#1976d2" },
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Failed to create Razorpay order:", err);
+      alert("Payment initialization failed. Please try again.");
     }
-
-    const options = {
-      key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
-      amount: classDetails.price * 100,
-      currency: "INR",
-      name: "Atom Classes",
-      description: `Payment for ${classDetails.title}`,
-      handler: async function (response) {
-        try {
-          await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
-          handlePurchaseUpdate();
-          navigate(`/web`);
-        } catch (err) {
-          console.error("Error saving purchase:", err);
-          alert(err.message || "Error saving your purchase.");
-        }
-      },
-      prefill: { name: "", email: "", contact: "" },
-      notes: { batchId: classDetails.id },
-      theme: { color: "#1976d2" },
-    };
-
-    const rzp = new window.Razorpay(options);
-    rzp.open();
   };
+  
 
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
@@ -136,7 +156,7 @@ const DSAClass = () => {
         textAlign="center"
         color="primary"
       >
-        Fullstack Web Development
+        Full Stack Development
       </Typography>
 
       <Box
@@ -149,24 +169,24 @@ const DSAClass = () => {
           pb: 2,
         }}
       >
-        {/* Card 1 - Purchase Card */}
+        {/* Purchase Card */}
         <Card
           sx={{
             width: isMobile ? "100%" : 400,
             borderRadius: 4,
             boxShadow: 6,
             mx: "auto",
-            transition: "transform 0.3s, box-shadow 0.3s",
+            transition: "box-shadow 0.3s, transform 0.3s",
             "&:hover": {
-              transform: "scale(1.03)",
-              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
+              boxShadow: 12,
+              transform: "scale(1.02)",
             },
           }}
         >
           <CardMedia
             component="img"
             height="200"
-            image={classDetails.image}
+            image={classDetails.imageUrl}
             alt={classDetails.title}
             sx={{ objectFit: "cover", borderTopLeftRadius: 16, borderTopRightRadius: 16 }}
           />
@@ -181,7 +201,7 @@ const DSAClass = () => {
             <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
               <Button
                 variant="contained"
-                color="success"
+                color={classDetails.price === 0 ? "success" : "warning"}
                 sx={{
                   borderRadius: "50px",
                   pointerEvents: "none",
@@ -192,7 +212,7 @@ const DSAClass = () => {
                   textTransform: "none",
                 }}
               >
-                FREE
+                {classDetails.price === 0 ? "FREE" : `₹${classDetails.price}`}
               </Button>
               {isPurchased && (
                 <Box
@@ -251,28 +271,28 @@ const DSAClass = () => {
                 textTransform: "none",
               }}
             >
-              {isPurchased ? "Study" : "Buy"}
+              {isPurchased ? "Study" : "Buy Now"}
             </Button>
           </CardActions>
         </Card>
 
-        {/* Card 2 - Description */}
+        {/* Description Card */}
         <Card
           sx={{
             width: isMobile ? "100%" : 400,
             borderRadius: 4,
             boxShadow: 8,
             backgroundColor: "#f5f5f5",
-            p: 3,
+            p: 2,
             transition: "box-shadow 0.5s, transform 0.3s",
-            "&:hover": {
-              transform: "scale(1.03)",
-              boxShadow: "0 8px 30px rgba(0,0,0,0.2)",
-            },
             ...(highlightDesc && {
               boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)",
               transform: "scale(1.02)",
             }),
+            "&:hover": {
+              boxShadow: 12,
+              transform: "scale(1.02)",
+            },
           }}
         >
           <Typography variant="h6" fontWeight={600} color="primary" gutterBottom>
@@ -295,7 +315,7 @@ const DSAClass = () => {
                 variant="body1"
                 color="text.secondary"
                 sx={{
-                  mb: 0.6,
+                  mb: 1.4,
                   fontSize: "1rem",
                   listStyle: "none",
                   pl: 3,
@@ -343,7 +363,7 @@ const DSAClass = () => {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <img
               src="/images/dsa_files/webss.png"
-              alt="DSA Preview"
+              alt="web Preview"
               style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10 }}
             />
           </Box>
