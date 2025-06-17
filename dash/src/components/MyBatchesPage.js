@@ -25,7 +25,6 @@ const MyBatchesPage = () => {
   const [error, setError] = useState(null);
   const [tab, setTab] = useState(0); // 0: Free, 1: Paid
   const navigate = useNavigate();
-  const premiumClassIds = ['2', '3', '1']; // Add any classId you consider premium
 
 
   useEffect(() => {
@@ -33,14 +32,8 @@ const MyBatchesPage = () => {
       try {
         const res = await makeAuthenticatedRequest(`${server}/api/user-purchases`);
 
-
-
         const responseData = Array.isArray(res) ? res : res.data;
-        const enrichedBatches = (Array.isArray(responseData) ? responseData : []).map(batch => ({
-          ...batch,
-          isPremium: premiumClassIds.includes(batch.classId) || batch.isPremium === true,
-        }));
-        setBatches(enrichedBatches);
+        setBatches(Array.isArray(responseData) ? responseData : []);
 
         
       } catch (err) {

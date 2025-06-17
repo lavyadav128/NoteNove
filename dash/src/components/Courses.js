@@ -204,7 +204,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
             textTransform: 'none',
           }}
         >
-          {isPurchased ? 'Study' : 'Buy'}
+          {isPurchased ? 'Study' : 'Buy Now'}
         </Button>
       </CardActions>
     </Card>

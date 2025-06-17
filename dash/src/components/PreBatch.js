@@ -179,7 +179,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, isPremium, purchas
             textTransform: 'none',
           }}
         >
-          {isPurchased ? 'Study' : 'Buy'}
+          {isPurchased ? 'Study' : 'Buy Now'}
         </Button>
       </CardActions>
     </Card>
