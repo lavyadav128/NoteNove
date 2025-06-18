@@ -1,23 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  Paper,
-  Button,
-  IconButton,
-  TextField,
-  Autocomplete,
-  createTheme,
-  ThemeProvider,
-  CssBaseline,
-  Fade,
-  useMediaQuery,
-  useTheme,
-  Snackbar,
-  Alert,
+import {Box,Card,CardContent,Grid,Typography,Paper,Button,IconButton,TextField,Autocomplete,createTheme,ThemeProvider,CssBaseline,Fade,useMediaQuery,useTheme,Snackbar,Alert,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -163,8 +145,8 @@ const Dashboard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          px: 2,
-          py: 4,
+          px: 0,
+          py: 0,
         }}
       >
         <Card
