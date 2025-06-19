@@ -575,57 +575,37 @@ const DsaSheetPage = () => {
           </>
         )}
 
-        {tabIndex === 1 && (
-          <>
-            {isMobile ? (
-              <Box px={0} py={2}>
-                <Typography variant="h6" fontWeight={700}>
-                  Start Practice
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Dive into hand-picked practice questions
-                </Typography>
-                <Button
-                  onClick={() => navigate("/dtopic")}
-                  variant="contained"
-                  sx={{ mt: 2 }}
-                >
-                  Go to Practice
-                </Button>
-              </Box>
-            ) : (
-              <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="50vh"
-                px={2}
-              >
-                <Card
-                  onClick={() => navigate("/dtopic")}
-                  sx={{
-                    p: 4,
-                    borderRadius: 4,
-                    boxShadow: 3,
-                    cursor: "pointer",
-                    transition: "0.3s",
-                    width: 400,
-                    "&:hover": {
-                      boxShadow: 6,
-                      transform: "translateY(-2px)",
-                    },
-                  }}
-                >
-                  <Typography variant="h6" fontWeight={700}>
-                    Start Practice
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Dive into hand-picked practice questions
-                  </Typography>
-                </Card>
-              </Box>
-            )}
-          </>
+        {tabIndex === 1 && !isMobile && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            minHeight="50vh"
+            px={2}
+          >
+            <Card
+              onClick={() => navigate("/dtopic")}
+              sx={{
+                p: 4,
+                borderRadius: 4,
+                boxShadow: 3,
+                cursor: "pointer",
+                transition: "0.3s",
+                width: 400,
+                "&:hover": {
+                  boxShadow: 6,
+                  transform: "translateY(-2px)",
+                },
+              }}
+            >
+              <Typography variant="h6" fontWeight={700}>
+                Start Practice
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Dive into hand-picked practice questions
+              </Typography>
+            </Card>
+          </Box>
         )}
 
         {/* Footer */}

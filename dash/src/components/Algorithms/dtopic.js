@@ -114,7 +114,7 @@ const TopicPage = () => {
                 <CardContent
                   sx={{
                     textAlign: "center",
-                    py: 4,
+                    py: 2,
                     backgroundColor: "#fff",
                   }}
                 >
