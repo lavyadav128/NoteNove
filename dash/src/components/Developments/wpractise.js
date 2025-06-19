@@ -3,11 +3,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
+  Card,
   Typography,
   useMediaQuery,
   useTheme,
   Grid,
-  Card,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import questionsData from "./wdata";
@@ -22,87 +22,6 @@ const PracticePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const q = questions[currentQIndex];
 
-  const Content = (
-    <>
-      {/* Back Button */}
-      <Button
-        onClick={() => navigate(-1)}
-        startIcon={<ArrowBackIosNewIcon />}
-        sx={{
-          alignSelf: "flex-start",
-          mb: 2,
-          fontWeight: 600,
-          backgroundColor: "#fff",
-          border: "1px solid #ccc",
-          borderRadius: 2,
-          textTransform: "none",
-          px: 2.5,
-          py: 1,
-          boxShadow: 1,
-          "&:hover": {
-            backgroundColor: "#f0f0f0",
-            boxShadow: 2,
-          },
-        }}
-      >
-        Back
-      </Button>
-
-      <Typography variant="h4" fontWeight={700} gutterBottom align="center">
-        Practice: {topicId.replace(/-/g, " ").toUpperCase()}
-      </Typography>
-
-      {q ? (
-        <>
-          <Typography variant="h6" fontWeight={600} gutterBottom mt={3}>
-            Q{currentQIndex + 1}. {q.title}
-          </Typography>
-
-          <Box mt={2} p={2} borderRadius={2} bgcolor="#f9f9f9">
-            <Typography fontWeight={600} color="text.secondary">
-              Answer:
-            </Typography>
-            <Typography>{q.answer}</Typography>
-          </Box>
-
-          <Grid container spacing={2} justifyContent="center" mt={3}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Button
-                onClick={() =>
-                  setCurrentQIndex((prev) => Math.max(prev - 1, 0))
-                }
-                disabled={currentQIndex === 0}
-                fullWidth
-                variant="outlined"
-              >
-                Previous
-              </Button>
-            </Grid>
-
-            <Grid item xs={12} sm={6} md={3}>
-              <Button
-                onClick={() =>
-                  setCurrentQIndex((prev) =>
-                    Math.min(prev + 1, questions.length - 1)
-                  )
-                }
-                disabled={currentQIndex === questions.length - 1}
-                fullWidth
-                variant="contained"
-              >
-                Next
-              </Button>
-            </Grid>
-          </Grid>
-        </>
-      ) : (
-        <Typography variant="h6" color="text.secondary" mt={5}>
-          No questions available for this topic.
-        </Typography>
-      )}
-    </>
-  );
-
   return (
     <Box
       sx={{
@@ -115,33 +34,96 @@ const PracticePage = () => {
         justifyContent: isMobile ? "initial" : "center",
       }}
     >
-      {isMobile ? (
-        <Box
+      <Card
+        sx={{
+          width: isMobile ? "100%" : "96%",
+          maxWidth: "10000px",
+          p: { xs: 2, md: 5 },
+          borderRadius: 4,
+          boxShadow: 5,
+          backgroundColor: "#ffffff",
+          display: "flex",
+          flexDirection: "column",
+          height: isMobile ? "auto" : "92vh",
+        }}
+      >
+        {/* Back Button */}
+        <Button
+          onClick={() => navigate(-1)}
+          startIcon={<ArrowBackIosNewIcon />}
           sx={{
-            width: "100%",
-            p: 2,
-            backgroundColor: "#ffffff",
+            alignSelf: "flex-start",
+            mb: 2,
+            fontWeight: 600,
+            backgroundColor: "#fff",
+            border: "1px solid #ccc",
+            borderRadius: 2,
+            textTransform: "none",
+            px: 2.5,
+            py: 1,
+            boxShadow: 1,
+            "&:hover": {
+              backgroundColor: "#f0f0f0",
+              boxShadow: 2,
+            },
           }}
         >
-          {Content}
-        </Box>
-      ) : (
-        <Card
-          sx={{
-            width: "96%",
-            maxWidth: "10000px",
-            p: 5,
-            borderRadius: 4,
-            boxShadow: 5,
-            backgroundColor: "#ffffff",
-            display: "flex",
-            flexDirection: "column",
-            height: "92vh",
-          }}
-        >
-          {Content}
-        </Card>
-      )}
+          Back
+        </Button>
+
+        <Typography variant="h4" fontWeight={700} gutterBottom align="center">
+          Practice: {topicId.replace(/-/g, " ").toUpperCase()}
+        </Typography>
+
+        {q ? (
+          <>
+            <Typography variant="h6" fontWeight={600} gutterBottom mt={3}>
+              Q{currentQIndex + 1}. {q.title}
+            </Typography>
+
+            <Box mt={2} p={2} borderRadius={2} bgcolor="#f9f9f9">
+              <Typography fontWeight={600} color="text.secondary">
+                Answer:
+              </Typography>
+              <Typography>{q.answer}</Typography>
+            </Box>
+
+            <Grid container spacing={2} justifyContent="center" mt={3}>
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  onClick={() =>
+                    setCurrentQIndex((prev) => Math.max(prev - 1, 0))
+                  }
+                  disabled={currentQIndex === 0}
+                  fullWidth
+                  variant="outlined"
+                >
+                  Previous
+                </Button>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={3}>
+                <Button
+                  onClick={() =>
+                    setCurrentQIndex((prev) =>
+                      Math.min(prev + 1, questions.length - 1)
+                    )
+                  }
+                  disabled={currentQIndex === questions.length - 1}
+                  fullWidth
+                  variant="contained"
+                >
+                  Next
+                </Button>
+              </Grid>
+            </Grid>
+          </>
+        ) : (
+          <Typography variant="h6" color="text.secondary" mt={5}>
+            No questions available for this topic.
+          </Typography>
+        )}
+      </Card>
     </Box>
   );
 };

@@ -397,8 +397,8 @@ const DsaSheetPage = () => {
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
-        py: 4,
-        px: 2,
+        py: 0,
+        px: 0,
       }}
     >
       <Paper
@@ -575,23 +575,23 @@ const DsaSheetPage = () => {
           </>
         )}
 
-        {tabIndex === 1 && !isMobile && (
+        {tabIndex === 1 && (
           <Box
             display="flex"
-            justifyContent="center"
+            justifyContent={isMobile ? "flex-start" : "center"}
             alignItems="center"
-            minHeight="50vh"
-            px={2}
+            minHeight={isMobile ? "auto" : "50vh"}
+            px={isMobile ? 0 : 2}
           >
             <Card
               onClick={() => navigate("/dtopic")}
               sx={{
-                p: 4,
+                p: isMobile ? 2 : 4,
                 borderRadius: 4,
                 boxShadow: 3,
                 cursor: "pointer",
                 transition: "0.3s",
-                width: 400,
+                width: isMobile ? "100%" : 400,
                 "&:hover": {
                   boxShadow: 6,
                   transform: "translateY(-2px)",

@@ -124,6 +124,7 @@ const WebDevTopics = () => {
                 p: 2,
                 display: "flex",
                 flexDirection: "column",
+                // Don't set fixed or 100% height here — allow natural growth
               }}
             >
               <Typography variant="h6" fontWeight={600} mb={1}>
@@ -134,7 +135,7 @@ const WebDevTopics = () => {
                   ? "This topic includes subtopics. Click to view them."
                   : "Click below to access the notes."}
               </Typography>
-
+  
               {hasSubtopics ? (
                 <>
                   <Button
@@ -148,7 +149,7 @@ const WebDevTopics = () => {
                       ? "Hide Subtopics"
                       : "View Subtopics"}
                   </Button>
-
+  
                   <Collapse
                     in={expandedTopic === topic.slug}
                     timeout="auto"
@@ -226,6 +227,8 @@ const WebDevTopics = () => {
       })}
     </Grid>
   );
+  
+  
 
   return (
     <Box
@@ -234,8 +237,8 @@ const WebDevTopics = () => {
         minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
-        py: 4,
-        px: 2,
+        py: 0,
+        px: 0,
       }}
     >
       <Paper
@@ -298,62 +301,39 @@ const WebDevTopics = () => {
 
         {tabIndex === 0 && renderTopics()}
 
-        {tabIndex === 1 &&
-          (isMobile ? (
-            <Box>
-              <Typography
-                variant="h6"
-                fontWeight={700}
-                gutterBottom
-                textAlign="left"
-                px={1}
-              >
+        {tabIndex === 1 && (
+          <Box
+            display="flex"
+            justifyContent={isMobile ? "flex-start" : "center"}
+            alignItems="center"
+            minHeight={isMobile ? "auto" : "40vh"}
+            px={isMobile ? 0 : 2}
+          >
+            <Card
+              onClick={() => navigate("/wtopic")}
+              sx={{
+                p: isMobile ? 2 : 4,
+                borderRadius: 4,
+                boxShadow: 3,
+                textAlign: "center",
+                width: isMobile ? "100%" : 400,
+                cursor: "pointer",
+                transition: "0.3s",
+                "&:hover": {
+                  boxShadow: 6,
+                  transform: "translateY(-2px)",
+                },
+              }}
+            >
+              <Typography variant="h6" fontWeight={700} gutterBottom>
                 Start Practice
               </Typography>
-              <Typography variant="body2" color="text.secondary" px={1}>
+              <Typography variant="body2" color="text.secondary">
                 Dive into curated Web Dev problems
               </Typography>
-              <Button
-                variant="contained"
-                sx={{ mt: 2, ml: 1 }}
-                onClick={() => navigate("/wtopic")}
-              >
-                Go to Practice
-              </Button>
-            </Box>
-          ) : (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              minHeight="40vh"
-              px={2}
-            >
-              <Card
-                onClick={() => navigate("/wtopic")}
-                sx={{
-                  p: 4,
-                  borderRadius: 4,
-                  boxShadow: 3,
-                  textAlign: "center",
-                  width: 400,
-                  cursor: "pointer",
-                  transition: "0.3s",
-                  "&:hover": {
-                    boxShadow: 6,
-                    transform: "translateY(-2px)",
-                  },
-                }}
-              >
-                <Typography variant="h6" fontWeight={700} gutterBottom>
-                  Start Practice
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Dive into curated Web Dev problems
-                </Typography>
-              </Card>
-            </Box>
-          ))}
+            </Card>
+          </Box>
+        )}
 
         <Divider sx={{ mt: 6, mb: 2 }} />
         <Typography variant="body2" textAlign="center" color="text.secondary">
