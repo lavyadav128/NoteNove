@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import {
   Box,
   Typography,
@@ -13,6 +14,10 @@ import {
   Tooltip,
   Link,
   Button,
+  Tabs,
+  Tab,
+  useMediaQuery,
+  Paper,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
@@ -374,163 +379,241 @@ const dsaTopics = [
 
 
 
+
 const DsaSheetPage = () => {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabChange = (_, newValue) => {
+    setTabIndex(newValue);
+  };
 
   return (
     <Box
       sx={{
-        py: 6,
-        px: { xs: 2, sm: 4, md: 6 },
         backgroundColor: "#f5f5f5",
         minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        py: 4,
+        px: 2,
       }}
     >
-      {/* Back Button */}
-      <Button
-              onClick={() => navigate(-1)}
-              startIcon={<ArrowBackIosNewIcon />}
-              sx={{
-                mb: 2,
-                backgroundColor: "#fff",
-                color: "#333",
-                border: "1px solid #ddd",
-                borderRadius: 2,
-                textTransform: "none",
-                fontWeight: 600,
-                px: 2.5,
-                py: 1,
-                boxShadow: 1,
-                "&:hover": {
-                  backgroundColor: "#f5f5f5",
-                  boxShadow: 2,
-                },
-              }}
-            >
-              Back
-            </Button>
+      <Paper
+        elevation={4}
+        sx={{
+          width: "100%",
+          maxWidth: "10000px",
+          borderRadius: 4,
+          p: { xs: 2, sm: 4, md: 6 },
+          backgroundColor: "#ffffff",
+        }}
+      >
+        {/* Back Button */}
+        <Box display="flex" justifyContent="flex-start">
+          <Button
+            onClick={() => navigate(-1)}
+            startIcon={<ArrowBackIosNewIcon />}
+            sx={{
+              mb: 3,
+              backgroundColor: "#fff",
+              color: "#333",
+              border: "1px solid #ddd",
+              borderRadius: 2,
+              textTransform: "none",
+              fontWeight: 600,
+              px: 2.5,
+              py: 1,
+              boxShadow: 1,
+              "&:hover": {
+                backgroundColor: "#f0f0f0",
+                boxShadow: 2,
+              },
+            }}
+          >
+            Back
+          </Button>
+        </Box>
 
-      {/* Heading */}
-      <Box textAlign="center" mb={6}>
-        <SchoolIcon sx={{ fontSize: 50, color: "#333" }} />
-        <Typography variant="h5" fontWeight={700} gutterBottom>
-          DSA 34-Day Sheet
-        </Typography>
-        <Typography variant="subtitle1" color="text.secondary">
-          Your roadmap to mastering Data Structures & Algorithms
-        </Typography>
-      </Box>
-
-      {/* Accordion List */}
-      {dsaTopics.map((topic, index) => (
-        <Accordion
-          key={index}
-          defaultExpanded={index === 0}
+        {/* Tabs */}
+        <Box
           sx={{
-            borderRadius: 4,
-            mb: 3,
-            boxShadow: 2,
-            backgroundColor: "#ffffff",
-            width: "100%",
-            maxWidth: "1400px",
-            mx: "auto",
-            "&:before": { display: "none" },
+            display: "flex",
+            justifyContent: "center",
+            mb: 4,
           }}
         >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ px: 4, py: 2 }}>
-            <Typography variant="subtitle1" fontWeight={600} color="#333">
-              {topic.day}
-            </Typography>
-          </AccordionSummary>
+          <Tabs
+            value={tabIndex}
+            onChange={handleTabChange}
+            centered
+            sx={{
+              "& .MuiTab-root": {
+                fontWeight: 700,
+                fontSize: "1rem",
+                textTransform: "none",
+                px: 3,
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: theme.palette.primary.main,
+                height: 3,
+              },
+            }}
+          >
+            <Tab label="DSA 34-Day Sheet" />
+            <Tab label="Practice Sheet" />
+          </Tabs>
+        </Box>
 
-          {topic.questions && (
-            <AccordionDetails sx={{ px: 4, pb: 3 }}>
-              <List disablePadding>
-                {topic.questions.map((q, i) => (
-                  <Card
-                    key={i}
-                    variant="outlined"
-                    sx={{
-                      mb: 2,
-                      borderRadius: 4,
-                      boxShadow: 1,
-                      transition: "0.3s",
-                      "&:hover": {
-                        transform: "translateY(-2px)",
-                        boxShadow: 4,
-                      },
-                    }}
-                  >
-                    <CardContent
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        flexWrap: "wrap",
-                        gap: 2,
-                      }}
-                    >
-                      <Box>
-                        <Typography variant="body1" fontWeight={600} color="#222">
-                          {q.title}
-                        </Typography>
-                        <Chip
-                          label={q.difficulty}
-                          size="small"
-                          sx={{
-                            mt: 0.5,
-                            backgroundColor:
-                              q.difficulty === "EASY"
-                                ? theme.palette.success.light
-                                : q.difficulty === "MEDIUM"
-                                ? theme.palette.warning.light
-                                : theme.palette.error.light,
-                            color:
-                              q.difficulty === "EASY"
-                                ? theme.palette.success.main
-                                : q.difficulty === "MEDIUM"
-                                ? theme.palette.warning.main
-                                : theme.palette.error.main,
-                            fontWeight: 600,
-                          }}
-                        />
-                      </Box>
+        {/* Tab Panels */}
+        {tabIndex === 0 && (
+          <>
+            {dsaTopics.map((topic, index) => (
+              <Accordion
+                key={index}
+                defaultExpanded={index === 0}
+                sx={{
+                  borderRadius: 4,
+                  mb: 3,
+                  boxShadow: 2,
+                  backgroundColor: "#ffffff",
+                  "&:before": { display: "none" },
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{ px: 4, py: 2 }}
+                >
+                  <Typography variant="subtitle1" fontWeight={700} color="#333">
+                    {topic.day}
+                  </Typography>
+                </AccordionSummary>
 
-                      <Tooltip title="Open Question in LeetCode" arrow>
-                        <Link
-                          href={q.link}
-                          target="_blank"
-                          rel="noopener"
-                          underline="none"
+                {topic.questions && (
+                  <AccordionDetails sx={{ px: 4, pb: 3 }}>
+                    <List disablePadding>
+                      {topic.questions.map((q, i) => (
+                        <Card
+                          key={i}
+                          variant="outlined"
                           sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 1,
-                            color: "#444",
-                            fontWeight: 600,
+                            mb: 2,
+                            borderRadius: 4,
+                            boxShadow: 1,
+                            transition: "0.3s",
                             "&:hover": {
-                              textDecoration: "underline",
+                              transform: "translateY(-2px)",
+                              boxShadow: 4,
                             },
                           }}
                         >
-                          Go to Qs <ArrowForwardIcon fontSize="small" />
-                        </Link>
-                      </Tooltip>
-                    </CardContent>
-                  </Card>
-                ))}
-              </List>
-            </AccordionDetails>
-          )}
-        </Accordion>
-      ))}
+                          <CardContent
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              flexWrap: "wrap",
+                              gap: 2,
+                            }}
+                          >
+                            <Box>
+                              <Typography variant="body1" fontWeight={600} color="#222">
+                                {q.title}
+                              </Typography>
+                              <Chip
+                                label={q.difficulty}
+                                size="small"
+                                sx={{
+                                  mt: 0.5,
+                                  backgroundColor:
+                                    q.difficulty === "EASY"
+                                      ? theme.palette.success.light
+                                      : q.difficulty === "MEDIUM"
+                                      ? theme.palette.warning.light
+                                      : theme.palette.error.light,
+                                  color:
+                                    q.difficulty === "EASY"
+                                      ? theme.palette.success.main
+                                      : q.difficulty === "MEDIUM"
+                                      ? theme.palette.warning.main
+                                      : theme.palette.error.main,
+                                  fontWeight: 600,
+                                }}
+                              />
+                            </Box>
 
-      {/* Footer */}
-      <Divider sx={{ mt: 6, mb: 2 }} />
-      <Typography variant="body2" textAlign="center" color="text.secondary">
-        🚀 Keep learning, keep growing. DSA mastery is a journey!
-      </Typography>
+                            <Tooltip title="Open Question in LeetCode" arrow>
+                              <Link
+                                href={q.link}
+                                target="_blank"
+                                rel="noopener"
+                                underline="none"
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                  color: "#444",
+                                  fontWeight: 600,
+                                  "&:hover": {
+                                    textDecoration: "underline",
+                                  },
+                                }}
+                              >
+                                Go to Qs <ArrowForwardIcon fontSize="small" />
+                              </Link>
+                            </Tooltip>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </List>
+                  </AccordionDetails>
+                )}
+              </Accordion>
+            ))}
+          </>
+        )}
+
+        {tabIndex === 1 && (
+          <Box
+            display="flex"
+            justifyContent={isMobile ? "flex-start" : "center"}
+            alignItems="center"
+            minHeight={isMobile ? "auto" : "50vh"}
+            px={isMobile ? 0 : 2}
+          >
+            <Card
+              onClick={() => navigate("/dtopic")}
+              sx={{
+                p: isMobile ? 2 : 4,
+                borderRadius: 4,
+                boxShadow: 3,
+                cursor: "pointer",
+                transition: "0.3s",
+                width: isMobile ? "100%" : 400,
+                "&:hover": {
+                  boxShadow: 6,
+                  transform: "translateY(-2px)",
+                },
+              }}
+            >
+              <Typography variant="h6" fontWeight={700}>
+                Start Practice
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Dive into hand-picked practice questions
+              </Typography>
+            </Card>
+          </Box>
+        )}
+
+        {/* Footer */}
+        <Divider sx={{ mt: 6, mb: 2 }} />
+        <Typography variant="body2" textAlign="center" color="text.secondary">
+          🚀 Keep learning, keep growing. DSA mastery is a journey!
+        </Typography>
+      </Paper>
     </Box>
   );
 };

@@ -54,27 +54,36 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './index.css';
 
 import Home from "./components/Home";
-import Dsa from './components/Dsa';
-import Web from './components/Web';
+import Dsa from './components/Algorithms/Dsa';
+import DtopicPage from './components/Algorithms/dtopic'; // Practice Page Component
+import DpractisePage from './components/Algorithms/dpractise';
+
+
+import Web from './components/Developments/Web';
+import WtopicPage from './components/Developments/wtopic'; // Practice Page Component
+import WpractisePage from './components/Developments/wpractise';
+
+
+
 import Authentication from './components/authentication';
 import { AuthProvider } from './contexts/AuthContext';
 import LandingPage from './components/landing';
-import MentorshipPage from './components/mentorship'; // adjust the path as needed
+import MentorshipPage from './components/Batches/mentorship'; // adjust the path as needed
 
 
 
 
-import Classpage from './components/Classpage';
+import Classpage from './components/Batches/Classpage';
 // import PremiumClassPage from './components/PremiumClassPage';
-import Subjectpage from './components/Subjectpage';
-import ChapterDetail from './components/Chapterd'; // Chapter Detail Page
-import Explore from './components/Explore';
+import Subjectpage from './components/Batches/Subjectpage';
+import ChapterDetail from './components/Batches/Chapterd'; // Chapter Detail Page
+import Explore from './components/Batches/Explore';
 import ChatBot from './components/chatbot';
 
 // ➕ New Components for Test Series and PYQ
-import TestSeries from './components/TestSeries';
-import PYQSeries from './components/PYQSeries';
-import TestAttemptPage from "./components/testattempt";
+import TestSeries from './components/Batches/TestSeries';
+import PYQSeries from './components/Batches/PYQSeries';
+import TestAttemptPage from "./components/Batches/testattempt";
 
 
 
@@ -90,7 +99,14 @@ root.render(
             <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<Authentication />} />
             <Route path="/dsa" element={<Dsa />} />
+            <Route path="/dtopic" element={<DtopicPage />} />
+            <Route path="/dpractice/:topicId" element={<DpractisePage />} />
+
+
+            
             <Route path="/web" element={<Web />} />
+            <Route path="/wtopic" element={<WtopicPage />} />
+            <Route path="/wpractice/:topicId" element={<WpractisePage />} />
 
 
             {/* Chapter Details */}

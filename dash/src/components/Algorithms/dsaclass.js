@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -17,18 +15,19 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
-import { makeAuthenticatedRequest } from "./makeauth";
-import server from "../environment";
+import { makeAuthenticatedRequest } from "../makeauth";
+import server from "../../environment";
 
 // ...imports stay the same
 
 const classDetails = {
-  id: "web",
-  title: "Web Development",
-  description: "Create modern, responsive web apps with our structured fullstack roadmap",
-  imageUrl: "/images/dsa_files/web.png",
-  price: 0,
+  id: "dsa",
+  title: "Dsa Sheet",
+  description: "Ace coding interviews with our 34-day DSA program",
+  imageUrl: "/images/dsa_files/dsa.png",
+  price: 0, // ✅ Updated Price
   isPremium:true,
+
 };
 
 const DSAClass = () => {
@@ -71,7 +70,7 @@ const DSAClass = () => {
   };
 
   const handleExploreRedirect = () => {
-    navigate(`/web`);
+    navigate(`/dsa`);
   };
 
   const handleBuyRedirect = async () => {
@@ -93,7 +92,7 @@ const DSAClass = () => {
       try {
         await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
         handlePurchaseUpdate();
-        navigate(`/web`);
+        navigate(`/dsa`);
       } catch (err) {
         console.error("Error saving free access:", err);
         alert(err.message || "Failed to grant access.");
@@ -124,7 +123,7 @@ const DSAClass = () => {
             // You can optionally verify response.razorpay_signature here
             await makeAuthenticatedRequest(`${server}/api/save-purchase`, "POST", purchasePayload);
             handlePurchaseUpdate();
-            navigate(`/web`);
+            navigate(`/dsa`);
           } catch (err) {
             console.error("Error saving purchase:", err);
             alert(err.message || "Error saving your purchase.");
@@ -156,7 +155,7 @@ const DSAClass = () => {
         textAlign="center"
         color="primary"
       >
-        Full Stack Development
+        Dsa Practise Sheet
       </Typography>
 
       <Box
@@ -283,7 +282,7 @@ const DSAClass = () => {
             borderRadius: 4,
             boxShadow: 8,
             backgroundColor: "#f5f5f5",
-            p: 2,
+            p: 3,
             transition: "box-shadow 0.5s, transform 0.3s",
             ...(highlightDesc && {
               boxShadow: "0 0 25px 5px rgba(25, 118, 210, 0.6)",
@@ -300,14 +299,13 @@ const DSAClass = () => {
           </Typography>
           <Box component="ul" sx={{ pl: 2, m: 0 }}>
             {[
-              "HTML, CSS, and JavaScript (Responsive Web Design)",
-              "Modern frameworks like React or Angular",
-              "Server-side programming (Node.js, Express.js, or others)",
-              "RESTful APIs and routing",
-              "Authentication and Authorization",
-              "CRUD operations",
-              "Hosting (Vercel, render, or traditional servers)",
-              "Relational databases (MySQL, PostgreSQL",
+              "Master the fundamentals of Data Structures & Algorithms",
+              "Learn with a structured 34-day roadmap",
+              "Most frequent and expected questions",
+              "Solve 200+ curated LeetCode problems",
+              "Prepare for top service-based companies",
+              "Get personalized mentorship & doubt support",
+              "Prepare for top product-based companies",
             ].map((point, index) => (
               <Typography
                 key={index}
@@ -362,8 +360,8 @@ const DSAClass = () => {
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <img
-              src="/images/dsa_files/webss.png"
-              alt="web Preview"
+              src="/images/dsa_files/dsass.png"
+              alt="DSA Preview"
               style={{ maxWidth: "100%", maxHeight: "400px", borderRadius: 10 }}
             />
           </Box>

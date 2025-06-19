@@ -15,10 +15,10 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
-import Dsaclass from "./dsaclass";
-import Webclass from "./webclas";
-import Courses from "./Courses";
-import PreBatch from "./PreBatch";
+import Dsaclass from "./Algorithms/dsaclass";
+import Webclass from "./Developments/webclas";
+import Courses from "./Batches/Courses";
+import PreBatch from "./Batches/PreBatch";
 import Authentication from "./authentication";
 import MyBatchesPage from "./MyBatchesPage";
 import server from "../environment";

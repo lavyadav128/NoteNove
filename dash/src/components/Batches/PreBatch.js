@@ -13,54 +13,22 @@ import {
   useTheme,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { makeAuthenticatedRequest } from './makeauth';
-import server from '../environment';
+import { makeAuthenticatedRequest } from '../makeauth';
+import server from '../../environment';
 
 const classList = [
-  {
-    id: '10',
-    title: 'Class 10',
-    description: 'Master all subjects with our comprehensive Class 10 content.',
-    imageUrl: '/images/10.png',
-    price: 1,
-  },
-  {
-    id: '11',
-    title: 'Class 11 (Jee + Boards)',
-    description: 'Strengthen your foundation with advanced concepts.',
-    imageUrl: '/images/11.png',
-    price: 0,
-  },
-  {
-    id: '12',
-    title: 'Class 12 (Jee + Boards)',
-    description: 'Ace your boards and entrance exams with Class 12 content.',
-    imageUrl: '/images/12.png',
-    price: 0,
-  },
-  {
-    id: '111',
-    title: 'Class 11 (Neet + Boards)',
-    description: 'Strengthen your foundation with core biology and medical entrance concepts.',
-    imageUrl: '/images/11.png',
-    price: 0,
-  },
-  {
-    id: '121',
-    title: 'Class 12 (Neet + Boards)',
-    description: 'Ace your boards and NEET exam with in-depth Class 12 content.',
-    imageUrl: '/images/12.png',
-    price: 0,
-  },
+  { id: '1', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', imageUrl: '/images/p10.png', price: 99, isPremium: true },
+  { id: '2', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', imageUrl: '/images/p11.png', price: 99, isPremium: true },
+  { id: '3', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', imageUrl: '/images/p12.png', price: 99, isPremium: true },
 ];
 
-const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPurchase }) => {
+const ClassCard = ({ id, title, description, imageUrl, price, isPremium, purchaseInfo, onPurchase }) => {
   const navigate = useNavigate();
   const isPurchased = !!purchaseInfo;
   const expiryDate = purchaseInfo?.expiryDate ? new Date(purchaseInfo.expiryDate) : null;
 
   const handleExploreRedirect = () => {
-    navigate(`/class/${id}/explore`);
+    navigate(`/premium/class/${id}/explore`);
   };
 
   const handleBuyRedirect = async () => {
@@ -69,43 +37,49 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
       alert('Please login first');
       return;
     }
-  
+
     const purchasePayload = {
       classId: id,
       batchTitle: title,
       price: price,
       description: description,
       imageUrl: imageUrl,
+      isPremium: isPremium,
     };
-  
+
     if (price === 0) {
       try {
         await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
         onPurchase(id);
-        navigate(`/class/${id}`);
+        navigate(`/premium/class/${id}`);
       } catch (err) {
         console.error('Error saving free access:', err);
         alert(err.message || 'Failed to grant access.');
       }
       return;
     }
-  
+
     if (!window.Razorpay) {
       alert('Payment gateway not loaded');
       return;
     }
-  
+
     try {
-      // Step 1: Create order from backend
-      const order = await makeAuthenticatedRequest(`${server}/api/create-order`, 'POST', {
-        amount: price,
-        receipt: `receipt_${id}_${Date.now()}`,
+      const orderResponse = await fetch(`${server}/api/create-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ amount: price, receipt: `receipt_${id}_${Date.now()}` }),
       });
-  
+
+      const order = await orderResponse.json();
+
       const options = {
         key: process.env.REACT_APP_RAZORPAY_LIVE_KEY,
         amount: order.amount,
-        currency: order.currency,
+        currency: 'INR',
         name: 'Atom Classes',
         description: `Payment for ${title}`,
         order_id: order.id,
@@ -113,7 +87,7 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
           try {
             await makeAuthenticatedRequest(`${server}/api/save-purchase`, 'POST', purchasePayload);
             onPurchase(id);
-            navigate(`/class/${id}`);
+            navigate(`/premium/class/${id}`);
           } catch (err) {
             console.error('Error saving purchase:', err);
             alert(err.message || 'Error saving your purchase.');
@@ -123,15 +97,14 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
         notes: { batchId: id },
         theme: { color: '#1976d2' },
       };
-  
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
-      console.error('Payment error:', err);
+      console.error('Failed to create Razorpay order:', err);
       alert('Failed to initiate payment. Try again.');
     }
   };
-  
 
   return (
     <Card
@@ -196,7 +169,9 @@ const ClassCard = ({ id, title, description, imageUrl, price, purchaseInfo, onPu
         </Button>
         <Button
           variant="contained"
-          onClick={() => (isPurchased ? navigate(`/class/${id}`) : handleBuyRedirect())}
+          onClick={() =>
+            isPurchased ? navigate(`/premium/class/${id}`) : handleBuyRedirect()
+          }
           sx={{
             width: '48%',
             fontWeight: 600,
@@ -244,7 +219,7 @@ const ClassCardPage = () => {
   };
 
   return (
-    <Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 5 } }}>
+    <Box sx={{ py: 0, px: { xs: 1, sm: 5, md: 10, lg: 16 } }}>
       <Typography
         variant="h4"
         textAlign="center"
