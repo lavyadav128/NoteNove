@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const topics = [
   { id: "java-basics", name: "Java Basics" },
@@ -47,6 +48,101 @@ const topics = [
 
 const TopicPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const content = (
+    <>
+      {/* Back Button */}
+      <Button
+        onClick={() => navigate(-1)}
+        startIcon={<ArrowBackIosNewIcon />}
+        sx={{
+          mb: 3,
+          backgroundColor: "#fff",
+          color: "#333",
+          border: "1px solid #ddd",
+          borderRadius: 2,
+          textTransform: "none",
+          fontWeight: 600,
+          px: 2.5,
+          py: 1,
+          boxShadow: 1,
+          "&:hover": {
+            backgroundColor: "#f0f0f0",
+            boxShadow: 2,
+          },
+        }}
+      >
+        Back
+      </Button>
+
+      <Typography
+        variant="h4"
+        fontWeight={700}
+        textAlign="center"
+        gutterBottom
+        sx={{ color: "#333" }}
+      >
+        Explore DSA Topics
+      </Typography>
+
+      <Typography
+        variant="subtitle1"
+        textAlign="center"
+        mb={6}
+        color="text.secondary"
+      >
+        Tap into the core concepts of Data Structures & Algorithms
+      </Typography>
+
+      <Grid container spacing={3}>
+        {topics.map((topic) => (
+          <Grid item xs={12} sm={6} md={4} key={topic.id}>
+            <Card
+              sx={{
+                borderRadius: 3,
+                boxShadow: 2,
+                "&:hover": {
+                  boxShadow: 5,
+                  transform: "translateY(-4px)",
+                },
+                transition: "all 0.3s",
+              }}
+            >
+              <CardActionArea onClick={() => navigate(`/dpractice/${topic.id}`)}>
+                <CardContent
+                  sx={{
+                    textAlign: "center",
+                    py: 4,
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight={600}
+                    color="text.primary"
+                  >
+                    {topic.name}
+                  </Typography>
+                  <Chip
+                    label="Start Practice"
+                    size="small"
+                    sx={{
+                      mt: 1.5,
+                      backgroundColor: "#e0e0e0",
+                      color: "#333",
+                      fontWeight: 600,
+                    }}
+                  />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
 
   return (
     <Box
@@ -60,107 +156,22 @@ const TopicPage = () => {
         alignItems: { xs: "initial", md: "center" },
       }}
     >
-      <Card
-        sx={{
-          width: { xs: "100%", md: "99%" },
-          maxWidth: "12000px",
-          p: { xs: 2, md: 5 },
-          borderRadius: 4,
-          boxShadow: 4,
-          backgroundColor: "#ffffff",
-        }}
-      >
-        {/* Back Button */}
-        <Button
-          onClick={() => navigate(-1)}
-          startIcon={<ArrowBackIosNewIcon />}
+      {isMobile ? (
+        <Box>{content}</Box>
+      ) : (
+        <Card
           sx={{
-            mb: 3,
-            backgroundColor: "#fff",
-            color: "#333",
-            border: "1px solid #ddd",
-            borderRadius: 2,
-            textTransform: "none",
-            fontWeight: 600,
-            px: 2.5,
-            py: 1,
-            boxShadow: 1,
-            "&:hover": {
-              backgroundColor: "#f0f0f0",
-              boxShadow: 2,
-            },
+            width: { xs: "100%", md: "99%" },
+            maxWidth: "12000px",
+            p: { xs: 2, md: 5 },
+            borderRadius: 4,
+            boxShadow: 4,
+            backgroundColor: "#ffffff",
           }}
         >
-          Back
-        </Button>
-
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          gutterBottom
-          sx={{ color: "#333" }}
-        >
-          Explore DSA Topics
-        </Typography>
-
-        <Typography
-          variant="subtitle1"
-          textAlign="center"
-          mb={6}
-          color="text.secondary"
-        >
-          Tap into the core concepts of Data Structures & Algorithms
-        </Typography>
-
-        <Grid container spacing={3}>
-          {topics.map((topic) => (
-            <Grid item xs={12} sm={6} md={4} key={topic.id}>
-              <Card
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  "&:hover": {
-                    boxShadow: 5,
-                    transform: "translateY(-4px)",
-                  },
-                  transition: "all 0.3s",
-                }}
-              >
-                <CardActionArea
-                  onClick={() => navigate(`/dpractice/${topic.id}`)}
-                >
-                  <CardContent
-                    sx={{
-                      textAlign: "center",
-                      py: 4,
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
-                      fontWeight={600}
-                      color="text.primary"
-                    >
-                      {topic.name}
-                    </Typography>
-                    <Chip
-                      label="Start Practice"
-                      size="small"
-                      sx={{
-                        mt: 1.5,
-                        backgroundColor: "#e0e0e0",
-                        color: "#333",
-                        fontWeight: 600,
-                      }}
-                    />
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Card>
+          {content}
+        </Card>
+      )}
     </Box>
   );
 };
