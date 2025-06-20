@@ -20,6 +20,7 @@ const topics = [
   { id: "backend", name: "Backend" },
   { id: "mongodb", name: "Mongodb" },
   { id: "react-basics", name: "React Basics" },
+  { id: "sql-basics", name: "SQL Basics" },
   { id: "redux", name: "Redux" },
   { id: "docker", name: "Docker" },
   { id: "networking-basics", name: "Networking Basics" },

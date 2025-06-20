@@ -9,7 +9,6 @@ const questionsData = {
         System.out.print("Hello World");
     }
 }`,
-      type: "code"
       },
       {
         title: "What is the difference between print and println in Java?",
@@ -25,7 +24,6 @@ const questionsData = {
     String name = "Ram";
     
     Always use the format: type variableName = value;`,
-    type: "code"
 
       },
       {
@@ -37,19 +35,16 @@ const questionsData = {
         title: "What are the two main types of data types in Java?",
         answer: `Primitive: byte, short, int, long, float, double, boolean, char
     Non-Primitive: String, Array, Class, Object, Interface`,
-    type: "code"
 
       },
       {
         title: "Give the size and range of the byte data type.",
         answer: "Size: 1 byte (8 bits)\nRange: -128 to 127",
-        type: "code"
 
       },
       {
         title: "What values can a boolean hold?",
         answer: "true or false",
-        type: "code"
 
       },
       {
@@ -59,7 +54,6 @@ const questionsData = {
     Multi-line:
     /* This is a 
        multi-line comment */`,
-       type: "code"
 
       },
       {
@@ -68,14 +62,12 @@ const questionsData = {
     Scanner sc = new Scanner(System.in);
     String name = sc.nextLine();
     System.out.println(name);`,
-    type: "code"
 
       },
       {
         title: "What is type conversion in Java?",
         answer: `It's automatic when moving from a smaller to a larger data type:
     byte < short < int < float < long < double`,
-    type: "code"
 
       },
       {
@@ -84,7 +76,6 @@ const questionsData = {
     
     float a = 25.9999f;
     int b = (int) a;  // Result: 25`,
-    type: "code"
 
       },
       {
@@ -94,7 +85,6 @@ const questionsData = {
     Example:
     byte b = 5;
     byte c = (byte)(b * 2); // Need to cast back to byte`,
-    type: "code"
 
       },
       {
@@ -106,7 +96,6 @@ const questionsData = {
       
       So:
       Source Code → Compilation → Bytecode → Execution by JVM`,
-      type: "code"
 
       },
       {
@@ -114,7 +103,6 @@ const questionsData = {
         answer: `- JVM: Runs Java programs (Java Virtual Machine)
       - JRE: JVM + Libraries (Java Runtime Environment)
       - JDK: JRE + Compiler + Developer Tools (Java Development Kit)`,
-      type: "code"
 
       },
       {
@@ -136,7 +124,6 @@ const questionsData = {
       int a = 5;
       System.out.println(++a); // 6
       System.out.println(a++); // 6 (then a becomes 7)`,
-      type: "code"
 
       },
     ],
@@ -156,7 +143,6 @@ const questionsData = {
       } else {
         System.out.println("You cannot vote");
       }`,
-      type: "code"
 
       },
       {
@@ -170,7 +156,6 @@ const questionsData = {
         // adult
       } else {
         // senior`,
-        type: "code"
 
       },
       {
@@ -185,7 +170,6 @@ const questionsData = {
         tax = (int)(income * 0.2);
       }
       System.out.println("Tax is: " + tax);`,
-      type: "code"
 
       },
       {
@@ -198,7 +182,6 @@ const questionsData = {
       } else {
         // c is largest
       }`,
-      type: "code"
 
       },
       {
@@ -210,7 +193,6 @@ const questionsData = {
       
       Example:
       int large = (5 > 3) ? 5 : 3;`,
-      type: "code"
 
       },
       {
@@ -218,7 +200,6 @@ const questionsData = {
         answer: `Example:
       String type = (5 % 2 == 0) ? "even" : "odd";
       System.out.println(type);`,
-      type: "code"
 
       },
       {
@@ -235,7 +216,6 @@ const questionsData = {
         default:
           System.out.println("We wake up");
       }`,
-      type: "code"
 
       },
       {
@@ -253,7 +233,6 @@ const questionsData = {
         System.out.println("Hello");
         count++;
       }`,
-      type: "code"
 
       },
       {
@@ -268,7 +247,6 @@ const questionsData = {
       }
       
       // Output: 1 2 3 4 5`,
-      type: "code"
 
       },
       {
@@ -284,7 +262,6 @@ const questionsData = {
       }
       
       System.out.println(sum); // Output: 15`,
-      type: "code"
 
       },
       {
@@ -300,7 +277,6 @@ const questionsData = {
       for (int i = 1; i <= 5; i++) {
         System.out.println(i);
       }`,
-      type: "code"
 
       },
       {
@@ -317,7 +293,6 @@ const questionsData = {
       }
       
       // Output: 9 9 8 0 1`,
-      type: "code"
 
       },
       {
@@ -328,7 +303,6 @@ const questionsData = {
       do {
         // do something
       } while (condition);`,
-      type: "code"
 
       },
       {
@@ -343,7 +317,7 @@ const questionsData = {
         }
         System.out.println(n);
       } while (true);`,
-      type: "code"
+
 
       },
       {
@@ -359,7 +333,7 @@ const questionsData = {
       }
       
       // Output: 1 2 4 5 (3 is skipped)`,
-      type: "code"
+  
 
       }
     ],
@@ -371,7 +345,7 @@ const questionsData = {
 
     "patterns":[
       {
-        type: "code",
+        
         title: "How does a basic star pattern print work in Java?",
         answer: `To print a basic star pattern like a half pyramid, you need two loops:
     1. Outer loop for each line
@@ -393,7 +367,7 @@ const questionsData = {
       },
     
       {
-        type: "code",
+        
         title: "How to print an inverted star pattern in Java?",
         answer: `In an inverted pattern, stars decrease with each line.
     We start from total lines (n) and reduce the number of stars.
@@ -415,7 +389,7 @@ const questionsData = {
       },
     
       {
-        type: "code",
+    
         title: "How to print a character pattern in Java?",
         answer: `Use character variables like 'A', 'B', etc., inside nested loops.
     
@@ -438,7 +412,7 @@ const questionsData = {
       },
 
         {
-          type: "code",
+        
           title: "How does the Zero-One Triangle pattern work in Java?",
           answer: `In this pattern, a triangle of 0s and 1s is printed such that the sum of row and column indexes determines what to print:
       - If (i + j) is even → print 1
@@ -467,7 +441,7 @@ const questionsData = {
         },
       
         {
-          type: "code",
+    
           title: "How does the Butterfly pattern work in Java?",
           answer: `Butterfly pattern is formed in two halves:
       - Top half: stars on left and right separated by spaces
@@ -521,7 +495,7 @@ const questionsData = {
       *      *`
         },
           {
-            type: "code",
+      
             title: "How does the Solid Rhombus pattern work in Java?",
             answer: `A Solid Rhombus is a shifted rectangle made of stars.
         
@@ -553,7 +527,7 @@ const questionsData = {
           },
         
           {
-            type: "code",
+      
             title: "How do you print a Hollow Rhombus in Java?",
             answer: `Hollow Rhombus is similar to a solid rhombus but with only borders filled.
         
@@ -583,7 +557,7 @@ const questionsData = {
           },
         
           {
-            type: "code",
+          
             title: "How does the Diamond Pattern work in Java?",
             answer: `This pattern is symmetrical and formed in two parts (upper + lower triangles).
         
@@ -643,7 +617,6 @@ const questionsData = {
     public static void printHelloWorld() {
         System.out.println("Hello world");
     }`,
-    type: "code"
 
       },
     
@@ -667,7 +640,7 @@ const questionsData = {
         int sum = calculateSum(2, 3);
         System.out.println("Sum is: " + sum);
     }`,
-    type: "code"
+    
 
       },
     
@@ -688,86 +661,86 @@ const questionsData = {
         swap(a, b);
         System.out.println("After swap: a = " + a + ", b = " + b); // values remain 5 and 10
     }`,
-    type: "code"
+  
 
       },
         {
-          type: "code",
+      
           title: "What does the 'factorial' method do in Java?",
           answer: "It calculates the factorial of a number using a loop.\n\nExample:\nint result = factorial(4); // returns 24"
         },
         {
-          type: "code",
+          
           title: "How is factorial implemented in Java?",
           answer: "Using a loop:\nint f = 1;\nfor(int i = 1; i <= n; i++) {\n  f *= i;\n}\nreturn f;"
         },
         {
-          type: "code",
+          
           title: "What is a binomial coefficient?",
           answer: "It is a value calculated using the formula C(n, r) = n! / (r! * (n-r)!)\n\nUsed in combinations and probability."
         },
         {
-          type: "code",
+          
           title: "How is the binomial coefficient implemented in Java?",
           answer: "By calling the factorial function for n, r, and (n - r) and returning the result as:\nint bincoeff = factn / (factr * factnr);"
         },
         {
-          type: "code",
+        
           title: "What is function overloading in Java?",
           answer: "It allows multiple methods with the same name but different parameter types or counts.\n\nExample:\nvoid multiply(int a, int b) {}\nvoid multiply(float a, float b) {}"
         },
         {
-          type: "code",
+  
           title: "What are the rules for function overloading in Java?",
           answer: "Overloaded functions must differ by:\n- Number of parameters\n- Type of parameters\nReturn type alone is not sufficient."
         },
         {
-          type: "code",
+    
           title: "How to check if a number is prime in Java?",
           answer: "Use a method that returns false if any number between 2 and n-1 divides n.\n\nExample:\nboolean isPrime(int n) {...}"
         },
         {
-          type: "code",
+    
           title: "What is the logic behind the 'isPrime' function in Java?",
           answer: "If n is less than or equal to 1, it's not prime. Else, check for divisibility from 2 to n-1.\nIf any i divides n, return false."
         },
         {
-          type: "code",
+          
           title: "How to print all prime numbers up to a number in Java?",
           answer: "Use a loop from 1 to n and call isPrime(i). If true, print the number.\n\nExample:\nfor (int i = 1; i <= n; i++) {\n  if (isPrime(i)) System.out.print(i + \" \");\n}"
         },
         {
-          type: "code",
+  
           title: "How does 'primesInRange' work in the code?",
           answer: "It loops from 1 to n and calls isPrime on each number. If true, it prints the number."
         },
         {
-          type: "code",
+    
           title: "What does the 'binToDec' method do?",
           answer: "It converts a binary number (as an integer) into its decimal equivalent.\n\nExample:\nbinToDec(1011); // Output: 11"
         },
         {
-          type: "code",
+  
           title: "How does the 'binToDec' method work internally?",
           answer: "It repeatedly extracts the last digit of the binary number using % 10, multiplies it with powers of 2, and adds it to the result.\n\nIt uses:\n- Math.pow(2, pow)\n- (int) type casting\n- Updates binum by binum / 10"
         },
         {
-          type: "code",
+  
           title: "Why is (int) casting used in 'binToDec'?",
           answer: "Because Math.pow() returns a double, so we need to cast it to int before using it in integer addition."
         },
         {
-          type: "code",
+    
           title: "What is 'scope' in Java?",
           answer: "Scope defines where a variable can be accessed or modified in a program. It can be:\n- Block Scope\n- Method Scope\n- Class Scope"
         },
         {
-          type: "code",
+        
           title: "What is block scope in Java?",
           answer: "Variables declared inside a block {} are accessible only within that block.\n\nExample: Inside for loops or if statements."
         },
         {
-          type: "code",
+      
           title: "What is method scope in Java?",
           answer: "Variables declared inside a method are only accessible within that method. They are destroyed once the method completes."
         },
