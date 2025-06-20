@@ -9,6 +9,9 @@ import {
   Grid,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+
 import questionsData from "./wdata";
 
 const PracticePage = () => {
@@ -58,7 +61,7 @@ const PracticePage = () => {
       </Button>
 
       <Typography
-        variant="h4"
+        variant="h5"
         fontWeight={700}
         gutterBottom
         align="center"
@@ -77,7 +80,14 @@ const PracticePage = () => {
             <Typography fontWeight={600} color="text.secondary" gutterBottom>
               Answer:
             </Typography>
-            <Typography>{q.answer}</Typography>
+
+            {q.type === "code" ? (
+              <SyntaxHighlighter language="java" style={oneDark}>
+                {q.answer}
+              </SyntaxHighlighter>
+            ) : (
+              <Typography whiteSpace="pre-line">{q.answer}</Typography>
+            )}
           </Box>
 
           <Grid container spacing={2} justifyContent="center" mt={3}>

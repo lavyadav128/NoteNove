@@ -16,15 +16,17 @@ const topics = [
   { id: "html-basics", name: "HTML Basics" },
   { id: "css-basics", name: "CSS Basics" },
   { id: "js-basics", name: "JavaScript Basics" },
+  { id: "github", name: "GitHub" },
+  { id: "backend", name: "Backend" },
+  { id: "mongodb", name: "Mongodb" },
   { id: "react-basics", name: "React Basics" },
   { id: "sql-basics", name: "SQL Basics" },
+  { id: "redux", name: "Redux" },
+  { id: "docker", name: "Docker" },
   { id: "networking-basics", name: "Networking Basics" },
   { id: "oops-principles", name: "OOP Principles" },
   { id: "dbms-basics", name: "DBMS Basics" },
   { id: "os-basics", name: "OS Basics" },
-  { id: "nodejs-intro", name: "Node.js Introduction" },
-  { id: "express-intro", name: "Express Basics" },
-  { id: "auth-intro", name: "Authentication Overview" },
 ];
 
 const TopicPage = () => {
