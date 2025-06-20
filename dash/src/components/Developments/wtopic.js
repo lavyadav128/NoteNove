@@ -33,116 +33,101 @@ const TopicPage = () => {
   return (
     <Box
       sx={{
-        py: 0,
-        px: 0,
-        backgroundColor: "#f5f5f5",
-        minHeight: "100vh",
-        display: { xs: "block", md: "flex" },
-        justifyContent: { xs: "initial", md: "center" },
-        alignItems: { xs: "initial", md: "center" },
+        p: { xs: 2, md: 5 },
+        maxWidth: "1200px",
+        margin: "0 auto",
       }}
     >
-      <Card
+      {/* Back Button */}
+      <Button
+        onClick={() => navigate(-1)}
+        startIcon={<ArrowBackIosNewIcon />}
         sx={{
-          width: { xs: "100%", md: "99%" },
-          maxWidth: "12000px",
-          p: { xs: 2, md: 5 },
-          borderRadius: 4,
-          boxShadow: 4,
-          backgroundColor: "#ffffff",
+          mb: 3,
+          backgroundColor: "#fff",
+          color: "#333",
+          border: "1px solid #ddd",
+          borderRadius: 2,
+          textTransform: "none",
+          fontWeight: 600,
+          px: 2.5,
+          py: 1,
+          boxShadow: 1,
+          "&:hover": {
+            backgroundColor: "#f0f0f0",
+            boxShadow: 2,
+          },
         }}
       >
-        {/* Back Button */}
-        <Button
-          onClick={() => navigate(-1)}
-          startIcon={<ArrowBackIosNewIcon />}
-          sx={{
-            mb: 3,
-            backgroundColor: "#fff",
-            color: "#333",
-            border: "1px solid #ddd",
-            borderRadius: 2,
-            textTransform: "none",
-            fontWeight: 600,
-            px: 2.5,
-            py: 1,
-            boxShadow: 1,
-            "&:hover": {
-              backgroundColor: "#f0f0f0",
-              boxShadow: 2,
-            },
-          }}
-        >
-          Back
-        </Button>
+        Back
+      </Button>
 
-        <Typography
-          variant="h4"
-          fontWeight={700}
-          textAlign="center"
-          gutterBottom
-          sx={{ color: "#333" }}
-        >
-          Explore Development Topics
-        </Typography>
+      <Typography
+        variant="h5"
+        fontWeight={700}
+        textAlign="center"
+        gutterBottom
+        sx={{ color: "#333" }}
+      >
+        Explore Development Topics
+      </Typography>
 
-        <Typography
-          variant="subtitle1"
-          textAlign="center"
-          mb={6}
-          color="text.secondary"
-        >
-          Tap into the core concepts of Data Structures & Algorithms
-        </Typography>
+      <Typography
+        variant="subtitle1"
+        textAlign="center"
+        mb={6}
+        color="text.secondary"
+      >
+        Choose a topic to start practicing.
+      </Typography>
 
-        <Grid container spacing={3}>
-          {topics.map((topic) => (
-            <Grid item xs={12} sm={6} md={4} key={topic.id}>
-              <Card
-                sx={{
-                  borderRadius: 3,
-                  boxShadow: 2,
-                  "&:hover": {
-                    boxShadow: 5,
-                    transform: "translateY(-4px)",
-                  },
-                  transition: "all 0.3s",
-                }}
+      <Grid container spacing={3}>
+        {topics.map((topic) => (
+          <Grid item xs={12} sm={6} md={4} key={topic.id}>
+            <Card
+              sx={{
+                borderRadius: 3,
+                boxShadow: 2,
+                "&:hover": {
+                  boxShadow: 5,
+                  transform: "translateY(-4px)",
+                },
+                transition: "all 0.3s",
+              }}
+            >
+              <CardActionArea
+                onClick={() => navigate(`/wpractice/${topic.id}`)}
               >
-                <CardActionArea
-                  onClick={() => navigate(`/wpractice/${topic.id}`)}
+                <CardContent
+                  sx={{
+                    textAlign: "center",
+                    py: 2,
+                    backgroundColor: "#fff",
+                  }}
                 >
-                  <CardContent
-                    sx={{
-                      textAlign: "center",
-                      py: 2,
-                      backgroundColor: "#fff",
-                    }}
+                  <Typography
+                    variant="h6"
+                    fontWeight={600}
+                    color="text.primary"
                   >
-                    <Typography
-                      variant="h6"
-                      fontWeight={600}
-                      color="text.primary"
-                    >
-                      {topic.name}
-                    </Typography>
-                    <Chip
-                      label="Start Practice"
-                      size="small"
-                      sx={{
-                        mt: 1.5,
-                        backgroundColor: "#e0e0e0",
-                        color: "#333",
-                        fontWeight: 600,
-                      }}
-                    />
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Card>
+                    {topic.name}
+                  </Typography>
+                  <Chip
+                    label="Start Practice"
+                    size="small"
+                    sx={{
+                      mt: 1.5,
+                      backgroundColor: "white",
+                      color: "#333",
+                      fontWeight: 600,
+                    }}
+                  />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };
