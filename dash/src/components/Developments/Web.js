@@ -337,7 +337,6 @@ const WebDevTopics = () => {
 
         <Divider sx={{ mt: 6, mb: 2 }} />
         <Typography variant="body2" textAlign="center" color="text.secondary">
-          🌐 Keep building, keep learning. Web Dev mastery is a journey!
         </Typography>
       </Paper>
 

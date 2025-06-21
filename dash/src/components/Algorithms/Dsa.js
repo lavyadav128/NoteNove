@@ -611,7 +611,6 @@ const DsaSheetPage = () => {
         {/* Footer */}
         <Divider sx={{ mt: 6, mb: 2 }} />
         <Typography variant="body2" textAlign="center" color="text.secondary">
-          🚀 Keep learning, keep growing. DSA mastery is a journey!
         </Typography>
       </Paper>
     </Box>
