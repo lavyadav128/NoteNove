@@ -945,197 +945,182 @@ const questionsData = {
 
     "oop":[
       {
-        "title": "What is Object-Oriented Programming (OOP)?",
-        "answer": "OOP is a programming paradigm based on the concept of objects, which encapsulate data and behavior together."
+        title: "What is Object-Oriented Programming (OOP)?",
+        answer: "OOP is a programming paradigm that organizes code using objects, combining data (fields) and behavior (methods). Example: A Pen object with color and tip attributes and methods like setColor()."
       },
       {
-        "title": "What are the main pillars of OOP?",
-        "answer": "1. Encapsulation\n2. Inheritance\n3. Polymorphism\n4. Abstraction"
+        title: "What is a class and object?",
+        answer: "A class is a blueprint or template that defines the structure and behavior (variables and methods) of objects. An object is a real-world instance of a class.\n\nJava Example:\n```java\nclass Pen {\n  String color;\n  int tip;\n\n  Pen(String color, int tip) {\n    this.color = color;\n    this.tip = tip;\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Pen pen1 = new Pen(\"blue\", 1); // pen1 is an object of class Pen\n    System.out.println(pen1.color); // Output: blue\n  }\n}\n```\n\nExplanation:\n- `Pen` is a class (template)\n- `pen1` is an object created from that class\n- Each object has its own copy of the class's fields (like `color`, `tip`)"
+      },      
+      {
+        title: "What is encapsulation?",
+        answer: "Encapsulation is one of the key principles of Object-Oriented Programming. It means bundling data (fields) and methods (functions) that operate on that data into a single unit — a class. It also involves hiding the internal details of objects from outside access using access modifiers like `private`.\n\nJava Example:\n```java\nclass Account {\n  private String password;\n\n  public Account(String pwd) {\n    this.password = pwd;\n  }\n\n  public void setPassword(String pwd) {\n    this.password = pwd;\n  }\n\n  public String getPassword() {\n    return this.password;\n  }\n}\n```\n\nExplanation:\n- The field `password` is marked `private`, so it can't be accessed directly from outside the class.\n- Instead, it's accessed and modified using `getPassword()` and `setPassword()` methods.\n- This is encapsulation: protecting data by restricting direct access and exposing it only through controlled methods."
+      },      
+      {
+        title: "What does the 'this' keyword do?",
+        answer: "The `this` keyword refers to the current object — the instance whose method or constructor is being executed. It helps distinguish between class fields and parameters with the same name.\n\nJava Example:\n```java\nclass Student {\n  String name;\n\n  Student(String name) {\n    this.name = name; // 'this.name' refers to the class field\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student(\"Alice\");\n    System.out.println(s.name); // Output: Alice\n  }\n}\n```\n\nExplanation:\n- Inside the constructor, `this.name` refers to the field, and `name` refers to the constructor parameter.\n- `this` is used to avoid confusion when names are the same."
+      },      
+      {
+        title: "What are access modifiers?",
+        answer: "Access modifiers in Java define the visibility or accessibility of classes, methods, and variables.\n\nTypes:\n- **private**: Accessible only within the same class.\n- **default** (no modifier): Accessible within the same package.\n- **protected**: Accessible within the same package and in subclasses (even outside the package).\n- **public**: Accessible from anywhere.\n\nJava Example:\n```java\npublic class Example {\n  private int a = 10;      // only inside this class\n  int b = 20;              // default: only in same package\n  protected int c = 30;    // package + subclasses\n  public int d = 40;       // everywhere\n}\n```\n\nExplanation:\n- Use **private** to hide internal details.\n- Use **public** for open access.\n- Use **protected** for inheritance-related access.\n- **Default** is package-limited and used when no modifier is written."
+      },      
+      {
+        title: "How do access modifiers behave?",
+        answer: "| Modifier   | Class | Package | Subclass | Other |\n|------------|-------|---------|----------|--------|\n| private    | ✓     | ✗       | ✗        | ✗      |\n| default    | ✓     | ✓       | ✗        | ✗      |\n| protected  | ✓     | ✓       | ✓        | ✗      |\n| public     | ✓     | ✓       | ✓        | ✓      |"
       },
       {
-        "title": "What is a class?",
-        "answer": "A class is a blueprint or template for creating objects. It defines attributes (variables) and methods (functions)."
+        title: "What are getters and setters?",
+        answer: "Getters and setters are methods used to access (get) and update (set) the values of private fields in a class. They help implement encapsulation by controlling how data is accessed and modified.\n\nJava Example:\n```java\nclass Pen {\n  private String color;\n\n  // Getter\n  public String getColor() {\n    return this.color;\n  }\n\n  // Setter\n  public void setColor(String c) {\n    this.color = c;\n  }\n}\n```\n\nExplanation:\n- `color` is private, so it cannot be accessed directly from outside.\n- `getColor()` lets you read the value.\n- `setColor()` lets you safely update the value.\n- This approach follows the principle of encapsulation."
+      },      
+      {
+        title: "What is a constructor?",
+        answer: "A constructor is a special method in a class that is automatically called when an object is created. It has the same name as the class and does not have a return type (not even void).\n\nJava Example:\n```java\nclass Student {\n  String name;\n\n  // Constructor\n  Student(String n) {\n    this.name = n;\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student(\"Alice\");\n    System.out.println(s.name); // Output: Alice\n  }\n}\n```\n\nExplanation:\n- `Student(String n)` is the constructor.\n- It runs automatically when `new Student(\"Alice\")` is called.\n- It sets the initial value of the `name` field."
+      },      
+      {
+        title: "What are constructor types?",
+        answer: "1. Non-parameterized\n2. Parameterized\n3. Copy constructor"
       },
       {
-        "title": "What is an object?",
-        "answer": "An object is an instance of a class. It holds data in fields and performs actions via methods."
+        title: "What is a non-parameterized constructor?",
+        answer: "A non-parameterized constructor (also called a default constructor) is a constructor that takes no arguments. It is used to create objects with default values.\n\nJava Example:\n```java\nclass Student {\n  String name;\n\n  // Non-parameterized constructor\n  Student() {\n    System.out.println(\"Constructor called\");\n    name = \"Unknown\";\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student();\n    System.out.println(s.name); // Output: Unknown\n  }\n}\n```\n\nExplanation:\n- The constructor `Student()` takes no parameters.\n- It runs automatically when an object is created with `new Student()`."
+      },      
+      {
+        title: "What is a parameterized constructor?",
+        answer: "A parameterized constructor is a constructor that accepts arguments to initialize object properties with specific values at the time of creation.\n\nJava Example:\n```java\nclass Student {\n  String name;\n\n  // Parameterized constructor\n  Student(String name) {\n    this.name = name;\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s = new Student(\"Alice\");\n    System.out.println(s.name); // Output: Alice\n  }\n}\n```\n\nExplanation:\n- The constructor `Student(String name)` takes a parameter.\n- When we create an object with `new Student(\"Alice\")`, it sets the `name` field to \"Alice\".\n- This is useful when you want to initialize objects with specific values."
+      },      
+      {
+        title: "What is a copy constructor?",
+        answer: "A copy constructor is a special constructor used to create a new object by copying the fields of another object of the same class.\n\nJava Example:\n```java\nclass Student {\n  String name;\n  int roll;\n\n  // Parameterized constructor\n  Student(String name, int roll) {\n    this.name = name;\n    this.roll = roll;\n  }\n\n  // Copy constructor\n  Student(Student s) {\n    this.name = s.name;\n    this.roll = s.roll;\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s1 = new Student(\"Alice\", 101);\n    Student s2 = new Student(s1); // copy constructor called\n    System.out.println(s2.name + \" \" + s2.roll); // Output: Alice 101\n  }\n}\n```\n\nExplanation:\n- `Student(Student s)` is the copy constructor.\n- It copies the values of `name` and `roll` from an existing object `s` to the new object."
+      },      
+      {
+        title: "What is a deep copy?",
+        answer: "A deep copy creates a completely independent copy of an object, including all objects or arrays it refers to. Changes made to the copied object do not affect the original.\n\nJava Example:\n```java\nclass Student {\n  String name;\n  int[] marks;\n\n  // Deep copy constructor\n  Student(Student s) {\n    this.name = s.name;\n    this.marks = new int[s.marks.length];\n    for (int i = 0; i < s.marks.length; i++) {\n      this.marks[i] = s.marks[i];\n    }\n  }\n}\n```\n\nExplanation:\n- Instead of copying just the reference to `marks`, we create a new array and copy each value.\n- This ensures that modifying `marks` in one object does not affect the other.\n\n✅ Use deep copy when you want full separation between two objects' internal data."
+      },      
+      {
+        title: "What is a destructor?",
+        answer: "A destructor releases memory. In Java-like languages, garbage collection is automatic."
       },
       {
-        "title": "What is encapsulation?",
-        "answer": "Encapsulation is the process of wrapping data and methods into a single unit (class), and restricting direct access to some components."
+        title: "What is inheritance?",
+        answer: "Inheritance is an OOP concept where one class (child/subclass) can access the properties and methods of another class (parent/superclass). It promotes code reusability.\n\nJava Example:\n```java\nclass Animal {\n  void eat() {\n    System.out.println(\"Eating...\");\n  }\n}\n\nclass Fish extends Animal {\n  void swim() {\n    System.out.println(\"Swimming...\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Fish f = new Fish();\n    f.eat();  // inherited method\n    f.swim(); // own method\n  }\n}\n```\n\nExplanation:\n- `Fish` inherits from `Animal` using the `extends` keyword.\n- It can use both `eat()` from `Animal` and its own method `swim()`."
+      },      
+      {
+        title: "What is multilevel inheritance?",
+        answer: "Multilevel inheritance is a type of inheritance where a class inherits from a subclass, which in turn inherits from another superclass. It forms a chain of inheritance.\n\nJava Example:\n```java\nclass Animal {\n  void eat() {\n    System.out.println(\"Eating...\");\n  }\n}\n\nclass Mammal extends Animal {\n  void walk() {\n    System.out.println(\"Walking...\");\n  }\n}\n\nclass Dog extends Mammal {\n  void bark() {\n    System.out.println(\"Barking...\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.eat();  // from Animal\n    d.walk(); // from Mammal\n    d.bark(); // from Dog\n  }\n}\n```\n\nExplanation:\n- `Dog` inherits from `Mammal`, and `Mammal` inherits from `Animal`.\n- So `Dog` can access methods from both its parent and grandparent classes.\n- This is called **multilevel inheritance**."
+      },      
+      {
+        title: "What is hierarchical inheritance?",
+        answer: "Hierarchical inheritance is a type of inheritance where **multiple child classes inherit from a single parent class**. It helps reuse the common code from the base class.\n\nJava Example:\n```java\nclass Animal {\n  void eat() {\n    System.out.println(\"Eating...\");\n  }\n}\n\nclass Dog extends Animal {\n  void bark() {\n    System.out.println(\"Barking...\");\n  }\n}\n\nclass Cat extends Animal {\n  void meow() {\n    System.out.println(\"Meowing...\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.eat(); d.bark();\n\n    Cat c = new Cat();\n    c.eat(); c.meow();\n  }\n}\n```\n\nExplanation:\n- `Animal` is the base class.\n- Both `Dog` and `Cat` inherit from it.\n- This is called **hierarchical inheritance**.\n\nVisual:\n```\n      Animal\n      /   \\\n   Dog   Cat\n```"
+      },      
+      {
+        title: "What is hybrid inheritance?",
+        answer: "Hybrid inheritance is a combination of two or more types of inheritance (e.g., multilevel + hierarchical). Java does not support hybrid inheritance with classes due to the diamond problem, but it can be achieved using interfaces.\n\nJava Example:\n```java\ninterface A {\n  void show();\n}\n\ninterface B {\n  void display();\n}\n\nclass C implements A, B {\n  public void show() {\n    System.out.println(\"Show from A\");\n  }\n\n  public void display() {\n    System.out.println(\"Display from B\");\n  }\n}\n\nclass D extends C {\n  void print() {\n    System.out.println(\"Print from D\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    D obj = new D();\n    obj.show();\n    obj.display();\n    obj.print();\n  }\n}\n```\n\nExplanation:\n- `A` and `B` are interfaces (multiple inheritance)\n- `C` implements both (hierarchical)\n- `D` extends `C` (multilevel)\n- Together, this forms a **hybrid inheritance structure**\n\nVisual:\n```\n  A     B  (interfaces)\n   \\   /\n     C     (implements A, B)\n     |\n     D     (extends C)\n```"
+      },      
+      {
+        title: "What is polymorphism?",
+        answer: "Polymorphism means 'many forms'. It allows the same method name to behave differently based on the context.\n\nTypes of Polymorphism:\n1. **Compile-time Polymorphism (Method Overloading)**\n   - Multiple methods with the same name but different parameters.\n   - Resolved at compile time.\n\n2. **Runtime Polymorphism (Method Overriding)**\n   - A child class provides its own version of a method from the parent class.\n   - Resolved at runtime using dynamic method dispatch.\n\nJava Example:\n```java\n// Compile-time Polymorphism\nclass Calculator {\n  int add(int a, int b) {\n    return a + b;\n  }\n  int add(int a, int b, int c) {\n    return a + b + c;\n  }\n}\n\n// Runtime Polymorphism\nclass Animal {\n  void sound() {\n    System.out.println(\"Animal sound\");\n  }\n}\nclass Dog extends Animal {\n  void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Calculator calc = new Calculator();\n    System.out.println(calc.add(2, 3));       // Output: 5\n    System.out.println(calc.add(2, 3, 4));    // Output: 9\n\n    Animal a = new Dog(); // Runtime polymorphism\n    a.sound();            // Output: Bark\n  }\n}\n```\n\nExplanation:\n- Overloading → same method name, different parameters (compile-time)\n- Overriding → child overrides parent method (runtime)"
+      },      
+      {
+        title: "What is method overloading?",
+        answer: "Multiple methods with the same name but different parameters.\nExample:\nclass Calc {\n  sum(a, b) { return a + b; }\n  sum(a, b, c) { return a + b + c; }\n}"
       },
       {
-        "title": "What is abstraction?",
-        "answer": "Abstraction hides implementation details and shows only essential features of an object to the user."
+        title: "What is method overriding?",
+        answer: "A child class redefines a method from the parent class.\nExample:\nclass A { show() {} }\nclass B extends A { show() {} }"
       },
       {
-        "title": "What is inheritance?",
-        "answer": "Inheritance allows a class (child) to acquire properties and behaviors from another class (parent)."
-      },
+        title: "What is abstraction?",
+        answer: "Abstraction means hiding complex internal details and showing only essential features to the user. It helps reduce complexity and improve code clarity.\n\nIn Java, abstraction is implemented using:\n1. **Abstract classes** (can have both abstract and concrete methods)\n2. **Interfaces** (can only have abstract methods by default, until Java 8+)\n\nJava Example 1: Using Abstract Class\n```java\nabstract class Animal {\n  abstract void sound(); // abstract method\n  void sleep() {\n    System.out.println(\"Sleeping...\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n```\n\nJava Example 2: Using Interface\n```java\ninterface Vehicle {\n  void start(); // abstract method\n}\n\nclass Car implements Vehicle {\n  public void start() {\n    System.out.println(\"Car starting...\");\n  }\n}\n```\n\nExplanation:\n- You don't need to know how `sound()` or `start()` work internally — you just use them.\n- This hides unnecessary details and exposes only what's needed."
+      },      
       {
-        "title": "What is polymorphism?",
-        "answer": "Polymorphism means many forms. It allows methods to behave differently based on the object that is calling them."
-      },
+        title: "What is the difference between interface and abstract class?",
+        answer: "Both abstract classes and interfaces are used to achieve abstraction in Java, but they differ in key ways:\n\n**Key Differences:**\n- **Abstract class:** Can have method implementations (concrete + abstract methods), constructors, and instance variables.\n- **Interface:** Can only have abstract methods (Java < 8). From Java 8 onward, it can also have default and static methods.\n- **Inheritance:** A class can extend only one abstract class but can implement multiple interfaces.\n- **Usage:** Use abstract class when providing base behavior. Use interface to define capability or contract.\n\nJava Example:\n```java\n// Abstract class example\nabstract class Animal {\n  abstract void sound();\n  void sleep() {\n    System.out.println(\"Sleeping...\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n\n// Interface example\ninterface Flyable {\n  void fly();\n}\n\nclass Bird implements Flyable {\n  public void fly() {\n    System.out.println(\"Flying...\");\n  }\n}\n```\n\n✅ Summary:\n- Abstract Class = partial abstraction (can have logic)\n- Interface = full abstraction (only method signatures)\n- Use interface for flexibility and multiple inheritance."
+      },      
       {
-        "title": "What are the types of polymorphism?",
-        "answer": "1. Compile-time (method overloading)\n2. Runtime (method overriding)"
-      },
+        title: "What is the static keyword?",
+        answer: "The `static` keyword in Java means that a method or variable belongs to the class, not to any specific object. It can be accessed without creating an object.\n\nUse cases:\n- Static variables are shared across all objects.\n- Static methods can be called using the class name directly.\n\nJava Example:\n```java\nclass Counter {\n  static int count = 0; // shared across all objects\n\n  Counter() {\n    count++;\n    System.out.println(\"Object created. Total: \" + count);\n  }\n\n  static void showCount() {\n    System.out.println(\"Count: \" + count);\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    new Counter(); // Object 1\n    new Counter(); // Object 2\n    Counter.showCount(); // Access static method via class\n  }\n}\n```\n\nOutput:\n```\nObject created. Total: 1\nObject created. Total: 2\nCount: 2\n```\n\n✅ Summary:\n- `static` makes members belong to the class.\n- Use `ClassName.member` to access without creating objects."
+      },      
       {
-        "title": "What is method overloading?",
-        "answer": "Method overloading means having multiple methods with the same name but different parameters in the same class."
-      },
+        title: "What is the final keyword?",
+        answer: "The `final` keyword in Java is used to restrict modification. It can be applied to variables, methods, and classes.\n\nUsage:\n1. **final variable** → value cannot be changed once assigned.\n2. **final method** → cannot be overridden in subclasses.\n3. **final class** → cannot be extended/inherited.\n\nJava Example:\n```java\nfinal class Vehicle {\n  final int maxSpeed = 120;\n\n  final void display() {\n    System.out.println(\"Max speed: \" + maxSpeed);\n  }\n}\n\n// class Car extends Vehicle {} // ❌ Error: Cannot extend final class\n\npublic class Main {\n  public static void main(String[] args) {\n    Vehicle v = new Vehicle();\n    // v.maxSpeed = 150; // ❌ Error: Cannot assign a value to final variable\n    v.display(); // ✅ Allowed\n  }\n}\n```\n\n✅ Summary:\n- `final` variable = constant\n- `final` method = no overriding\n- `final` class = no inheritance\n- Helps improve security and stability of code"
+      },      
       {
-        "title": "What is method overriding?",
-        "answer": "Overriding is redefining a method in the child class that already exists in the parent class with the same signature."
-      },
+        title: "What is the instanceof operator?",
+        answer: "The `instanceof` operator in Java is used to check whether an object is an instance of a specific class or implements a specific interface.\n\nIt returns `true` if the object is of the specified type, else `false`.\n\nJava Example:\n```java\nclass Animal {}\nclass Dog extends Animal {}\n\npublic class Main {\n  public static void main(String[] args) {\n    Animal a = new Dog();\n\n    System.out.println(a instanceof Dog);    // true\n    System.out.println(a instanceof Animal); // true\n    System.out.println(a instanceof Object); // true\n  }\n}\n```\n\n✅ Summary:\n- Helps in **type checking** before casting.\n- Prevents **ClassCastException**.\n- Works with **classes** and **interfaces**.\n\nTip: Always use `instanceof` before downcasting to avoid runtime errors."
+      },      
       {
-        "title": "What is a constructor?",
-        "answer": "A constructor is a special method that is automatically called when an object is created. It initializes object state."
-      },
+        title: "What are Object class methods?",
+        answer: "In Java, every class implicitly inherits from the `Object` class — the root class of the Java class hierarchy.\n\n✅ Common methods inherited from `Object`:\n- `toString()` → returns a string representation of the object\n- `equals(Object obj)` → compares two objects for equality\n- `hashCode()` → returns hash code of the object (used in hashing structures)\n- `clone()` → creates and returns a copy of the object (requires `Cloneable` interface)\n- `getClass()` → returns runtime class of the object\n\nJava Example:\n```java\nclass Student {\n  String name;\n  Student(String name) {\n    this.name = name;\n  }\n\n  public String toString() {\n    return \"Student name: \" + name;\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student s1 = new Student(\"Aman\");\n    System.out.println(s1.toString()); // Output: Student name: Aman\n    System.out.println(s1.getClass()); // Output: class Student\n  }\n}\n```\n\n✅ Summary:\n- `Object` class methods provide basic functionality to all Java objects.\n- You can override methods like `toString()` and `equals()` to customize behavior."
+      },      
       {
-        "title": "What is a destructor?",
-        "answer": "A destructor is a method that is called when an object is destroyed, used to free up resources."
-      },
+        title: "What is a real-world example of OOP?",
+        answer: "A real-world example of Object-Oriented Programming (OOP) is a **Car**:\n- A **class** defines the blueprint: what properties (data) and actions (methods) a car has.\n- An **object** is an actual car created from that blueprint.\n\n✅ Example:\n- Properties: color, speed, model\n- Behaviors: drive(), brake(), honk()\n\nJava Example:\n```java\nclass Car {\n  String color;\n  int speed;\n\n  void drive() {\n    System.out.println(\"Driving...\");\n  }\n\n  void brake() {\n    System.out.println(\"Braking...\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Car myCar = new Car();\n    myCar.color = \"Red\";\n    myCar.speed = 100;\n    myCar.drive(); // Output: Driving...\n  }\n}\n```\n\n✅ Summary:\n- **Class** = Car (blueprint)\n- **Object** = myCar (real instance)\n- OOP models real-world entities by combining data + behavior"
+      },      
       {
-        "title": "What is access modifier?",
-        "answer": "Access modifiers control the visibility of class members. Common ones: public, private, protected."
-      },
+        title: "What is a package in Java?",
+        answer: "A **package** in Java is a namespace that organizes classes, interfaces, and sub-packages into a structured group. It helps avoid name conflicts and makes large codebases more manageable.\n\n✅ Key Benefits:\n- Prevents naming collisions (e.g., two classes with the same name in different packages)\n- Organizes related classes together\n- Provides access control and visibility rules\n\n✅ Java Syntax:\n```java\n// Defining a package\npackage myutilities;\n\npublic class Calculator {\n  public int add(int a, int b) {\n    return a + b;\n  }\n}\n```\n\n```java\n// Using a package in another file\nimport myutilities.Calculator;\n\npublic class Main {\n  public static void main(String[] args) {\n    Calculator calc = new Calculator();\n    System.out.println(calc.add(3, 4));\n  }\n}\n```\n\n✅ Summary:\n- Use `package` keyword to define a package.\n- Use `import` to access classes from other packages.\n- Common packages: `java.util`, `java.io`, `java.lang` (auto-imported)."
+      },      
       {
-        "title": "What is the difference between class and object?",
-        "answer": "Class is a definition; object is an instance. One class can create many objects."
-      },
+        title: "What is abstraction in OOP?",
+        answer: "Abstraction is an Object-Oriented Programming (OOP) principle that involves hiding internal implementation details and exposing only the necessary functionality to the user.\n\n✅ Real-Life Analogy:\n- When you drive a car, you use the steering wheel and pedals — but you don’t need to know how the engine works internally.\n\n✅ In Java, abstraction is achieved using:\n1. **Abstract classes** (partial abstraction)\n2. **Interfaces** (total abstraction)\n\nJava Example:\n```java\ninterface Remote {\n  void turnOn(); // abstract method\n}\n\nclass TV implements Remote {\n  public void turnOn() {\n    System.out.println(\"TV turned on\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Remote r = new TV();\n    r.turnOn();\n  }\n}\n```\n\n✅ Summary:\n- Abstraction simplifies code for users.\n- It helps in managing complexity by focusing on **what an object does**, not **how it does it**."
+      },      
       {
-        "title": "What is static in OOP?",
-        "answer": "Static means belonging to the class rather than to instances. Static members are shared by all objects of the class."
-      },
+        title: "How do abstract classes support abstraction?",
+        answer: "Abstract classes support **partial abstraction** in Java. They allow you to define a common structure for subclasses, hiding certain details while providing others.\n\n✅ Key Points:\n- Can contain **abstract methods** (declared without body)\n- Can also contain **concrete methods** (with full implementation)\n- Cannot be instantiated directly\n- Subclasses must implement abstract methods\n\nJava Example:\n```java\nabstract class Animal {\n  abstract void makeSound(); // abstract method\n\n  void sleep() {             // concrete method\n    System.out.println(\"Sleeping...\");\n  }\n}\n\nclass Cat extends Animal {\n  void makeSound() {\n    System.out.println(\"Meow\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Cat c = new Cat();\n    c.makeSound(); // Output: Meow\n    c.sleep();     // Output: Sleeping...\n  }\n}\n```\n\n✅ Summary:\n- Abstract classes help hide **implementation details**.\n- They enforce a structure while allowing **shared code reuse**."
+      },      
       {
-        "title": "What is the 'this' keyword?",
-        "answer": "It refers to the current object inside class methods. Used to access instance variables and methods."
-      },
+        title: "Can you create an object of an abstract class?",
+        answer: "No. You **cannot create an instance** of an abstract class directly in Java. Attempting to do so results in a **compile-time error** because abstract classes are incomplete by design.\n\nHowever, you can use abstract class references to point to objects of subclasses.\n\nJava Example:\n```java\nabstract class Animal {\n  abstract void sound();\n}\n\nclass Dog extends Animal {\n  void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    // Animal a = new Animal(); // ❌ Error: Cannot instantiate the type Animal\n\n    Animal a = new Dog(); // ✅ Allowed (polymorphism)\n    a.sound(); // Output: Bark\n  }\n}\n```\n\n✅ Summary:\n- You cannot create an object of an abstract class.\n- But you **can use its reference** to store a subclass object and call overridden methods (runtime polymorphism)."
+      },      
       {
-        "title": "What is the difference between interface and abstract class?",
-        "answer": "An abstract class can have both abstract and non-abstract methods, while an interface only has abstract methods (Java 7). Interfaces support multiple inheritance."
-      },
+        title: "What features can abstract classes have?",
+        answer: "Abstract classes in Java are used to provide a base structure and partial abstraction. They can have the following features:\n\n✅ Features:\n- Abstract methods (without body) — must be implemented by subclasses\n- Non-abstract methods (with body) — can be inherited directly\n- Constructors — used to initialize fields when a subclass is created\n- Instance variables and static variables\n- Access modifiers (public, protected, etc.)\n\nJava Example:\n```java\nabstract class Animal {\n  String color;\n\n  Animal() {\n    color = \"brown\";\n    System.out.println(\"Animal constructor called\");\n  }\n\n  abstract void sound(); // abstract method\n\n  void sleep() {\n    System.out.println(\"Sleeping...\");\n  }\n}\n\nclass Dog extends Animal {\n  void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.sound();\n    d.sleep();\n  }\n}\n```\n\n✅ Summary:\n- Abstract classes support both **abstraction** and **code reuse**.\n- They help define common behavior across multiple related classes."
+      },      
       {
-        "title": "What is data hiding?",
-        "answer": "Data hiding is restricting access to internal object details using access modifiers like private. It supports encapsulation."
-      },
+        title: "Give an example of an abstract class and its implementation.",
+        answer: "An abstract class can have both abstract (without body) and concrete (with body) methods. A subclass must implement all abstract methods.\n\nJava Example:\n```java\nabstract class Animal {\n  void eat() {\n    System.out.println(\"Animal eats\");\n  }\n\n  abstract void walk();\n}\n\nclass Horse extends Animal {\n  void walk() {\n    System.out.println(\"Horse walks on 4 legs\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Horse h = new Horse();\n    h.eat();\n    h.walk();\n  }\n}\n```\n\nOutput:\n```\nAnimal eats\nHorse walks on 4 legs\n```\n\n✅ Summary:\n- `eat()` is a concrete method (has a body)\n- `walk()` is abstract and must be implemented in `Horse`\n- You cannot create an object of `Animal`, but its constructor and methods are used by subclasses"
+      },      
       {
-        "title": "What is multiple inheritance?",
-        "answer": "It means a class inherits from more than one base class. It’s supported in C++ but not directly in Java (use interfaces instead)."
-      },
+        title: "Can an abstract class have a constructor?",
+        answer: "Yes, an abstract class in Java **can have a constructor**. Although you cannot instantiate an abstract class directly, its constructor is called when an object of a subclass is created.\n\nThe constructor is useful for initializing fields that the abstract class defines.\n\nJava Example:\n```java\nabstract class Animal {\n  String color;\n\n  Animal() {\n    color = \"brown\";\n    System.out.println(\"Animal constructor: color set to \" + color);\n  }\n}\n\nclass Dog extends Animal {\n  Dog() {\n    System.out.println(\"Dog constructor\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n  }\n}\n```\n\nOutput:\n```\nAnimal constructor: color set to brown\nDog constructor\n```\n\n✅ Summary:\n- Abstract classes **can** have constructors.\n- They are called when a subclass object is created.\n- Useful for initializing common properties."
+      },      
       {
-        "title": "What is constructor overloading?",
-        "answer": "Creating multiple constructors with different parameters to initialize objects in different ways."
-      },
+        title: "How do subclasses use constructors of abstract classes?",
+        answer: "In Java, when a subclass extends an abstract class, the constructor of the abstract class is automatically called first — even though the abstract class cannot be instantiated directly.\n\nThis ensures proper initialization of the superclass before the subclass's constructor runs.\n\nJava Example:\n```java\nabstract class Animal {\n  Animal() {\n    System.out.println(\"Animal constructor called\");\n  }\n\n  abstract void sound();\n}\n\nclass Horse extends Animal {\n  Horse() {\n    super(); // optional, called implicitly if not written\n    System.out.println(\"Horse constructor called\");\n  }\n\n  void sound() {\n    System.out.println(\"Neigh\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Horse h = new Horse();\n  }\n}\n```\n\nOutput:\n```\nAnimal constructor called\nHorse constructor called\n```\n\n✅ Summary:\n- Abstract class constructors are called **automatically**.\n- Ensures parent class logic executes before child-specific logic."
+      },      
       {
-        "title": "What is the use of super keyword?",
-        "answer": "super is used in a child class to call the parent class's constructor or methods."
-      },
+        title: "What is an interface in Java?",
+        answer: "An interface in Java is a blueprint for classes. It is used to achieve **total abstraction** by defining method signatures without implementation (until Java 7). From Java 8 onward, it can also include **default** and **static** methods with bodies.\n\n✅ Key Points:\n- All methods are `public` and `abstract` by default (Java ≤ 7).\n- All variables are `public static final` by default.\n- Interfaces support multiple inheritance.\n\nJava Example:\n```java\ninterface Animal {\n  void sound(); // abstract method\n}\n\nclass Dog implements Animal {\n  public void sound() {\n    System.out.println(\"Bark\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.sound(); // Output: Bark\n  }\n}\n```\n\n✅ Summary:\n- Interfaces define a contract.\n- The implementing class must provide definitions for all methods.\n- Interfaces enable total abstraction and support multiple inheritance in Java."
+      },      
       {
-        "title": "What is the difference between aggregation and composition?",
-        "answer": "Aggregation is a 'has-a' relationship with independent lifecycles. Composition is a stronger form where child cannot exist without parent."
-      },
+        title: "What are the characteristics of interface methods and variables?",
+        answer: "In Java interfaces:\n\n✅ **Methods:**\n- All methods are **public** and **abstract** by default (until Java 7).\n- From Java 8 onward, interfaces can also have **default** and **static** methods with implementations.\n\n✅ **Variables:**\n- All variables are **public**, **static**, and **final** by default (i.e., constants).\n- Must be initialized at declaration.\n\nJava Example:\n```java\ninterface Info {\n  int MAX = 100; // public static final by default\n\n  void show(); // public abstract by default\n}\n\nclass Display implements Info {\n  public void show() {\n    System.out.println(\"MAX is: \" + MAX);\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Display d = new Display();\n    d.show(); // Output: MAX is: 100\n  }\n}\n```\n\n✅ Summary:\n- You don’t need to write `public static final` or `public abstract` explicitly—they are implicit.\n- All interface members are meant to be shared and implemented."
+      },      
       {
-        "title": "What is an abstract class?",
-        "answer": "An abstract class cannot be instantiated and may contain abstract (unimplemented) methods."
-      },
+        title: "What is total abstraction and how is it achieved?",
+        answer: "Total abstraction means hiding all implementation details and exposing only method signatures. It is achieved using **interfaces**, where all methods are abstract by default (in Java < 8).\n\nIn contrast, abstract classes can provide partial abstraction (some methods may be implemented).\n\nJava Example:\n```java\ninterface Remote {\n  void powerOn();\n  void powerOff();\n}\n\nclass TVRemote implements Remote {\n  public void powerOn() {\n    System.out.println(\"TV is ON\");\n  }\n\n  public void powerOff() {\n    System.out.println(\"TV is OFF\");\n  }\n}\n```\n\n✅ Summary:\n- **Total abstraction** = no method body in the interface.\n- Achieved using **interfaces**.\n- The implementing class must define all methods."
+      },      
       {
-        "title": "What is an interface?",
-        "answer": "An interface defines a contract with abstract methods only. A class must implement all its methods."
-      },
+        title: "Can interfaces be used for multiple inheritance?",
+        answer: "Yes. In Java, a class can implement multiple interfaces, which allows multiple inheritance. This helps avoid the diamond problem because interfaces only contain method signatures (no implementation).\n\nJava Example:\n```java\ninterface Herbivore {\n  void eatPlants();\n}\n\ninterface Carnivore {\n  void eatMeat();\n}\n\nclass Bear implements Herbivore, Carnivore {\n  public void eatPlants() {\n    System.out.println(\"Bear eats plants\");\n  }\n\n  public void eatMeat() {\n    System.out.println(\"Bear eats meat\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Bear b = new Bear();\n    b.eatPlants();\n    b.eatMeat();\n  }\n}\n```\n\n✅ Summary:\n- A class can implement **multiple interfaces**.\n- Each interface defines a capability.\n- This is Java's way to achieve **multiple inheritance safely**."
+      },      
       {
-        "title": "What is upcasting and downcasting?",
-        "answer": "Upcasting: child to parent (safe)\nDowncasting: parent to child (unsafe unless explicitly checked)"
-      },
+        title: "Give an example of interface implementation.",
+        answer: "In Java, an interface defines a contract (method signatures), and a class implements the interface by providing method definitions.\n\nJava Example:\n```java\ninterface ChessPlayer {\n  void moves();\n}\n\nclass Queen implements ChessPlayer {\n  public void moves() {\n    System.out.println(\"Moves: up, down, left, right, diagonal\");\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Queen q = new Queen();\n    q.moves();\n  }\n}\n```\n\n✅ Summary:\n- `interface ChessPlayer` defines a rule.\n- `class Queen` implements that rule by defining the `moves()` method.\n- Interfaces are great for defining capabilities like `Flyable`, `Drivable`, etc."
+      },      
       {
-        "title": "What is late binding?",
-        "answer": "Also called dynamic binding, it resolves the method call at runtime. Used in method overriding."
-      },
+        title: "What is the 'static' keyword used for in Java?",
+        answer: "The `static` keyword in Java is used to define members that belong to the class instead of any instance. It allows sharing the same method or variable across all objects.\n\nIt can be applied to:\n- **Static variables** (shared property)\n- **Static methods** (can be called without objects)\n- **Static blocks** (runs once when class is loaded)\n- **Static nested classes** (can exist without outer class instance)\n\nJava Example:\n```java\nclass Example {\n  static int count = 0;            // static variable\n\n  static void showCount() {        // static method\n    System.out.println(\"Count: \" + count);\n  }\n\n  static {\n    System.out.println(\"Static block called\");\n  }\n\n  static class Inner {\n    void greet() {\n      System.out.println(\"Hello from static nested class\");\n    }\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Example.count = 5;\n    Example.showCount();\n\n    Example.Inner obj = new Example.Inner();\n    obj.greet();\n  }\n}\n```\n\n✅ Summary:\n- `static` allows access without creating an object.\n- Useful for shared data, utility methods, and grouping logic."
+      },      
       {
-        "title": "What is early binding?",
-        "answer": "Also called static binding, it resolves the method call at compile time. Used in method overloading."
-      },
+        title: "How does static variable sharing work?",
+        answer: "A static variable belongs to the class, not to any individual object. This means all instances (objects) of that class share the same static variable. If one object changes the static variable, it affects all others.\n\nJava Example:\n```java\nclass Student {\n  static String schoolName;\n  String name;\n\n  Student(String name) {\n    this.name = name;\n  }\n\n  void show() {\n    System.out.println(name + \" studies at \" + schoolName);\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Student.schoolName = \"JMV\";\n\n    Student s1 = new Student(\"Alice\");\n    Student s2 = new Student(\"Bob\");\n\n    s1.show(); // Alice studies at JMV\n    s2.show(); // Bob studies at JMV\n  }\n}\n```\n\n✅ Summary:\n- Static variables are **class-level**, not object-level.\n- All objects refer to the same memory location for that variable.\n- Commonly used for shared values like `schoolName`, `companyName`, etc."
+      },      
       {
-        "title": "What is the open-closed principle?",
-        "answer": "Software entities should be open for extension but closed for modification."
-      },
-      {
-        "title": "What is the SOLID principle?",
-        "answer": "A set of 5 OOP principles: Single Responsibility, Open-Closed, Liskov Substitution, Interface Segregation, Dependency Inversion."
-      },
-      {
-        "title": "What is a virtual function?",
-        "answer": "In C++, a virtual function allows runtime polymorphism, enabling overriding in derived classes."
-      },
-      {
-        "title": "What is object slicing?",
-        "answer": "When an object of a derived class is assigned to a base class object, and extra members are 'sliced' off."
-      },
-      {
-        "title": "What is the difference between deep copy and shallow copy?",
-        "answer": "Shallow copy copies reference; deep copy copies actual object. Deep copy creates separate memory."
-      },
-      {
-        "title": "What is composition in OOP?",
-        "answer": "It is a design principle where a class contains objects of other classes as members. 'Has-a' relationship."
-      },
-      {
-        "title": "What is a friend function (C++)?",
-        "answer": "A function declared with 'friend' keyword can access private members of a class."
-      },
-      {
-        "title": "What is a singleton class?",
-        "answer": "A class that allows only one instance throughout the program. Useful for logging, DB connections, etc."
-      },
-      {
-        "title": "Why is OOP important?",
-        "answer": "OOP helps in code reusability, maintainability, abstraction, and modularity in large software systems."
-      },
-      {
-        "title": "What is dynamic dispatch?",
-        "answer": "The process of selecting which implementation of a polymorphic method to call at runtime."
-      },
-      {
-        "title": "What is method hiding?",
-        "answer": "When a subclass defines a static method with the same name as one in the parent class, it hides the parent’s version."
-      },
-      {
-        "title": "What is the difference between == and .equals() in Java?",
-        "answer": "== compares object references; .equals() compares object content (if overridden properly)."
-      },
-      {
-        "title": "What is multiple constructors in a class called?",
-        "answer": "Constructor overloading — allows different ways to create an object based on input parameters."
-      },
-      {
-        "title": "Can constructors be inherited?",
-        "answer": "No. Constructors are not inherited in OOP languages like Java or C++."
-      },
-      {
-        "title": "What is a pure virtual function?",
-        "answer": "A virtual function with no definition, declared using '= 0'. It forces derived classes to implement it."
-      },
-      {
-        "title": "What is the use of interfaces in Java?",
-        "answer": "Interfaces are used to achieve full abstraction and multiple inheritance."
-      },
-      {
-        "title": "Can abstract classes have constructors?",
-        "answer": "Yes, abstract classes can have constructors, but they cannot be directly instantiated."
-      },
-      {
-        "title": "What is tight coupling and loose coupling?",
-        "answer": "Tight coupling: classes are highly dependent. Loose coupling: classes interact with minimal dependencies (preferred)."
-      },
-      {
-        "title": "What is dependency injection?",
-        "answer": "A design pattern where object dependencies are provided from outside rather than created inside the class."
-      },
-      {
-        "title": "What is object lifetime?",
-        "answer": "The duration between object creation and destruction. Controlled by constructors and destructors or garbage collection."
+        title: "What is the 'super' keyword used for?",
+        answer: "The `super` keyword in Java refers to the immediate parent class. It is used to:\n1. Access parent class **variables**\n2. Call parent class **methods**\n3. Call parent class **constructors** (using `super()`)\n\nJava Example:\n```java\nclass Animal {\n  String type = \"Animal\";\n\n  Animal() {\n    System.out.println(\"Animal constructor\");\n  }\n\n  void sound() {\n    System.out.println(\"Generic sound\");\n  }\n}\n\nclass Dog extends Animal {\n  Dog() {\n    super(); // calls parent constructor\n    System.out.println(\"Dog constructor\");\n  }\n\n  void display() {\n    System.out.println(super.type); // access parent variable\n    super.sound();                  // call parent method\n  }\n}\n\npublic class Main {\n  public static void main(String[] args) {\n    Dog d = new Dog();\n    d.display();\n  }\n}\n```\n\nOutput:\n```\nAnimal constructor\nDog constructor\nAnimal\nGeneric sound\n```\n\n✅ Summary:\n- `super` is used to refer to parent members when overridden.\n- Must be the first statement in constructor if calling `super()`."
       }
+      
     ],
 
 
@@ -3247,193 +3232,62 @@ const questionsData = {
     ],
     "bit-manipulation": [
       {
-        "title": "What is bit manipulation?",
-        "answer": "Bit manipulation refers to using bitwise operators to perform operations at the bit level, such as setting, clearing, or toggling bits."
+        title: "What are bitwise operators in Java?",
+        answer: "Bitwise operators operate on bits and perform bit-by-bit operations. Common operators include:\n- AND (&)\n- OR (|)\n- XOR (^)\n- NOT (~)\n- Left Shift (<<)\n- Right Shift (>>)"
       },
       {
-        "title": "What are the common bitwise operators?",
-        "answer": "AND (&), OR (|), XOR (^), NOT (~), LEFT SHIFT (<<), RIGHT SHIFT (>>)"
+        title: "What is the binary one's complement operator (~)?",
+        answer: "The binary one's complement operator (~) is a bitwise NOT operator. It inverts each bit of a number:\n- 1 becomes 0\n- 0 becomes 1\n\nJava uses 32-bit signed integers in two's complement form. When you apply ~ to a number, the result often becomes negative due to how negative numbers are stored.\n\nExample 1: ~5\n- 5 in binary (32-bit): 00000000 00000000 00000000 00000101\n- ~5 becomes:          11111111 11111111 11111111 11111010 (this is -6 in two's complement)\nSo, ~5 = -6\n\nExample 2: ~0\n- 0 in binary:         00000000 00000000 00000000 00000000\n- ~0 becomes:          11111111 11111111 11111111 11111111 (this is -1 in two's complement)\nSo, ~0 = -1\n\nSummary:\n~n = -(n + 1)"
+      },      
+      {
+        title: "What does the left shift operator (<<) do?",
+        answer: "It shifts bits to the left and appends 0s at the right. It multiplies the number by 2ⁿ.\nExample:\n5 << 2 = 20 (5 * 2²)"
       },
       {
-        "title": "What is the AND (&) operator used for?",
-        "answer": "It compares each bit of two numbers and returns 1 if both bits are 1.\nExample: 5 & 3 = 1"
+        title: "What does the right shift operator (>> or >>>) do?",
+        answer: "It shifts bits to the right. It divides the number by 2ⁿ.\nExample:\n6 >> 1 = 3 (6 / 2)"
       },
       {
-        "title": "What is the OR (|) operator used for?",
-        "answer": "It compares each bit of two numbers and returns 1 if at least one bit is 1.\nExample: 5 | 3 = 7"
+        title: "How can you check if a number is even or odd using bitwise operators?",
+        answer: "Use the expression (n & 1):\n- If result is 0 → Even number\n- If result is 1 → Odd number\nExample:\n3 & 1 = 1 → Odd,\n4 & 1 = 0 → Even"
       },
       {
-        "title": "What is the XOR (^) operator used for?",
-        "answer": "It returns 1 if the bits are different.\nExample: 5 ^ 3 = 6"
+        title: "Give an example program to check odd/even using bitwise operator.",
+        answer: "java\npublic static void oddOrEven(int n) {\n  int bitmask = 1;\n  if ((n & bitmask) == 0) {\n    System.out.println(\"even number\");\n  } else {\n    System.out.println(\"odd number\");\n  }\n}\nodOrEven(3); // Output: odd number\n"
+      },   
+      {
+        title: "How do you get the i-th bit of a number?",
+        answer: "Use a bitmask to check if the i-th bit (0-indexed from right) is 1 or 0.\n\nApproach:\n- Create a bitmask by left-shifting 1 by i positions: `int bitmask = 1 << i;`\n- Use bitwise AND with the number: `(n & bitmask)`\n- If the result is 0, then the i-th bit is 0; else it's 1.\n\nJava Example:\n```java\nint n = 13; // binary: 1101\nint i = 2;  // we want the 2nd bit (counting from 0 on right)\nint bitmask = 1 << i; // 1 << 2 = 4 = 0100\n\nif ((n & bitmask) == 0)\n    System.out.println(\"0\");\nelse\n    System.out.println(\"1\");\n```\n\nExplanation:\n- n = 13 → binary = 1101\n- i = 2 → checking 3rd bit from right (which is 1)\n- bitmask = 0100\n- n & bitmask = 1101 & 0100 = 0100 ≠ 0 ⇒ bit is 1\n\nSo, output will be: `1`"
+      },      
+      {
+        title: "How do you set the i-th bit of a number?",
+        answer: "To set the i-th bit of a number (make it 1), use the bitwise OR `|` operator with a bitmask.\n\nApproach:\n- Create a bitmask by left-shifting 1 by i positions: `int bitmask = 1 << i;`\n- Use OR: `n | bitmask` — this sets the i-th bit to 1 (even if it was 0 before).\n\nJava Example:\n```java\nint n = 9; // binary: 1001\nint i = 1; // we want to set the 2nd bit (index 1)\nint bitmask = 1 << i; // 1 << 1 = 2 = 0010\nint result = n | bitmask; // 1001 | 0010 = 1011 = 11\nSystem.out.println(result);\n```\n\nExplanation:\n- n = 9 → binary: 1001\n- i = 1 → targeting the second bit from right\n- bitmask = 0010\n- n | bitmask = 1001 | 0010 = 1011 = 11\n\nSo, the output will be: `11`"
+      },      
+      {
+        title: "How do you clear the i-th bit of a number?",
+        answer: "To clear the i-th bit (i.e., set it to 0), use the bitwise AND `&` operator with the **inverse** (NOT) of a bitmask.\n\nApproach:\n- Create a bitmask: `1 << i`\n- Invert the bitmask: `~(1 << i)` — this has 0 at i-th position and 1s elsewhere\n- Use AND with the number: `n & ~bitmask` — this clears the i-th bit to 0, other bits remain the same.\n\nJava Example:\n```java\nint n = 13; // binary: 1101\nint i = 2;  // we want to clear the 3rd bit (index 2)\nint bitmask = ~(1 << i); // ~(1 << 2) = ~00000100 = 11111011\nint result = n & bitmask; // 1101 & 1011 = 1001 = 9\nSystem.out.println(result);\n```\n\nExplanation:\n- n = 13 → binary: 1101\n- i = 2 → targeting the 3rd bit (from right), which is 1\n- After clearing: the 3rd bit becomes 0 → result = 1001 = 9\n\nSo, output will be: `9`"
+      },      
+      {
+        title: "How do you update the i-th bit to a specific value?",
+        answer: "To update the i-th bit of a number to either 0 or 1, use a combination of **clearing** and **setting** logic based on the value you want.\n\nApproach:\n- If `newBit` is 0 → clear the i-th bit\n- If `newBit` is 1 → set the i-th bit\n\nJava Code:\n```java\n// Function to update the i-th bit to newBit (0 or 1)\nint updateIthBit(int n, int i, int newBit) {\n    int bitmask = 1 << i;\n    n = n & ~bitmask; // clear the i-th bit\n    return n | (newBit << i); // set i-th bit if newBit is 1\n}\n```\n\nExample:\n```java\nint n = 13;     // binary: 1101\nint i = 1;\nint newBit = 0; // we want to set 2nd bit to 0\nint result = updateIthBit(n, i, newBit); // should become 1101 → 1101 & ~(0010) = 1101 & 1101 = 1101 → 1101 = 13\n```\n\nExplanation:\n- n = 13 → binary: 1101\n- i = 1 → target the 2nd bit (which is 1)\n- newBit = 0 → so we clear it\n- Result becomes 1101 → 1101 = 13\n\nNow if `newBit = 1`, it would ensure that bit is set to 1.\n\nSo, this method allows flexible bit updates: `0` to `1` or `1` to `0` as needed."
+      },      
+      {
+        title: "How do you clear bits in a given range [i, j]?",
+        answer: "To clear (set to 0) all bits from position i to j (inclusive), you can use a bitmask that has 0s in that range and 1s elsewhere.\n\nApproach:\n1. Create left part: all 1s from j+1 to MSB:\n   `int a = (~0) << (j + 1);`\n2. Create right part: all 1s from LSB to i-1:\n   `int b = (1 << i) - 1;`\n3. Combine both to get full bitmask:\n   `int bitmask = a | b;`\n4. Clear range: `n & bitmask`\n\nJava Code:\n```java\nint clearRangeIToJ(int n, int i, int j) {\n    int a = (~0) << (j + 1);\n    int b = (1 << i) - 1;\n    int bitmask = a | b;\n    return n & bitmask;\n}\n```\n\nExample:\nLet n = 31 → binary: 00011111\nLet i = 1, j = 3 → we want to clear bits from position 1 to 3\n\nStep-by-step:\n- a = (~0) << 4 = 11110000\n- b = (1 << 1) - 1 = 00000001\n- bitmask = a | b = 11110000 | 00000001 = 11110001\n- n & bitmask = 00011111 & 11110001 = 00010001 = 17\n\n✅ Final result = 17"
+      },      
+      {
+        title: "How can you check if a number is a power of 2?",
+        answer: "Use the expression:\n```java\nreturn (n > 0) && ((n & (n - 1)) == 0);\n```\n\nExplanation:\n- A number is a power of 2 only if it has exactly **one '1' bit** in its binary form (like 1, 10, 100, etc.).\n- Subtracting 1 flips all the bits after the only '1' bit.\n- Doing `n & (n - 1)` will result in 0 **only for powers of 2**.\n\nExample:\n```java\nint n = 8; // binary: 1000\nint result = (n & (n - 1)); // 1000 & 0111 = 0000\n```\nSo, `8` is a power of 2 → returns true.\n\nNote:\n- Always check `n > 0` to avoid false positives for 0 or negatives."
+      },      
+      {
+        title: "How do you count the number of set bits (1s) in a number?",
+        answer: "To count how many bits are set to 1 in the binary form of a number, use bitwise AND and right shift in a loop.\n\nJava Code:\n```java\nint count = 0;\nwhile (n > 0) {\n  if ((n & 1) != 0) count++; // check last bit\n  n = n >> 1; // right shift to check next bit\n}\nreturn count;\n```\n\nExample:\nLet `n = 13` → binary = `1101`\nStep-by-step:\n- 1101 & 0001 = 1 → count = 1\n- 110 → 110 & 1 = 0 → count = 1\n- 11 → 11 & 1 = 1 → count = 2\n- 1 → 1 & 1 = 1 → count = 3\n\n✅ Final count = 3 (because 1101 has three 1s)\n\nThis method is simple and works for any positive integer."
       },
       {
-        "title": "What is the NOT (~) operator?",
-        "answer": "It flips all the bits of a number.\nExample: ~5 = -6 (in 2’s complement representation)"
-      },
-      {
-        "title": "What does LEFT SHIFT (<<) do?",
-        "answer": "It shifts bits to the left and appends 0s from the right.\nExample: 5 << 1 = 10"
-      },
-      {
-        "title": "What does RIGHT SHIFT (>>) do?",
-        "answer": "It shifts bits to the right and discards rightmost bits.\nExample: 5 >> 1 = 2"
-      },
-      {
-        "title": "How do you check if a number is even or odd using bits?",
-        "answer": "Use `n & 1`. If result is 0, it’s even; if 1, it’s odd."
-      },
-      {
-        "title": "How do you multiply a number by 2 using bits?",
-        "answer": "Left shift: `n << 1` equals `n * 2`"
-      },
-      {
-        "title": "How do you divide a number by 2 using bits?",
-        "answer": "Right shift: `n >> 1` equals `n / 2` (for positive numbers)"
-      },
-      {
-        "title": "How do you set the ith bit of a number?",
-        "answer": "Use: `n | (1 << i)`"
-      },
-      {
-        "title": "How do you clear the ith bit of a number?",
-        "answer": "Use: `n & ~(1 << i)`"
-      },
-      {
-        "title": "How do you toggle the ith bit of a number?",
-        "answer": "Use: `n ^ (1 << i)`"
-      },
-      {
-        "title": "How do you check if the ith bit is set?",
-        "answer": "Use: `n & (1 << i)`. If result ≠ 0, bit is set."
-      },
-      {
-        "title": "How do you count the number of set bits (1s)?",
-        "answer": "Use Brian Kernighan's algorithm: while (n) { count++; n &= (n - 1); }"
-      },
-      {
-        "title": "What is Brian Kernighan’s Algorithm?",
-        "answer": "It removes the rightmost set bit in each iteration. Efficient for counting set bits."
-      },
-      {
-        "title": "How to check if a number is a power of 2?",
-        "answer": "Use: `n > 0 && (n & (n - 1)) == 0`"
-      },
-      {
-        "title": "What is the use of XOR in bit manipulation?",
-        "answer": "1. XOR with itself: n ^ n = 0\n2. XOR with 0: n ^ 0 = n\n3. Used to swap and find unique elements."
-      },
-      {
-        "title": "How to swap two numbers using XOR?",
-        "answer": "a = a ^ b; b = a ^ b; a = a ^ b;"
-      },
-      {
-        "title": "How to find the only non-repeating number when others repeat twice?",
-        "answer": "XOR all elements. The result is the unique number."
-      },
-      {
-        "title": "What if every element appears thrice except one?",
-        "answer": "Use bitwise sum approach: Count set bits at each position modulo 3."
-      },
-      {
-        "title": "How to isolate the rightmost set bit?",
-        "answer": "`n & -n` isolates the lowest set bit."
-      },
-      {
-        "title": "How to turn off the rightmost set bit?",
-        "answer": "`n & (n - 1)` clears the lowest set bit."
-      },
-      {
-        "title": "What is the significance of n & (n - 1)?",
-        "answer": "It removes the lowest set bit. Useful in many algorithms like Hamming weight and power of 2 checks."
-      },
-      {
-        "title": "How do you check if two numbers differ by only one bit?",
-        "answer": "Check if `x ^ y` is a power of 2."
-      },
-      {
-        "title": "How do you find the position of the rightmost set bit?",
-        "answer": "Use `log2(n & -n) + 1`"
-      },
-      {
-        "title": "What is the Hamming distance between two numbers?",
-        "answer": "It is the number of positions where bits differ.\nUse: count of set bits in `x ^ y`."
-      },
-      {
-        "title": "What is a bitmask?",
-        "answer": "A pattern of bits used to perform operations like enable/disable/select bits in a number."
-      },
-      {
-        "title": "How are bitmasks used in DP problems?",
-        "answer": "To represent subsets in problems like Traveling Salesman, Set Cover, etc."
-      },
-      {
-        "title": "What is Gray code?",
-        "answer": "A sequence where two successive values differ in only one bit. Used in encoding and error correction."
-      },
-      {
-        "title": "What is the formula to generate nth Gray code?",
-        "answer": "`gray(n) = n ^ (n >> 1)`"
-      },
-      {
-        "title": "What are practical applications of bit manipulation?",
-        "answer": "Memory optimization, cryptography, graphics, DP with bitmask, fast math operations."
-      },
-      {
-        "title": "How do you generate all subsets of a set using bits?",
-        "answer": "Use integers from 0 to 2ⁿ - 1 where each bit represents inclusion/exclusion of element."
-      },
-      {
-        "title": "What is bitwise AND of all numbers in a range?",
-        "answer": "Keep shifting both left until they match. The result is common prefix."
-      },
-      {
-        "title": "How to determine the number of bits needed to represent a number?",
-        "answer": "Use `floor(log2(n)) + 1` or use built-in `bit_length()` in Python."
-      },
-      {
-        "title": "What is population count?",
-        "answer": "Also called Hamming weight — it counts number of 1s in binary representation."
-      },
-      {
-        "title": "How to efficiently find log base 2 of an integer?",
-        "answer": "Use built-in log2(n) or bit shifts with counters. Can also use __builtin_clz() in C++."
-      },
-      {
-        "title": "What are unset bits?",
-        "answer": "Bits that are 0 in a binary representation."
-      },
-      {
-        "title": "How do you set all bits to the right of the rightmost set bit?",
-        "answer": "`n | (n - 1)` sets all bits to the right of rightmost set bit."
-      },
-      {
-        "title": "How do you check if a number has alternating bits?",
-        "answer": "Use: `n ^ (n >> 1)` should be all 1s like 0b1111... Check if (x & (x + 1)) == 0"
-      },
-      {
-        "title": "How do you convert a decimal number to binary using bitwise?",
-        "answer": "Use n & 1 to get LSB, then shift: n = n >> 1. Store/reverse bits."
-      },
-      {
-        "title": "What is a fast way to multiply two numbers using bits?",
-        "answer": "Use the Russian peasant method: double and halve with additions and bit shifts."
-      },
-      {
-        "title": "Can we divide using bitwise operations?",
-        "answer": "Yes, through repeated subtraction and shifting (used in binary division algorithms)."
-      },
-      {
-        "title": "What is bit-level parallelism?",
-        "answer": "Technique of processing multiple bits in parallel using bitwise ops. Used in compression, DP, and SIMD."
-      },
-      {
-        "title": "What is the difference between signed and unsigned bit shifting?",
-        "answer": "Signed shift (>>) retains sign bit for negative numbers; unsigned (>>>) shifts in zeros."
-      },
-      {
-        "title": "What is a trap in negative right shifting?",
-        "answer": "In some languages, right shifting negative numbers retains the sign bit, giving incorrect logical result."
+        title: "How do you calculate fast exponentiation using bit manipulation?",
+        answer: "Fast exponentiation (also called exponentiation by squaring) uses bit manipulation to efficiently calculate `a^n` in O(log n) time.\n\nJava Code:\n```java\nint fastPower(int a, int n) {\n  int ans = 1;\n  while (n > 0) {\n    if ((n & 1) != 0) ans *= a; // if current bit is 1, multiply\n    a *= a;                    // square the base\n    n >>= 1;                   // right shift exponent\n  }\n  return ans;\n}\n```\n\nExample:\nLet a = 3, n = 5 → compute 3^5\nBinary of 5 = 101\nSteps:\n- n = 101: last bit is 1 → ans = ans * 3 = 3\n- a = 3 * 3 = 9, n >> 1 = 10\n- next bit is 0 → skip multiply\n- a = 9 * 9 = 81, n >> 1 = 1\n- bit is 1 → ans = 3 * 81 = 243\n\n✅ Final answer = 243\n\nThis method avoids repeated multiplication and is much faster for large exponents."
       }
+      
     ],
 
 
