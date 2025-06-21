@@ -1134,6 +1134,11 @@ const questionsData = {
   ],
 
   "github": [
+
+    {
+      title: "How to push a project to GitHub step by step?",
+      answer: "```bash\ncd your-project-folder               # Go to your project directory\ngit init                             # Initialize git\ngit remote add origin https://github.com/yourusername/your-repo-name.git  # Link GitHub repo\ngit add .                            # Stage all files\ngit commit -m \"Initial commit\"      # Commit with a message\ngit branch -M main                  # Rename branch to main (optional but recommended)\ngit push -u origin main             # Push code to GitHub\n```"
+    },    
     {
       title: "What is Git?",
       answer: "Git is a free and open-source version control system that helps track changes in code, maintain history, and support collaboration."
