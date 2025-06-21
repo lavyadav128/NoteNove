@@ -4056,6 +4056,139 @@ const questionsData = {
         "title": "Why is greedy preferred in real-time systems?",
         "answer": "Greedy is fast and uses less memory. It’s ideal for approximate or heuristic solutions under time constraints."
       },
+    ],
+
+    "queen-suduko":[
+      {
+        title: "What is the N-Queens problem?",
+        answer: "It is a classic backtracking problem where the goal is to place N queens on an N×N chessboard such that no two queens threaten each other."
+      },
+      {
+        title: "What is the base condition in the N-Queens recursive function?",
+        answer: "The base case is when the current row equals the board size. It means all queens are placed correctly.\njava\nif(row == board.length) return true;"
+      },
+      {
+        title: "How does the 'isSafe' function work in N-Queens?",
+        answer: "isSafe checks for three conditions:\n1. Same column (upward)\n2. Upper-left diagonal\n3. Upper-right diagonal\nIf any of these have a queen, return false."
+      },
+      {
+        title: "How do you backtrack in N-Queens?",
+        answer: "After placing a queen and checking further, if no solution is found, the queen is removed (backtracked):\njava\nboard[row][j] = 'X';"
+      },
+      {
+        title: "What is the time complexity of the N-Queens algorithm?",
+        answer: "Time Complexity: O(N!) in the worst case because each queen has N possible positions and we try all combinations."
+      },
+      {
+        title: "How do you count total solutions in the N-Queens problem?",
+        answer: "Use a global/static counter variable. Increment it in the base case where all queens are successfully placed."
+      },
+      {
+        title: "Write a function call to start solving the N-Queens problem.",
+        answer: "java\nnQueens(board, 0);\n"
+      },
+      {
+        title: "How to print the chess board in the N-Queens program?",
+        answer: "java\nfor(int i=0;i<board.length;i++){\n  for(int j=0;j<board.length;j++){\n    System.out.print(board[i][j] + \" \");\n  }\n  System.out.println();\n}"
+      },
+      {
+        title: "How do you modify the N-Queens code to return only 1 solution?",
+        answer: "Change the recursive method to return true if a solution is found, and stop further recursive calls after that."
+      },
+      {
+        title: "How do you check if a solution is possible in N-Queens?",
+        answer: "In the main function, check if nQueens(board, 0) returns true or false and print accordingly:\njava\nif(nQueens(board, 0))\n  System.out.println(\"Solution is possible\");\nelse\n  System.out.println(\"Not possible\");"
+      },
+      {
+        title: "Check if placing a digit is safe (row only)",
+        answer: `
+  function isRowSafe(sudoku, row, digit) {
+      for (let j = 0; j < 9; j++) {
+          if (sudoku[row][j] === digit) {
+              return false;
+          }
+      }
+      return true;
+  }`
+      },
+      {
+        title: "Check if placing a digit is safe (column only)",
+        answer: `
+  function isColSafe(sudoku, col, digit) {
+      for (let i = 0; i < 9; i++) {
+          if (sudoku[i][col] === digit) {
+              return false;
+          }
+      }
+      return true;
+  }`
+      },
+      {
+        title: "Check if digit can be placed in 3x3 grid",
+        answer: `
+  function isGridSafe(sudoku, row, col, digit) {
+      const sr = Math.floor(row / 3) * 3;
+      const sc = Math.floor(col / 3) * 3;
+      for (let i = sr; i < sr + 3; i++) {
+          for (let j = sc; j < sc + 3; j++) {
+              if (sudoku[i][j] === digit) {
+                  return false;
+              }
+          }
+      }
+      return true;
+  }`
+      },
+      {
+        title: "Combine all three checks in isSafe method",
+        answer: `
+  function isSafe(sudoku, row, col, digit) {
+      return isRowSafe(sudoku, row, digit) &&
+             isColSafe(sudoku, col, digit) &&
+             isGridSafe(sudoku, row, col, digit);
+  }`
+      },
+      {
+        title: "Print Sudoku board",
+        answer: `
+  function printBoard(sudoku) {
+      for (let i = 0; i < 9; i++) {
+          let row = '';
+          for (let j = 0; j < 9; j++) {
+              row += sudoku[i][j] + ' ';
+          }
+          console.log(row.trim());
+      }
+  }`
+      },
+      {
+        title: "Solve Sudoku (Backtracking)",
+        answer: `
+  function sudokuSolver(sudoku, row = 0, col = 0) {
+      if (row === 9) {
+          return true;
+      }
+  
+      const nextRow = (col === 8) ? row + 1 : row;
+      const nextCol = (col + 1) % 9;
+  
+      if (sudoku[row][col] !== 0) {
+          return sudokuSolver(sudoku, nextRow, nextCol);
+      }
+  
+      for (let digit = 1; digit <= 9; digit++) {
+          if (isSafe(sudoku, row, col, digit)) {
+              sudoku[row][col] = digit;
+              if (sudokuSolver(sudoku, nextRow, nextCol)) {
+                  return true;
+              }
+              sudoku[row][col] = 0; // backtrack
+          }
+      }
+  
+      return false;
+  }`
+      }
     ]
   
   };

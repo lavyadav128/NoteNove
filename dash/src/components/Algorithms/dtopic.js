@@ -23,6 +23,8 @@ const topics = [
   { id: "java-arrays-strings", name: "Java (Arrays and Strings)" },
   { id: "divide-conquer-and-two-pointer", name: "Two Pointer and Divide Conquer" },
   { id: "collections", name: "Collections Framework" },
+  { id: "queen-suduko", name: "Queen and suduko" },
+
 
 
 
