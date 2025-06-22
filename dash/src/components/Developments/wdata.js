@@ -968,17 +968,18 @@ const questionsData = {
       answer: "JSON is text-based and human-readable.\nBSON is binary-encoded more efficient for storage but not space efficient due to added metadata."
     },
     {
-      title: "What is a Collection in MongoDB?",
-      answer: "A collection is a group of MongoDB documents. It is equivalent to a table in relational databases.\nDocuments in a collection can have different fields."
+      "title": "What is a Collection in MongoDB?",
+      "answer": "A collection is a group of MongoDB documents, similar to a table in relational databases.\nEach document is a record (like a row), and documents in a collection can have different structures.\n\nExample:\nSuppose you have a database `school`. You can create a collection `students` where each document represents a student:\n\n{\n  \"name\": \"Alice\",\n  \"age\": 15,\n  \"grade\": \"10th\"\n}\n\n{\n  \"name\": \"Bob\",\n  \"age\": 16,\n  \"grade\": \"10th\",\n  \"hobbies\": [\"football\", \"chess\"]\n}\n\nHere, both documents are part of the `students` collection, even though their fields are slightly different."
     },
+        
     {
       title: "How does MongoDB store data?",
       answer: "MongoDB stores data in the form of documents (like JSON objects) inside collections and collections belong to a database.\nStructure: Database → Collections → Documents"
     },
     {
-      title: "How to insert a single document into a collection?",
-      answer: "Use insertOne() method on a collection.\nExample: db.Student.insertOne({ name: 'adam' marks: 75 })"
-    },
+      "title": "How to insert a single document into a collection?",
+      "answer": "Use the `insertOne()` method on a collection to add a single document.\n\nSyntax:\ndb.<collection>.insertOne({ field1: value1, field2: value2, ... })\n\nExample:\ndb.Student.insertOne({ name: 'Adam', marks: 75 })\n\nThis inserts one document with `name` and `marks` fields into the `Student` collection."
+    },    
     {
       title: "How to display all documents in a collection?",
       answer: "Use the find() method.\nExample: db.Student.find()"
@@ -988,53 +989,54 @@ const questionsData = {
       answer: "If a collection does not exist MongoDB creates it automatically when you first insert data into it."
     },
     {
-      title: "What is insertMany in MongoDB?",
-      answer: "insertMany() is used to insert multiple documents into a collection at once.\nExample:\ndb.student.insertMany([{ name: 'A' } { name: 'B' } { name: 'C' }])"
-    },
+      "title": "What is insertMany in MongoDB?",
+      "answer": "`insertMany()` is a method in MongoDB used to insert multiple documents into a collection in a single operation. It is more efficient than calling `insertOne()` repeatedly, especially for large data sets.\n\nEach document in the array can have different fields, and MongoDB will automatically assign a unique `_id` to each document if not provided.\n\n**Syntax:**\ndb.<collection>.insertMany([ {doc1}, {doc2}, ... ])\n\n**Example:**\ndb.student.insertMany([\n  { name: 'A', age: 14 },\n  { name: 'B', age: 15 },\n  { name: 'C', age: 16 }\n])\n\n**Explanation:**\n- This command adds 3 documents to the `student` collection.\n- Each document represents a student with `name` and `age` fields.\n- If any document fails to insert (e.g., due to duplicate `_id`), the operation can be configured to either continue or stop.\n\n**Advantages:**\n- Faster insertion when dealing with bulk data.\n- Reduces number of database calls, improving performance.\n\n**Note:**\n- You can also pass an optional second argument to control behavior like `ordered: false` to allow continuing even if some inserts fail."
+    },    
     {
       title: "How to find all documents in a collection?",
       answer: "Use find() with no arguments to return all documents.\nExample:\ndb.collection.find()"
     },
     {
-      title: "How to run specific queries in MongoDB?",
-      answer: "You can use key-value filters to match documents.\nExamples:\ndb.collection.find({ key: value })\ndb.collection.findOne({ key: value })"
-    },
+      "title": "How to run specific queries in MongoDB?",
+      "answer": "In MongoDB, you can run specific queries using key-value filters to find matching documents in a collection.\n\n**Common Methods:**\n- `find()` returns all documents that match the filter.\n- `findOne()` returns the first matching document only.\n\n**Syntax:**\ndb.<collection>.find({ key: value })\ndb.<collection>.findOne({ key: value })\n\n**Examples:**\n1. Find all students named 'John':\ndb.students.find({ name: 'John' })\n\n2. Find one student with marks greater than 80:\ndb.students.findOne({ marks: { $gt: 80 } })\n\n**Notes:**\n- You can use query operators like `$gt`, `$lt`, `$in`, `$and`, etc., for advanced filtering.\n- The result of `find()` is a cursor, which you can iterate over to access individual documents."
+    },    
     {
-      title: "How to use query operators in MongoDB?",
-      answer: "MongoDB provides operators like $gt $lt $in $or etc.\nExamples:\ndb.student.find({ marks: { $gt: 75 } })\ndb.student.find({ city: { $in: ['Delhi' 'Mumbai'] } })\ndb.student.find({ $or: [{ marks: { $gt: 75 } } { city: 'Chd' }] })"
-    },
+      "title": "How to use query operators in MongoDB?",
+      "answer": "MongoDB provides powerful query operators to perform complex searches.\nSome commonly used operators include:\n- `$gt`: Greater than\n- `$lt`: Less than\n- `$in`: Matches any value in an array\n- `$or`: Matches if any of the conditions are true\n\n**Examples:**\n1. Find students with marks greater than 75:\ndb.student.find({ marks: { $gt: 75 } })\n\n2. Find students from either Delhi or Mumbai:\ndb.student.find({ city: { $in: ['Delhi', 'Mumbai'] } })\n\n3. Find students with marks greater than 75 OR from Chandigarh:\ndb.student.find({ $or: [ { marks: { $gt: 75 } }, { city: 'Chd' } ] })\n\n**Note:**\n- All operators start with a `$` symbol.\n- These can be nested inside queries for more advanced filtering."
+    },    
     {
-      title: "What is updateOne in MongoDB?",
-      answer: "updateOne() updates a single document that matches a filter.\nExample:\ndb.student.updateOne(\n  { name: 'adam' },\n  { $set: { marks: 99 } }\n)"
-    },
+      "title": "What is updateOne in MongoDB?",
+      "answer": "`updateOne()` is a method in MongoDB used to update the **first** document that matches a specified filter.\nIt takes two main arguments:\n1. The filter to match the document.\n2. The update operation (e.g., `$set`, `$inc`).\n\n**Syntax:**\ndb.<collection>.updateOne(filter, update)\n\n**Example:**\ndb.student.updateOne(\n  { name: 'Adam' },\n  { $set: { marks: 99 } }\n)\n\n**Explanation:**\n- This command finds the first student document where `name` is 'Adam' and updates the `marks` field to 99.\n- Only the first matching document is updated, even if more exist.\n\n**Note:**\n- Always use update operators like `$set` to avoid replacing the entire document unintentionally."
+    },    
     {
-      title: "What is updateMany in MongoDB?",
-      answer: "updateMany() updates all documents that match the filter.\nExample:\ndb.student.updateMany(\n  { city: 'Delhi' },\n  { $set: { city: 'N.D.' } }\n)"
-    },
+      "title": "What is updateMany in MongoDB?",
+      "answer": "`updateMany()` is used to update **all** documents in a collection that match a given filter.\nIt allows you to modify multiple documents at once using update operators like `$set`, `$inc`, etc.\n\n**Syntax:**\ndb.<collection>.updateMany(filter, update)\n\n**Example:**\ndb.student.updateMany(\n  { city: 'Delhi' },\n  { $set: { city: 'N.D.' } }\n)\n\n**Explanation:**\n- This command finds all student documents where `city` is 'Delhi' and updates the value of `city` to 'N.D.'.\n- Unlike `updateOne()`, this updates **all matching documents**, not just the first one.\n\n**Note:**\n- It's important to use update operators like `$set` to avoid replacing entire documents accidentally."
+    },    
     {
-      title: "What is replaceOne in MongoDB?",
-      answer: "replaceOne() replaces the entire document that matches a filter with a new document.\nExample:\ndb.student.replaceOne(\n  { name: 'bob' },\n  { name: 'shraddha' marks: 94 state: 'Haryana' }\n)"
-    },
+      "title": "What is replaceOne in MongoDB?",
+      "answer": "`replaceOne()` replaces the **entire document** that matches a given filter with a **new document**.\nUnlike `updateOne()`, it does not use update operators like `$set` — the whole document is replaced.\n\n**Syntax:**\ndb.<collection>.replaceOne(filter, replacement)\n\n**Example:**\ndb.student.replaceOne(\n  { name: 'Bob' },\n  { name: 'Shraddha', marks: 94, state: 'Haryana' }\n)\n\n**Explanation:**\n- This command finds the first document where `name` is 'Bob' and replaces it completely with a new document.\n- If the original document had other fields (e.g., `age`, `city`), they will be lost unless included in the replacement.\n\n**Note:**\n- Use `replaceOne()` only when you want to fully overwrite an existing document."
+    },    
     {
-      title: "What does replaceOne() do if multiple documents match?",
-      answer: "replaceOne() replaces only the first matching document even if multiple documents match the filter."
-    },
+      "title": "What does replaceOne() do if multiple documents match?",
+      "answer": "`replaceOne()` replaces **only the first** document that matches the given filter, even if multiple documents satisfy the condition.\n\n**Explanation:**\n- It does not update all matching documents — only the first one it finds.\n- This behavior is similar to `updateOne()`, which also targets only the first match.\n\n**Example:**\nIf multiple documents have `name: 'Bob'`, the following command:\ndb.student.replaceOne(\n  { name: 'Bob' },\n  { name: 'Shraddha', marks: 94 }\n)\nwill only replace the first matching document with the new one."
+    },    
     {
-      title: "What is nesting in MongoDB documents?",
-      answer: "Nesting refers to having objects inside documents as values.\nExample:\n{\n  id: ObjectId('...')\n  name: 'Farah'\n  performance: { marks: 88 grade: 'A' }\n}"
-    },
+      "title": "What is nesting in MongoDB documents?",
+      "answer": "Nesting in MongoDB refers to storing documents or objects **within** other documents as values. This allows you to represent complex and hierarchical data structures.\n\n**Example:**\n{\n  _id: ObjectId('...'),\n  name: 'Farah',\n  performance: {\n    marks: 88,\n    grade: 'A'\n  }\n}\n\n**Explanation:**\n- In this example, the `performance` field is itself an embedded document containing `marks` and `grade`.\n- Nesting is useful for logically grouping related data together (like address, performance, contact details, etc.).\n\n**Note:**\n- You can query nested fields using dot notation. Example:\n  `db.student.find({ 'performance.grade': 'A' })`"
+    },    
     {
-      title: "How to query nested fields in MongoDB?",
-      answer: "Use dot notation to access nested fields.\nExample:\ndb.student.findOne({ 'performance.marks': 88 })"
+      "title": "How to query nested fields in MongoDB?",
+      "answer": "To query nested fields in MongoDB, use **dot notation**, where you specify the path to the nested field using a dot (`.`) between levels.\n\n**Syntax:**\ndb.<collection>.find({ 'parentField.childField': value })\n\n**Example:**\ndb.student.findOne({ 'performance.marks': 88 })\n\n**Explanation:**\n- If a document has a nested field like `performance: { marks: 88 }`, you can access `marks` using `'performance.marks'`.\n- This allows you to filter documents based on values deep inside nested objects.\n\n**Note:**\n- Dot notation also works with deeper nesting like `'a.b.c'` and with array elements as well."
     },
+        
     {
-      title: "How to delete a single document from a collection?",
-      answer: "Use deleteOne() with a filter.\nExample:\ndb.collection.deleteOne({ key: value })\nExample:\ndb.student.deleteOne({ state: 'Haryana' })"
-    },
+      "title": "How to delete a single document from a collection?",
+      "answer": "Use the `deleteOne()` method with a filter to remove the **first** matching document from a MongoDB collection.\n\n**Syntax:**\ndb.<collection>.deleteOne({ key: value })\n\n**Examples:**\n1. Delete one student from Haryana:\ndb.student.deleteOne({ state: 'Haryana' })\n\n2. Delete one document where `name` is 'John':\ndb.student.deleteOne({ name: 'John' })\n\n**Explanation:**\n- The method deletes **only the first document** that matches the filter criteria.\n- If no documents match, nothing is deleted.\n\n**Note:**\n- Be careful with the filter to avoid unintentionally removing the wrong document."
+    },    
     {
-      title: "How to delete multiple documents from a collection?",
-      answer: "Use deleteMany() with a filter.\nExample:\ndb.student.deleteMany({ marks: { $lt: 75 } })"
-    },
+      "title": "How to delete multiple documents from a collection?",
+      "answer": "Use the `deleteMany()` method with a filter to delete **all documents** that match the given condition.\n\n**Syntax:**\ndb.<collection>.deleteMany({ key: value })\n\n**Example:**\ndb.student.deleteMany({ marks: { $lt: 75 } })\n\n**Explanation:**\n- This command deletes all student documents where `marks` are less than 75.\n- Unlike `deleteOne()`, `deleteMany()` removes **every matching document**.\n\n**Note:**\n- Always double-check your filter before running `deleteMany()` to avoid accidentally deleting large amounts of data."
+    },    
     {
       title: "How to delete all documents in a collection?",
       answer: "Use deleteMany({}) with an empty filter.\nExample:\ndb.student.deleteMany({})"
@@ -1048,89 +1050,89 @@ const questionsData = {
       answer: "Mongoose is an ODM (Object Data Modeling) library that helps create a connection between MongoDB and the Node.js runtime environment. It simplifies interaction with MongoDB using schema and models."
     },
     {
-      title: "What is a Schema in Mongoose?",
-      answer: "A schema defines the structure or shape of the documents within a MongoDB collection. It specifies field names types and rules."
-    },
+      "title": "What is a Schema in Mongoose?",
+      "answer": "A Schema in Mongoose defines the structure or blueprint of the documents within a MongoDB collection.\nIt specifies the **field names**, **data types**, and **validation rules** for the documents.\n\n**Purpose:**\n- Ensures consistency in the shape of documents.\n- Adds features like default values, required fields, validation, etc.\n\n**Example:**\nconst mongoose = require('mongoose');\n\nconst studentSchema = new mongoose.Schema({\n  name: { type: String, required: true },\n  age: Number,\n  enrolled: { type: Boolean, default: false }\n});\n\n**Explanation:**\n- This schema defines a `Student` document with `name`, `age`, and `enrolled` fields.\n- `name` must be a string and is required.\n- `enrolled` is a boolean with a default value of `false`.\n\nSchemas are used to create Mongoose models, which interact with the MongoDB collection."
+    },    
     {
-      title: "What is a Model in Mongoose?",
-      answer: "A model is a class based on a schema. It is used to construct query update and delete documents in a MongoDB collection."
-    },
+      "title": "What is a Model in Mongoose?",
+      "answer": "A **Model** in Mongoose is a class created from a schema. It represents a specific MongoDB collection and provides an interface to interact with the data.\n\n**Purpose:**\n- Used to create, read, update, and delete documents (CRUD operations).\n- Connects your schema definition to an actual MongoDB collection.\n\n**Example:**\nconst mongoose = require('mongoose');\n\nconst studentSchema = new mongoose.Schema({\n  name: String,\n  age: Number\n});\n\nconst Student = mongoose.model('Student', studentSchema);\n\n**Explanation:**\n- `Student` is a model based on `studentSchema`.\n- It will be linked to the `students` collection in MongoDB (Mongoose auto-pluralizes the name).\n- You can now do operations like:\n  - `Student.find()` to read data\n  - `Student.create()` to insert data\n  - `Student.updateOne()` to update\n  - `Student.deleteOne()` to delete\n\n**Note:**\n- Models are the key to using Mongoose effectively for database interaction."
+    },    
     {
       title: "What is operation buffering in Mongoose?",
       answer: "Mongoose allows you to start using your models even before a MongoDB connection is fully established. This is known as operation buffering."
     },
     {
-      title: "Is Mongoose's find() a promise?",
-      answer: "Mongoose queries are not actual promises but they are thenable meaning they support .then()."
-    },
+      "title": "Is Mongoose's find() a promise?",
+      "answer": "Mongoose queries like `find()` are not actual promises, but they are **thenable**, meaning they behave like promises and support `.then()`, `.catch()`, and `async/await`.\n\n**Example:**\nStudent.find({ age: { $gt: 15 } })\n  .then(data => console.log(data))\n  .catch(err => console.error(err));\n\n**Explanation:**\n- Although not native promises, Mongoose query objects implement `.then()` so you can treat them as promises in most use cases.\n- You can also use `await` for cleaner syntax in async functions:\n\n```js\nconst data = await Student.find({ age: { $gt: 15 } });\n```\n\n**Note:**\n- Internally, Mongoose queries are not full ES6 promises to allow chaining and extra query features, but they are compatible with promise-based syntax."
+    },    
     {
-      title: "What are commonly used find operations in Mongoose?",
-      answer: "- Model.find(): Returns a query object for multiple results.\n- Model.findOne(): Returns the first matching document.\n- Model.findById(): Finds a document by its _id."
-    },
+      "title": "What are commonly used find operations in Mongoose?",
+      "answer": "Mongoose provides several methods to retrieve documents from a MongoDB collection. The most commonly used are:\n\n1. **Model.find(filter)**\n   - Returns all documents that match the filter.\n   - Returns a query object (can use `.then()` or `await`).\n   - Example: `Student.find({ age: { $gt: 15 } })`\n\n2. **Model.findOne(filter)**\n   - Returns the **first** document that matches the filter.\n   - Returns `null` if no match is found.\n   - Example: `Student.findOne({ name: 'Alice' })`\n\n3. **Model.findById(id)**\n   - Finds a document by its `_id` value.\n   - Useful when you already know the unique identifier.\n   - Example: `Student.findById('60f1a2b9c8a4a0b1e4d5c6f7')`\n\n**Note:** All of these methods return thenable query objects, so they support both `.then()` chaining and `async/await` syntax."
+    },    
     {
-      title: "What are update operations in Mongoose?",
-      answer: "- Model.updateOne(): Updates a single matching document (does not return updated doc).\n- Model.updateMany(): Updates all matching documents.\n- Model.findOneAndUpdate(): Finds and updates a doc returns updated doc.\n- Model.findByIdAndUpdate(): Finds by _id and updates the doc returns updated doc."
-    },
+      "title": "What are update operations in Mongoose?",
+      "answer": "Mongoose provides several methods to update documents in a collection:\n\n1. **Model.updateOne(filter, update)**\n   - Updates the **first** document that matches the filter.\n   - Does **not** return the updated document by default.\n   - Example: `Student.updateOne({ name: 'Alice' }, { $set: { marks: 90 } })`\n\n2. **Model.updateMany(filter, update)**\n   - Updates **all** documents that match the filter.\n   - Does not return updated documents.\n   - Example: `Student.updateMany({ class: '10A' }, { $set: { promoted: true } })`\n\n3. **Model.findOneAndUpdate(filter, update, options)**\n   - Finds and updates the **first** matching document.\n   - Returns the **original** document by default, unless `{ new: true }` is specified.\n   - Example: `Student.findOneAndUpdate({ name: 'Bob' }, { $inc: { marks: 5 } }, { new: true })`\n\n4. **Model.findByIdAndUpdate(id, update, options)**\n   - Finds a document by its `_id` and updates it.\n   - Returns the updated document if `{ new: true }` is passed.\n   - Example: `Student.findByIdAndUpdate(id, { $set: { grade: 'A+' } }, { new: true })`\n\n**Note:** Always use update operators like `$set`, `$inc`, etc., when modifying fields to avoid overwriting entire documents unintentionally."
+    },    
     {
-      title: "How to delete a single document using Mongoose?",
-      answer: "Use Model.deleteOne() to remove the first matching document.\nExample:\nModel.deleteOne({ name: 'Adam' })"
-    },
+      "title": "How to delete a single document using Mongoose?",
+      "answer": "Use `Model.deleteOne()` to remove the **first document** that matches the given filter from the MongoDB collection.\n\n**Syntax:**\nModel.deleteOne(filter)\n\n**Example:**\nStudent.deleteOne({ name: 'Adam' })\n\n**Explanation:**\n- This command deletes the first student document where the `name` is 'Adam'.\n- If no documents match the filter, nothing is deleted.\n\n**Note:**\n- `deleteOne()` returns a result object that includes a `deletedCount` field indicating how many documents were removed (0 or 1).\n- Use this method when you want to ensure that only **one** document is deleted, even if multiple match."
+    },    
     {
-      title: "How to delete multiple documents in Mongoose?",
-      answer: "Use Model.deleteMany() to remove all matching documents.\nExample:\nModel.deleteMany({ city: 'Delhi' })"
-    },
+      "title": "How to delete multiple documents in Mongoose?",
+      "answer": "Use `Model.deleteMany()` to remove **all documents** that match the specified filter from a MongoDB collection.\n\n**Syntax:**\nModel.deleteMany(filter)\n\n**Example:**\nStudent.deleteMany({ city: 'Delhi' })\n\n**Explanation:**\n- This command deletes all student documents where the `city` field is 'Delhi'.\n- If no documents match, nothing is deleted.\n\n**Note:**\n- `deleteMany()` returns a result object that includes a `deletedCount` indicating how many documents were removed.\n- Always double-check your filter when using this method to avoid unintended mass deletion."
+    },    
     {
-      title: "What does findByIdAndDelete() do?",
-      answer: "Model.findByIdAndDelete(id) finds a document by its _id and deletes it.\nIt returns the deleted document."
-    },
+      "title": "What does findByIdAndDelete() do?",
+      "answer": "`Model.findByIdAndDelete(id)` finds a document in the MongoDB collection by its `_id` and deletes it.\n\n**Syntax:**\nModel.findByIdAndDelete(id)\n\n**Example:**\nStudent.findByIdAndDelete('60f7a2b9e3d5c91234abcd12')\n\n**Explanation:**\n- This method looks for a document with the specified `_id` and removes it from the collection.\n- It returns the **deleted document** if found, or `null` if no document matches the given ID.\n\n**Note:**\n- This is a convenient method when you want to delete a document and also get its data in response.\n- You can also pass an optional callback or use `await` for asynchronous handling."
+    },    
     {
-      title: "What is the use of findOneAndDelete() in Mongoose?",
-      answer: "Model.findOneAndDelete(filter) finds the first matching document and deletes it.\nReturns the deleted document."
-    },
+      "title": "What is the use of findOneAndDelete() in Mongoose?",
+      "answer": "`Model.findOneAndDelete(filter)` is used to find the **first document** that matches the given filter and delete it from the collection.\n\n**Syntax:**\nModel.findOneAndDelete(filter)\n\n**Example:**\nStudent.findOneAndDelete({ name: 'Aman' })\n\n**Explanation:**\n- This method searches for the first document where `name` is 'Aman' and deletes it.\n- It returns the **deleted document** if found, or `null` if no match is found.\n\n**Use Cases:**\n- When you want to delete a document **and** retrieve its content at the same time.\n- Useful for cleanup operations or soft delete patterns where you want to log or process the deleted data.\n\n**Note:**\n- If multiple documents match, only the **first** one (based on the collection's natural order) will be deleted."
+    },    
     {
-      title: "Does deleteOne() return anything?",
-      answer: "Yes it returns an object with a count of how many documents were deleted."
-    },
+      "title": "Does deleteOne() return anything?",
+      "answer": "Yes, `deleteOne()` returns a result object that contains information about the deletion.\n\n**Returned Object Example:**\n{\n  acknowledged: true,\n  deletedCount: 1\n}\n\n**Explanation:**\n- `acknowledged`: Indicates whether the operation was successfully acknowledged by the database.\n- `deletedCount`: Shows how many documents were actually deleted (either `0` or `1`).\n\n**Example:**\nconst result = await Student.deleteOne({ name: 'Aman' });\nconsole.log(result.deletedCount); // Outputs 1 if a document was deleted\n\n**Note:**\n- If no documents match the filter, `deletedCount` will be `0`."
+    },    
     {
-      title: "What is validation in Mongoose?",
-      answer: "Validation in Mongoose ensures the data inserted into a collection follows the defined rules or schema."
-    },
+      "title": "What is validation in Mongoose?",
+      "answer": "Validation in Mongoose ensures that the data being inserted or updated in a MongoDB collection **follows the rules defined in the schema**.\n\n**Purpose:**\n- Prevents invalid or inconsistent data from being saved to the database.\n- Enforces data integrity and correctness at the application level.\n\n**Example:**\nconst studentSchema = new mongoose.Schema({\n  name: { type: String, required: true },\n  age: { type: Number, min: 5, max: 100 },\n  email: { type: String, match: /.+\\@.+\\..+/ }\n});\n\n**Explanation:**\n- `required: true` ensures `name` must be provided.\n- `min` and `max` restrict the range of age.\n- `match` uses a regex to validate email format.\n\n**Note:**\n- Mongoose runs validation automatically before saving a document.\n- You can also trigger validation manually using `.validate()`.\n- Custom validation functions can also be added for more complex logic."
+    },    
     {
-      title: "How to define required fields in Mongoose schema?",
-      answer: "Use the 'required: true' property in the schema.\nExample:\nconst productSchema = mongoose.Schema({\n  name: { type: String required: true }\n  price: { type: String }\n});"
-    },
+      "title": "How to define required fields in Mongoose schema?",
+      "answer": "To make a field required in Mongoose, use the property `required: true` in the schema definition.\n\n**Syntax:**\n{ fieldName: { type: DataType, required: true } }\n\n**Example:**\nconst productSchema = new mongoose.Schema({\n  name: { type: String, required: true },\n  price: { type: Number }\n});\n\n**Explanation:**\n- In this schema, `name` is a required field, so a document **must** include it.\n- `price` is optional, so documents may or may not have it.\n\n**Note:**\n- You can also provide a custom error message:\n  `{ required: [true, 'Product name is required'] }`\n- Required fields are validated before saving documents to the database."
+    },    
     {
-      title: "What is Middleware in Express?",
-      answer: "Middleware is a function in Express that serves as an intermediary between the request and the response. It can modify the request and response objects end the request-response cycle or call the next middleware function."
-    },
+      "title": "What is Middleware in Express?",
+      "answer": "Middleware in Express is a function that executes during the **request-response cycle**. It has access to the `request` and `response` objects, and can either:\n- Modify them,\n- End the request-response cycle, or\n- Call the `next()` function to pass control to the next middleware in the stack.\n\n**Syntax:**\n```js\napp.use((req, res, next) => {\n  console.log('Middleware running');\n  next();\n});\n```\n\n**Types of Middleware:**\n- Application-level middleware\n- Router-level middleware\n- Error-handling middleware\n- Built-in middleware (like `express.json()`)\n- Third-party middleware (like `morgan`, `cors`)\n\n**Example:**\n```js\napp.use((req, res, next) => {\n  req.requestTime = Date.now();\n  next();\n});\n```\n\n**Explanation:**\n- This middleware adds a `requestTime` property to every incoming request.\n\n**Note:**\n- Middleware is powerful for tasks like logging, authentication, validation, error handling, and more."
+    },    
     {
-      title: "Common Middleware Functions in Express",
-      answer: "Some common middleware functions include:\n- express.static\n- body-parser\n- method-override\n- express.urlencoded"
-    },
+      "title": "Common Middleware Functions in Express",
+      "answer": "Express supports various middleware functions that perform tasks during the request-response cycle. Some of the most commonly used middleware are:\n\n1. **express.static**\n   - Serves static files (HTML, CSS, JS, images, etc.).\n   - Example: `app.use(express.static('public'))`\n\n2. **express.json** *(built-in)*\n   - Parses incoming requests with JSON payloads.\n   - Example: `app.use(express.json())`\n\n3. **express.urlencoded** *(built-in)*\n   - Parses incoming requests with URL-encoded data (typically from forms).\n   - Example: `app.use(express.urlencoded({ extended: true }))`\n\n4. **body-parser** *(external)*\n   - Older middleware used to parse JSON and URL-encoded data.\n   - Now mostly replaced by built-in `express.json()` and `express.urlencoded()`.\n\n5. **method-override**\n   - Allows use of HTTP verbs like PUT or DELETE in places (like HTML forms) that only support GET/POST.\n   - Example: `app.use(methodOverride('_method'))`\n\n6. **morgan**\n   - Logs HTTP requests in the console (useful for debugging).\n   - Example: `app.use(morgan('dev'))`\n\n**Note:** Middleware must be registered using `app.use()` or directly on routes."
+    },    
     {
-      title: "What does Middleware do?",
-      answer: "Middleware can execute code modify the request/response objects end the request-response cycle or call the next middleware in the stack."
-    },
+      "title": "What does Middleware do?",
+      "answer": "Middleware in Express plays a crucial role in handling requests and responses. It can:\n\n1. **Execute any code**\n   - Example: Logging, authentication checks, setting headers, etc.\n\n2. **Modify the request (`req`) and response (`res`) objects**\n   - Example: Adding a `user` property to `req` after decoding a token.\n\n3. **End the request-response cycle**\n   - Example: Sending a response directly from the middleware: `res.send('Access Denied')`\n\n4. **Call the next middleware in the stack using `next()`**\n   - This passes control to the next matching route or middleware.\n\n**Example:**\n```js\napp.use((req, res, next) => {\n  console.log('Request URL:', req.url);\n  next();\n});\n```\n\n**Note:**\n- Middleware functions run in the order they are defined.\n- They are essential for building scalable and maintainable Express apps."
+    },    
     {
-      title: "What is the 'next' middleware function in Express?",
-      answer: "The 'next' function is a function in the Express middleware stack that passes control to the next middleware function. Without calling next() the request will be left hanging."
-    },
+      "title": "What is the 'next' middleware function in Express?",
+      "answer": "The `next` function in Express is a callback provided to middleware functions that, when called, passes control to the **next middleware** in the stack.\n\n**Purpose:**\n- It ensures that the request continues through the middleware chain.\n- If `next()` is **not** called and no response is sent, the request will hang and eventually time out.\n\n**Syntax:**\n```js\napp.use((req, res, next) => {\n  console.log('This is a middleware');\n  next(); // Passes control to the next middleware\n});\n```\n\n**Example Use Case:**\n- Logging, authentication, adding properties to `req`, etc., before reaching the route handler.\n\n**Note:**\n- You can also pass an error to `next(err)` to trigger the error-handling middleware."
+    },    
     {
-      title: "What is an example of writing a middleware?",
-      answer: "Example:\njs\napp.use((req res next) => {\n  console.log('Middleware executed');\n  next();\n});\n"
-    },
+      "title": "What is an example of writing a middleware?",
+      "answer": "A middleware function in Express is written with three parameters: `req`, `res`, and `next`. It can perform actions before passing control to the next middleware or route handler.\n\n**Example:**\n```js\napp.use((req, res, next) => {\n  console.log('Middleware executed');\n  next(); // Pass control to the next middleware or route\n});\n```\n\n**Explanation:**\n- This middleware logs a message every time a request is received.\n- `next()` is important to continue the request-response cycle.\n\n**Note:**\n- Middleware functions can be global (using `app.use`) or route-specific."
+    },    
     {
-      title: "What is a default error handler in Express?",
-      answer: "Express provides a default error handler. If any middleware calls next(err) Express will skip all other middleware and invoke the default error handler which sends a response with status code 500."
-    },
+      "title": "What is a default error handler in Express?",
+      "answer": "Express provides a **default error-handling middleware** that is automatically triggered when `next(err)` is called in any middleware or route.\n\n**How it works:**\n- If any middleware or route calls `next(error)`, Express skips all remaining middleware and routes.\n- It invokes the built-in error handler, which sends a response with **status code 500** (Internal Server Error) and the error message (in development mode).\n\n**Example:**\n```js\napp.use((req, res, next) => {\n  const err = new Error('Something went wrong');\n  next(err);\n});\n```\n\n**Default behavior:**\n- In production, the default error handler hides the stack trace.\n- In development, it includes stack trace in the response.\n\n**Note:**\n- You can define your **custom error handler** by creating middleware with 4 parameters: `(err, req, res, next)`."
+    },    
     {
-      title: "How to handle errors in Express using middleware?",
-      answer: "Error-handling middleware has four arguments: (err req res next). Example:\njs\napp.use((err req res next) => {\n  console.error(err.stack);\n  res.status(500).send('Something broke!');\n});\n"
-    },
+      "title": "How to handle errors in Express using middleware?",
+      "answer": "To handle errors in Express, you can define a special **error-handling middleware** function with **four parameters**: `(err, req, res, next)`.\n\n**Syntax:**\n```js\napp.use((err, req, res, next) => {\n  console.error(err.stack);\n  res.status(500).send('Something broke!');\n});\n```\n\n**Explanation:**\n- This middleware is triggered whenever `next(err)` is called in the app.\n- `err` is the error object, `req` and `res` are the request and response objects, and `next` is used to pass control (if needed).\n\n**Usage Example:**\n```js\napp.get('/', (req, res) => {\n  throw new Error('Unexpected error');\n});\n\n// Error-handling middleware (must come last)\napp.use((err, req, res, next) => {\n  res.status(500).send('Internal Server Error');\n});\n```\n\n**Note:**\n- Error-handling middleware should always be added **after** all routes and regular middleware.\n- You can customize responses for different types of errors (validation, auth, etc.)."
+    },    
     {
-      title: "What is a utility middleware?",
-      answer: "Utility middleware refers to helper functions like express.json() or express.urlencoded() which help parse incoming request bodies."
-    },
+      "title": "What is a utility middleware?",
+      "answer": "Utility middleware in Express refers to built-in or third-party helper functions that simplify common tasks like parsing request bodies, serving static files, and logging.\n\n**Examples of Utility Middleware:**\n1. **express.json()**\n   - Parses incoming JSON request bodies.\n   - Example: `app.use(express.json())`\n\n2. **express.urlencoded()**\n   - Parses URL-encoded form data (e.g., from HTML forms).\n   - Example: `app.use(express.urlencoded({ extended: true }))`\n\n3. **express.static()**\n   - Serves static files such as images, CSS, JavaScript.\n   - Example: `app.use(express.static('public'))`\n\n**Explanation:**\n- These middlewares are not tied to specific routes but provide general-purpose functionality across the application.\n- They are often placed at the top of the middleware stack using `app.use()` so that they can apply to all incoming requests.\n\n**Note:**\n- Utility middleware enhances code readability and reduces the need to manually parse or handle common request features."
+    },    
   ],
 
   "github": [
@@ -1276,9 +1278,9 @@ const questionsData = {
 
   "backend": [
     {
-      title: "What is Node.js?",
-      answer: "Node.js is a JavaScript runtime environment used for server-side programming. It allows JavaScript to be executed outside the browser."
-    },
+      "title": "What is Node.js?",
+      "answer": "Node.js is a **JavaScript runtime environment** that allows developers to run JavaScript code **outside of the browser**, typically on the server side.\n\n**Key Features:**\n- Built on **Google Chrome's V8 JavaScript engine**\n- Uses an **event-driven, non-blocking I/O model**, making it efficient and scalable\n- Ideal for building fast and lightweight web servers, APIs, and real-time applications\n\n**Example Use Case:**\n```js\nconst http = require('http');\nhttp.createServer((req, res) => {\n  res.write('Hello from Node.js!');\n  res.end();\n}).listen(3000);\n```\n\n**Explanation:**\n- This code starts a simple web server using Node.js that listens on port 3000.\n\n**Common Use Cases:**\n- REST APIs\n- Real-time apps (e.g., chat)\n- File servers\n- Tools and scripts (e.g., CLI tools like npm)\n\n**Note:**\n- Node.js is not a framework; it’s a runtime that can be used with many libraries and frameworks like Express.js."
+    },    
     {
       title: "Is Node.js a language, library or framework?",
       answer: "Node.js is none of these. It is a runtime environment that enables JavaScript to run on the server."
@@ -1308,21 +1310,21 @@ const questionsData = {
       answer: "Use:\nconst args = process.argv;\nThen iterate:\nfor (let i = 0; i < args.length; i++) {\n  console.log(\"Hello to\" args[i]);\n}"
     },
     {
-      title: "What is 'require()' in Node.js?",
-      answer: "The require() function is a built-in Node.js function used to include external modules (files or libraries) into your current file."
-    },
+      "title": "What is 'require()' in Node.js?",
+      "answer": "`require()` is a built-in function in Node.js used to **import external modules, JSON files, or custom files** into your current JavaScript file.\n\n**Purpose:**\n- Enables code modularity and reuse.\n- Allows access to Node's built-in modules (like `fs`, `http`) or third-party packages (like `express`).\n\n**Syntax:**\n```js\nconst moduleName = require('module-name');\n```\n\n**Examples:**\n1. Importing a built-in module:\n```js\nconst fs = require('fs');\n```\n2. Importing a custom module:\n```js\nconst helper = require('./helper.js');\n```\n3. Importing a third-party package:\n```js\nconst express = require('express');\n```\n\n**When to use `require()` vs `import`:**\n- Use **`require()`**:\n  - In **CommonJS** modules (default in Node.js)\n  - When using older versions of Node.js\n  - In `.js` files **without** `type  : module` in `package.json`\n\n- Use **`import`**:\n  - In **ES Modules (ESM)**\n  - When using modern, top-level `await`, or static imports\n  - In `.mjs` files or `.js` files **with** `type : module` in `package.json`\n\n**Note:**\n- Both `require()` and `import` are used for module loading, but they belong to different module systems (CommonJS vs ES Module).\n- You can't mix them freely unless using dynamic import (`import()`), which returns a promise."
+    },          
     {
-      title: "What is 'module.exports' in Node.js?",
-      answer: "module.exports is a special object in Node.js used to export variables functions or objects from one file to be used in another using require()."
-    },
+      "title": "What is 'module.exports' in Node.js?",
+      "answer": "`module.exports` is a special object in Node.js used to **export functions, objects, or variables** from one file so that they can be used in another file using `require()`.\n\n**Purpose:**\n- Enables **modular programming** by allowing code to be split across multiple files.\n\n**Example:**\n```js\n// utils.js\nfunction add(a, b) {\n  return a + b;\n}\nmodule.exports = add;\n```\n```js\n// app.js\nconst add = require('./utils');\nconsole.log(add(2, 3)); // 5\n```\n\n**Explanation:**\n- In `utils.js`, the `add` function is exported using `module.exports`.\n- In `app.js`, it is imported using `require()`.\n\n**Note:**\n- You can also export multiple items:\n```js\nmodule.exports = { add, subtract };\n```\n- `module.exports` is used in **CommonJS modules**. In ES Modules, you use `export` and `import` instead."
+    },       
     {
       title: "How do you export a single value using 'module.exports'?",
       answer: "Example:\nIn math.js:\nmodule.exports = 123;\n\nIn another file:\nconst someVal = require('./math');\nconsole.log(someVal); // 123"
     },
     {
-      title: "How can you export multiple functions or variables from a module?",
-      answer: "Group them in an object and assign it to module.exports.\n\nExample:\nmodule.exports = { sum mul pi };"
-    },
+      "title": "How can you export multiple functions or variables from a module?",
+      "answer": "To export multiple functions or variables from a module in Node.js, **group them in an object** and assign that object to `module.exports`.\n\n**Example:**\n```js\n// mathUtils.js\nfunction sum(a, b) {\n  return a + b;\n}\n\nfunction mul(a, b) {\n  return a * b;\n}\n\nconst pi = 3.1416;\n\nmodule.exports = { sum, mul, pi };\n```\n\n**Then import and use them like this:**\n```js\n// app.js\nconst { sum, mul, pi } = require('./mathUtils');\n\nconsole.log(sum(2, 3));  // 5\nconsole.log(mul(2, 3));  // 6\nconsole.log(pi);         // 3.1416\n```\n\n**Note:**\n- You can also export them individually using `exports.name = value`, but assigning an object to `module.exports` is cleaner for multiple exports.\n- This approach is used in **CommonJS modules**."
+    },    
     {
       title: "How can you access individual exports from another file?",
       answer: "Use destructuring or dot notation:\nconst math = require('./math');\nconsole.log(math.sum(8 9));"
@@ -1340,13 +1342,13 @@ const questionsData = {
       answer: "You can require a directory if it contains an index.js file. That file acts as the entry point.\n\nExample:\nconst info = require('./fruits');"
     },
     {
-      title: "How do you combine multiple modules from a folder?",
-      answer: "Create individual files like apple.js banana.js etc. and then in index.js import them and export as an array or object.\n\nExample in index.js:\nmodule.exports = [apple banana orange];"
-    },
+      "title": "How do you combine multiple modules from a folder?",
+      "answer": "To combine multiple modules from a folder, create individual files for each module (e.g., `apple.js`, `banana.js`, `orange.js`), and then use an `index.js` file to **import and export them together**.\n\n**Folder structure:**\n```\nfruits/\n├── apple.js\n├── banana.js\n├── orange.js\n└── index.js\n```\n\n**Example in individual files:**\n```js\n// apple.js\nmodule.exports = 'apple';\n\n// banana.js\nmodule.exports = 'banana';\n\n// orange.js\nmodule.exports = 'orange';\n```\n\n**index.js (combine all):**\n```js\nconst apple = require('./apple');\nconst banana = require('./banana');\nconst orange = require('./orange');\n\nmodule.exports = [apple, banana, orange];\n```\n\n**OR as an object:**\n```js\nmodule.exports = { apple, banana, orange };\n```\n\n**Usage:**\n```js\nconst fruits = require('./fruits');\nconsole.log(fruits); // ['apple', 'banana', 'orange'] or an object depending on export format\n```\n\n**Note:**\n- This is a common pattern used in modular projects to group related logic together and simplify imports."
+    },    
     {
-      title: "How do you use exported modules from a directory in another file?",
-      answer: "In script.js:\nconst info = require('./fruits');\nconsole.log(info); // array or object defined in index.js"
-    },
+      "title": "How do you use exported modules from a directory in another file?",
+      "answer": "When a directory contains an `index.js` file that exports modules (as an object or array), you can simply `require()` the folder name in another file.\n\n**Example:**\n```js\n// script.js\nconst info = require('./fruits');\nconsole.log(info); // Will log the array or object exported from fruits/index.js\n```\n\n**Explanation:**\n- Node.js automatically looks for `index.js` when you `require('./folderName')`\n- If `index.js` exports an array:\n  ```js\n  module.exports = ['apple', 'banana', 'orange'];\n  ```\n  You'll get that array in `script.js`\n- If it exports an object:\n  ```js\n  module.exports = { apple, banana, orange };\n  ```\n  You can access individual properties: `info.apple`, `info.banana`, etc.\n\n**Note:**\n- This is a clean and scalable way to organize related modules (e.g., routes, controllers, helpers) into folders."
+    },    
     {
       title: "What is NPM in Node.js?",
       answer: "NPM stands for Node Package Manager. It is the standard package manager for Node.js that allows developers to install manage and share packages (libraries)."
