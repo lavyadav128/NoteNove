@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const topics = [
+  { id: "concepts", name: "Concepts" },
   { id: "java-basics", name: "Java Basics" },
   { id: "control-flow", name: "Control Flow Statements" },
   { id: "patterns", name: "Patterns" },
