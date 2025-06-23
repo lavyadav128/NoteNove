@@ -51,7 +51,7 @@ const ChapterDetail = () => {
     chaptersData[classId]?.[subject]?.find((ch) => ch.title === slug)?.videoUrl || null;
 
   const pdfLinks =
-    classId === "10"
+    classId === "10"|| classId === "1"
       ? {
           shortNotes: {
             pdf: `/images/shortnotes/${slug}.pdf`,
@@ -60,9 +60,9 @@ const ChapterDetail = () => {
           completeNotes: {
             pdf: `/images/completenotes/${slug}.pdf`,
           },
-          video: {
-            url: chapterVideoUrl,
-          },
+          // video: {
+          //   url: chapterVideoUrl,
+          // },
         }
       : {
           mindmap: {
@@ -74,9 +74,9 @@ const ChapterDetail = () => {
           completeNotes: {
             pdf: `/images/completenotes/${slug}.pdf`,
           },
-          video: {
-            url: chapterVideoUrl,
-          },
+          // video: {
+          //   url: chapterVideoUrl,
+          // },
         };
 
   const handleBack = () => {

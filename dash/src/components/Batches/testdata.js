@@ -1694,7 +1694,7 @@ const testData = {
 
   2: [
     {
-      title: "JEE (Test-1)",
+      title: "jee main (Test-1)",
       questions: [
         // Maths (1–7)
         {
@@ -3764,12 +3764,9 @@ const testData = {
 
 
 
-
-
-
   3: [
     {
-      title: "JEE (Test-1)",
+      title: "jee main (Test-1)",
       questions: [
         // Maths (1–7)
         {

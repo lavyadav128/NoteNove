@@ -22,7 +22,7 @@ const classList = [
     title: 'Class 10',
     description: 'Master all subjects with our comprehensive Class 10 content.',
     imageUrl: '/images/10.png',
-    price: 1,
+    price: 9,
   },
   {
     id: '11',
