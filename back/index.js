@@ -9,9 +9,6 @@ import purchaseRoutes from './routes/purchase.js';
 import chatbotRoutes from './routes/chatbot.js';
 
 dotenv.config();
-
-console.log("Loaded ENV Key:", process.env.GOOGLE_GENAI_API_KEY);
-
 const app = express();
 
 // Middleware
@@ -31,13 +28,22 @@ app.use('/api', userRoutes);
 app.use('/api', purchaseRoutes);
 app.use('/api', chatbotRoutes);
 
-// ✅ Razorpay instance
+
+app.get("/", (req, res) => {
+  console.log("Ping received at", new Date());
+  res.send("Backend is alive!");
+});
+
+
+
+
+// Razorpay instance
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_SECRET,
 });
 
-// ✅ Razorpay order creation endpoint
+// Razorpay order creation endpoint
 app.post('/api/create-order', async (req, res) => {
   const { amount, receipt } = req.body;
 
@@ -45,7 +51,7 @@ app.post('/api/create-order', async (req, res) => {
     amount: amount * 100, // Convert ₹ to paise
     currency: 'INR',
     receipt: receipt || `receipt_${Date.now()}`,
-    payment_capture: 1, // ✅ Auto-capture enabled
+    payment_capture: 1, //  Auto-capture enabled
   };
 
   try {
