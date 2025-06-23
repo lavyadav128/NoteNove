@@ -16,7 +16,7 @@ import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import Dsaclass from "./Algorithms/dsaclass";
-import Webclass from "./Developments/webclas";
+// import Webclass from "./Developments/webclas";
 import Courses from "./Batches/Courses";
 import PreBatch from "./Batches/PreBatch";
 import Authentication from "./authentication";
@@ -402,7 +402,6 @@ const Dashboard = () => {
             <Routes>
               <Route path="/auth" element={<Authentication />} />
               <Route path="/dsac" element={<Dsaclass />} />
-              <Route path="/webc" element={<Webclass />} />
               <Route path="/cou" element={<Courses />} />
               <Route path="/pre" element={<PreBatch />} />
               <Route path="/mybatches" element={<MyBatchesPage />} />
