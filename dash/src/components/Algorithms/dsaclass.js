@@ -24,7 +24,7 @@ const batches = [
   {
     id: "dsa",
     title: "Dsa Sheet",
-    description: "Ace coding interviews with our 34-day DSA program and master data structure and algorithms",
+    description: "Ace coding interviews with our 34-day DSA program and master DSA.",
     imageUrl: "/images/dsa_files/dsa.png",
     screenshot: "/images/dsa_files/dsass.png",
     price: 0,
@@ -43,7 +43,7 @@ const batches = [
   {
     id: "web",
     title: "Web Development",
-    description: "Create modern, responsive web apps with our structured fullstack roadmap",
+    description: "Create modern, responsive web apps with our structured fullstack roadmap.",
     imageUrl: "/images/dsa_files/web.png",
     screenshot: "/images/dsa_files/webss.png",
     price: 0,
@@ -149,7 +149,7 @@ const CombinedClassPage = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, py: isMobile ? 2 : 0, px: isMobile ? 1.5 : 10 }}>
+    <Box sx={{ flexGrow: 1, py: isMobile ? 2 : 0, px: isMobile ? 1.5 : 15 }}>
       {/* 🔹 Added Heading */}
       <Typography
         variant={isMobile ? "h5" : "h4"}
