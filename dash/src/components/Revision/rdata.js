@@ -1,35 +1,8 @@
 const rdata = {
     "4": {
       mathematics: {
-        "sets": [
-          {
-            title: "Define a Set.",
-            type: "text",
-            answer: "A set is a collection of well-defined objects or elements."
-          },
-          {
-            title: "What is the cardinality of set A = {1,2,3,4}?",
-            type: "text",
-            answer: "The cardinality is 4 since there are 4 elements."
-          }
-        ],
-        "functions": [
-          {
-            title: "What is a function in math?",
-            type: "text",
-            answer: "A function is a relation from a set of inputs to a set of possible outputs where each input is related to exactly one output."
-          }
-        ]
+
       },
-      physics: {
-        "unit-measurements": [
-          {
-            title: "Define SI unit.",
-            type: "text",
-            answer: "The SI unit is the International System of Units used for measurement."
-          }
-        ]
-      }
     },
 
 
@@ -1026,23 +999,6 @@ const rdata = {
 
 
 
-
-        "functions": [
-          {
-            title: "What is a function in math?",
-            type: "text",
-            answer: "A function is a relation from a set of inputs to a set of possible outputs where each input is related to exactly one output."
-          }
-        ]
-      },
-      physics: {
-        "unit-measurements": [
-          {
-            title: "Define SI unit.",
-            type: "text",
-            answer: "The SI unit is the International System of Units used for measurement."
-          }
-        ]
       }
     },
 
@@ -1056,34 +1012,8 @@ const rdata = {
 
     "6": {
       mathematics: {
-        "sets": [
-          {
-            title: "Define a Set.",
-            type: "text",
-            answer: "A set is a collection of well-defined objects or elements."
-          },
-          {
-            title: "What is the cardinality of set A = {1,2,3,4}?",
-            type: "text",
-            answer: "The cardinality is 4 since there are 4 elements."
-          }
-        ],
-        "functions": [
-          {
-            title: "What is a function in math?",
-            type: "text",
-            answer: "A function is a relation from a set of inputs to a set of possible outputs where each input is related to exactly one output."
-          }
-        ]
-      },
-      physics: {
-        "unit-measurements": [
-          {
-            title: "Define SI unit.",
-            type: "text",
-            answer: "The SI unit is the International System of Units used for measurement."
-          }
-        ]
+
+
       }
     },
   };

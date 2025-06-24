@@ -179,7 +179,7 @@ const PracticePage = () => {
 
   return (
     <Box
-      p={isMobile ? 1 : 2}
+      p={isMobile ? 1 : 4}
       sx={{
         backgroundColor: "#f5f7fa",
         minHeight: "100vh",
@@ -235,8 +235,8 @@ const PracticePage = () => {
             sx={{
               width: "100%",
               maxWidth: "100vw",
-              height: "100vh",
-              borderRadius: 0,
+              height: "90vh",
+              borderRadius: 3,
               boxShadow: 5,
               p: isMobile ? 2 : 4,
               backgroundColor: "#ffffff",
