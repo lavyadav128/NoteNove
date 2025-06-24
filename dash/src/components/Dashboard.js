@@ -19,6 +19,7 @@ import Dsaclass from "./Algorithms/dsaclass";
 import Courses from "./Batches/Courses";
 import PreBatch from "./Batches/PreBatch";
 import RevBatch from "./Revision/RevBatch";
+import ColBatch from "./College/ColBatch";
 import Authentication from "./authentication";
 import MyBatchesPage from "./MyBatchesPage";
 import server from "../environment";
@@ -405,6 +406,7 @@ const Dashboard = () => {
               <Route path="/cou" element={<Courses />} />
               <Route path="/pre" element={<PreBatch />} />
               <Route path="/rev" element={<RevBatch />} />
+              <Route path="/col" element={<ColBatch />} />
               <Route path="/mybatches" element={<MyBatchesPage />} />
               <Route path="/notifications" element={<NotificationPage />} />
               <Route path="/doubts" element={<DoubtPage />} />

@@ -29,6 +29,10 @@ const subjects = {
   4: ["mathematics", "physics", "biology", "chemistry", "SST"],
   5: ["mathematics", "physics", "chemistry"],
   6: ["mathematics", "physics", "chemistry"],
+  7: ["Semester (1)", "Semester (2)", "Semester (3)", "Semester (4)", "Semester (5)", "Semester (6)", "Semester (7)", "Semester (8)"],   
+  8: ["Semester (1)", "Semester (2)", "Semester (3)", "Semester (4)", "Semester (5)", "Semester (6)", "Semester (7)", "Semester (8)"],
+  9: ["Semester (1)", "Semester (2)", "Semester (3)", "Semester (4)", "Semester (5)", "Semester (6)", "Semester (7)", "Semester (8)"],
+  13: ["Semester (1)", "Semester (2)", "Semester (3)", "Semester (4)", "Semester (5)", "Semester (6)", "Semester (7)", "Semester (8)"],
 };
 
 const subjectInfo = {
@@ -39,6 +43,14 @@ const subjectInfo = {
   biology: "Dive into the science of life and living organisms.",
   botany: "Study the structure, growth, and functions of plants.",
   zoology: "Explore the biology, behavior, and classification of animals.",
+  "Semester (1)": "Build a strong foundation in basic engineering and science subjects.",
+  "Semester (2)": "Continue core concepts while exploring introductory technical courses.",
+  "Semester (3)": "Dive into branch-specific subjects and practical applications.",
+  "Semester (4)": "Strengthen domain knowledge with advanced core subjects.",
+  "Semester (5)": "Focus on technical depth and start minor project work.",
+  "Semester (6)": "Enhance problem-solving with electives and real-world case studies.",
+  "Semester (7)": "Gain industry exposure through internships and major projects.",
+  "Semester (8)": "Prepare for professional life with final projects and career readiness.",
 };
 
 const renderCard = (title, description, link) => (
@@ -81,6 +93,7 @@ const ClassPage = () => {
   const location = useLocation();
   const isPremium = location.pathname.includes("/premium");
   const isRevision = location.pathname.includes("/revision");
+  const isCollege = location.pathname.includes("/college");
   const classSubjects = subjects[classId] || [];
   const [tabIndex, setTabIndex] = useState(0);
   const theme = useTheme();
@@ -173,7 +186,7 @@ const ClassPage = () => {
             <Grid item xs={12} sm={6} md={6} key={subject}>
               <Link
                 to={`${
-                  isPremium ? "/premium/class" : isRevision ? "/revision/class" : "/class"
+                  isPremium ? "/premium/class" : isRevision ? "/revision/class"  : isCollege ? "/college/class" : "/class"
                 }/${classId}/${subject}`}
                 style={{ textDecoration: "none" }}
               >

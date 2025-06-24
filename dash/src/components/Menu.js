@@ -30,11 +30,12 @@ const Menu = () => {
   };
 
   const menuItems = [
-    { to: "/pre", label: "Premium Batches", idx: 1 },
+    { to: "/pre", label: "ProEdge", idx: 1 },
     { to: "/cou", label: "Batches", idx: 2 },
     { to: "/rev", label: "Revision", idx: 3 },
     { to: "/dsac", label: "DevAlgo", idx: 4 },
-    { to: "/", label: "Logout", idx: 5, isLogout: true },
+    { to: "/col", label: "College", idx: 5 },
+    { to: "/", label: "Logout", idx: 6, isLogout: true },
   ];
 
   return (

@@ -712,11 +712,33 @@ export const chaptersData = {
       { title: "environmental-chemistry", videoUrl: null },
     ],
   },
+
+
+
+
+
+  // College Batches
+
+  7: {
+    "Semester (5)":[
+      { title: "Foundation Engineering", videoUrl: "https://youtu.be/RBE-C-b86-Y?si=hhEIbGZfjBxQpVcJ" },
+      { title: "Structural Analyses II", videoUrl: "https://youtu.be/RBE-C-b86-Y?si=hhEIbGZfjBxQpVcJ" },
+    ]
+  },
+
+
 };
 
 const SubjectPage = () => {
   const { classId, subject } = useParams();
-  const chapters = chaptersData[classId]?.[subject] || [];
+  const formattedSubject =
+  subject.toLowerCase().includes("semester") && !subject.includes("(")
+    ? `semester(${subject.replace(/\D/g, "")})`
+    : subject;
+
+  const chapters = chaptersData[classId]?.[formattedSubject] || [];
+
+
   const subjectFormatted = subject.charAt(0).toUpperCase() + subject.slice(1);
   const navigate = useNavigate();
   const location = useLocation();
@@ -724,6 +746,7 @@ const SubjectPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isPremium = location.pathname.includes("/premium");
   const isRevision = location.pathname.includes("/revision");
+  const isCollege = location.pathname.includes("/college");
 
   const handleBack = () => {
     navigate(-1);
@@ -774,11 +797,14 @@ const SubjectPage = () => {
               <Link
                 to={
                   isRevision
-                    ? `/revision/${classId}/${subject}/${chapter.title}`
-                    : `/${isPremium ? "premium/class" : "class"}/${classId}/${subject}/${chapter.title}`
+                  ? `/revision/${classId}/${subject}/${chapter.title}`
+                  : isCollege
+                  ? `/college/${classId}/${subject}/${chapter.title}`
+                  : `/${isPremium ? "premium/class" : "class"}/${classId}/${subject}/${chapter.title}`
                 }
                 style={{ textDecoration: "none" }}
               >
+
                 <Card
                   sx={{
                     height: { xs: 60, sm: 80, md: 100 },
