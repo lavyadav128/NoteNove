@@ -53,8 +53,8 @@ const Dashboard = () => {
   const fallbackCourses = [
     { title: "premium Batches", route: "/pre" },
     { title: "Batches", route: "/cou" },
-    { title: "DSA", route: "/dsac" },
-    { title: "Web Development", route: "/webc" },
+    { title: "DsaAlgo", route: "/dsac" },
+    { title: "Revision", route: "/rev" },
   ];
 
   const handleSearch = (selectedTitle) => {
@@ -86,8 +86,8 @@ const Dashboard = () => {
         const mapped = res.data.map((item) => {
           const title = item.title?.trim();
           let route = "/cou";
-          if (title === "DSA") route = "/dsac";
-          else if (title === "Web Development") route = "/webc";
+          if (title === "Revision") route = "/rev";
+          else if (title === "DsaAlgo") route = "/dsac";
           else if (title === "premium Batches") route = "/pre";
 
           return {
