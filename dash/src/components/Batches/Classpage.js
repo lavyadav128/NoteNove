@@ -26,6 +26,9 @@ const subjects = {
   1: ["mathematics", "physics", "biology", "chemistry", "SST"],
   2: ["mathematics", "physics", "chemistry"],
   3: ["mathematics", "physics", "chemistry"],
+  4: ["mathematics", "physics", "biology", "chemistry", "SST"],
+  5: ["mathematics", "physics", "chemistry"],
+  6: ["mathematics", "physics", "chemistry"],
 };
 
 const subjectInfo = {
@@ -77,6 +80,7 @@ const ClassPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isPremium = location.pathname.includes("/premium");
+  const isRevision = location.pathname.includes("/revision");
   const classSubjects = subjects[classId] || [];
   const [tabIndex, setTabIndex] = useState(0);
   const theme = useTheme();
@@ -169,7 +173,7 @@ const ClassPage = () => {
             <Grid item xs={12} sm={6} md={6} key={subject}>
               <Link
                 to={`${
-                  isPremium ? "/premium/class" : "/class"
+                  isPremium ? "/premium/class" : isRevision ? "/revision/class" : "/class"
                 }/${classId}/${subject}`}
                 style={{ textDecoration: "none" }}
               >

@@ -16,9 +16,9 @@ import { useNavigate, useLocation, Routes, Route } from "react-router-dom";
 import axios from "axios";
 
 import Dsaclass from "./Algorithms/dsaclass";
-// import Webclass from "./Developments/webclas";
 import Courses from "./Batches/Courses";
 import PreBatch from "./Batches/PreBatch";
+import RevBatch from "./Revision/RevBatch";
 import Authentication from "./authentication";
 import MyBatchesPage from "./MyBatchesPage";
 import server from "../environment";
@@ -404,6 +404,7 @@ const Dashboard = () => {
               <Route path="/dsac" element={<Dsaclass />} />
               <Route path="/cou" element={<Courses />} />
               <Route path="/pre" element={<PreBatch />} />
+              <Route path="/rev" element={<RevBatch />} />
               <Route path="/mybatches" element={<MyBatchesPage />} />
               <Route path="/notifications" element={<NotificationPage />} />
               <Route path="/doubts" element={<DoubtPage />} />

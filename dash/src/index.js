@@ -10,6 +10,10 @@ import DtopicPage from './components/Algorithms/dtopic'; // Practice Page Compon
 import DpractisePage from './components/Algorithms/dpractise';
 
 
+
+import Revision from './components/Revision/concept'; // Revision Page Component
+
+
 import Web from './components/Developments/Web';
 import WtopicPage from './components/Developments/wtopic'; // Practice Page Component
 import WpractisePage from './components/Developments/wpractise';
@@ -60,25 +64,35 @@ root.render(
             <Route path="/wpractice/:topicId" element={<WpractisePage />} />
 
 
+            {/* Revision Details */}
+            <Route path="/revision/:classId/:subject/:chapterSlug" element={<Revision />} />
+
+
             {/* Chapter Details */}
             <Route path="/class/:classId/:subject/:slug" element={<ChapterDetail />} />
             <Route path="/explore/:classId/:subject/:slug" element={<ChapterDetail />} />
             <Route path="/premium/class/:classId/:subject/:slug" element={<ChapterDetail />} />
+            
 
 
             {/* Subject Page */}
             <Route path="/class/:classId/:subject" element={<Subjectpage />} />
             <Route path="/premium/class/:classId/:subject" element={<Subjectpage />} />
+            <Route path="/revision/class/:classId/:subject" element={<Subjectpage />} />
+
 
 
             {/* Class Page */}
             <Route path="/class/:classId" element={<Classpage />} />
             <Route path="/premium/class/:classId" element={<Classpage />} />
+            <Route path="/revision/class/:classId" element={<Classpage />} />  {/* ✅ New route */}
 
 
             {/* Explore Page */}
             <Route path="/class/:classId/explore" element={<Explore />} />
             <Route path="/premium/class/:classId/explore" element={<Explore />} />
+            <Route path="/revision/class/:classId/explore" element={<Explore />} />
+
 
 
             {/* Test Series Pages */}

@@ -30,10 +30,10 @@ const Menu = () => {
   };
 
   const menuItems = [
-    { to: "/rev", label: "Revisio", idx: 2 },
     { to: "/dsac", label: "DSA Sheet", idx: 1 },
+    { to: "/pre", label: "Premium Batches", idx: 2 },
     { to: "/cou", label: "Batches", idx: 3 },
-    { to: "/pre", label: "Premium Batches", idx: 4 },
+    { to: "/rev", label: "Revision", idx: 4 },
     { to: "/", label: "Logout", idx: 5, isLogout: true },
   ];
 
