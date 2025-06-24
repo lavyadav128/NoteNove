@@ -24,6 +24,51 @@ const PracticePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const q = questions[currentQIndex];
 
+  // Helper function to bold specific headings inside answer text
+  const formatAnswerText = (text) => {
+    const headings = [
+      "APPROACH",
+      "ALGORITHM",
+      "TIME & SPACE COMPLEXITY",
+      "TIME COMPLEXITY",
+      "SPACE COMPLEXITY",
+      "DRY RUN",
+      "EXAMPLE",
+      "STEP",
+      "KEY LOOP",
+      "EXPLANATION",
+      "OPTIMIZED APPROACH",
+      "MOORE’S VOTING ALGORITHM",
+      "FINAL OUTPUT",
+      "PASS",
+    ];
+
+    return text.split("\n").map((line, index) => {
+      const trimmedLine = line.trim();
+      const matchedHeading = headings.find((heading) =>
+        trimmedLine.toUpperCase().startsWith(heading)
+      );
+
+      if (matchedHeading) {
+        const parts = line.split(/:(.+)/); // Split on first colon
+        return (
+          <React.Fragment key={index}>
+            <strong>{parts[0]}:</strong>
+            {parts[1] && <span>{parts[1]}</span>}
+            <br />
+          </React.Fragment>
+        );
+      } else {
+        return (
+          <React.Fragment key={index}>
+            {line}
+            <br />
+          </React.Fragment>
+        );
+      }
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -86,7 +131,9 @@ const PracticePage = () => {
                 {q.answer}
               </SyntaxHighlighter>
             ) : (
-              <Typography whiteSpace="pre-line">{q.answer}</Typography>
+              <Typography whiteSpace="pre-line">
+                {formatAnswerText(q.answer)}
+              </Typography>
             )}
           </Box>
 

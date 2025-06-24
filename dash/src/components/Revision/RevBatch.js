@@ -17,9 +17,9 @@ import { makeAuthenticatedRequest } from '../makeauth';
 import server from '../../environment';
 
 const classList = [
-  { id: '4', title: 'Class 10', description: 'Master all subjects with our comprehensive Class 10 content.', imageUrl: '/images/p10.png', price: 0, isPremium: true },
-  { id: '5', title: 'Class 11 (Jee + Boards)', description: 'Strengthen your foundation with advanced concepts.', imageUrl: '/images/p11.png', price: 0, isPremium: true },
-  { id: '6', title: 'Class 12 (Jee + Boards)', description: 'Ace your boards and entrance exams with Class 12 content.', imageUrl: '/images/p12.png', price: 99, isPremium: true },
+  { id: '4', title: 'Class 10 ( Revision )', description: 'Ace your Class 10 Board Exams with our power-packed Revision Batch!.', imageUrl: '/images/r10.png', price: 0, isPremium: true },
+  { id: '5', title: 'JEE Class 11 ( Revision )', description: 'Strengthen your foundation in Class 11 with our specially curated Revision Batch.', imageUrl: '/images/r11.png', price: 0, isPremium: true },
+  { id: '6', title: 'JEE Class 12 ( Revision )', description: 'Give your Class 12 preparation the final edge with our Crash Revision Batch!.', imageUrl: '/images/r12.png', price: 0, isPremium: true },
 ];
 
 const ClassCard = ({ id, title, description, imageUrl, price, isPremium, purchaseInfo, onPurchase }) => {
