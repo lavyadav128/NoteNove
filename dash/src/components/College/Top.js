@@ -10,6 +10,7 @@ import {
   Card,
   Tabs,
   Tab,
+  Link,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -178,25 +179,31 @@ const PracticePage = () => {
     </>
   );
 
-  const semesterResourceLink =
+  const resourceLink =
     resourceLinks?.[classId]?.resources?.[subject] || null;
 
-  const resourceContent = semesterResourceLink ? (
-    <Box mt={4} display="flex" justifyContent="center">
-      <Button
-        href={semesterResourceLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        variant="contained"
-        sx={{ px: 4, py: 1.5, fontSize: "1rem", fontWeight: 600 }}
-      >
-        Open Semester Resources
-      </Button>
+  const resourcesContent = (
+    <Box mt={3} p={3} borderRadius={3} bgcolor="#fefefe" boxShadow={2}>
+      {resourceLink ? (
+        <Typography>
+          📁{" "}
+          <Link
+            href={resourceLink}
+            target="_blank"
+            rel="noopener"
+            underline="hover"
+            fontWeight={600}
+            color="primary"
+          >
+            Open Semester Drive Folder
+          </Link>
+        </Typography>
+      ) : (
+        <Typography color="text.secondary">
+          No resources available for this semester.
+        </Typography>
+      )}
     </Box>
-  ) : (
-    <Typography mt={4} color="text.secondary" align="center">
-      No semester resources available.
-    </Typography>
   );
 
   return (
@@ -251,11 +258,9 @@ const PracticePage = () => {
           </Tabs>
 
           <Box mt={2}>
-            {tab === 0
-              ? practiceContent
-              : tab === 1
-              ? flashContent
-              : resourceContent}
+            {tab === 0 && practiceContent}
+            {tab === 1 && flashContent}
+            {tab === 2 && resourcesContent}
           </Box>
         </Box>
       ) : (
@@ -301,7 +306,7 @@ const PracticePage = () => {
               TabIndicatorProps={{
                 sx: {
                   width: "40px",
-                  left: "calc(50% - 60px)",
+                  left: "calc(50% - 60px)", // adjusted for 3 tabs
                   transition: "all 0.3s ease",
                 },
               }}
@@ -312,11 +317,9 @@ const PracticePage = () => {
             </Tabs>
 
             <Box mt={2}>
-              {tab === 0
-                ? practiceContent
-                : tab === 1
-                ? flashContent
-                : resourceContent}
+              {tab === 0 && practiceContent}
+              {tab === 1 && flashContent}
+              {tab === 2 && resourcesContent}
             </Box>
           </Card>
         </Box>
