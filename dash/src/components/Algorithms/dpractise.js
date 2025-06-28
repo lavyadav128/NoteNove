@@ -7,7 +7,6 @@ import {
   useMediaQuery,
   useTheme,
   Grid,
-  IconButton,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -75,7 +74,7 @@ const PracticePage = () => {
       sx={{
         py: 4,
         px: { xs: 2, sm: 4, md: 8 },
-        background: "linear-gradient(to right, #fdfbfb, #ebedee)",
+        backgroundColor: "#ffffff", // ✅ plain white background
         minHeight: "100vh",
         width: "100%",
         maxWidth: "1300px",
@@ -107,11 +106,11 @@ const PracticePage = () => {
       </Button>
 
       <Typography
-        variant="h5"
+        variant={isMobile ? "h6" : "h5"}
         fontWeight={700}
         gutterBottom
         align="center"
-        sx={{ color: "#333" }}
+        sx={{ color: "#333", textAlign: "center" }}
       >
         Practice: {topicId.replace(/-/g, " ").toUpperCase()}
       </Typography>
@@ -120,13 +119,10 @@ const PracticePage = () => {
       {questions.length > 0 && (
         <Box
           sx={{
-            display: "flex",
             overflowX: "auto",
             py: 2,
             mb: 3,
-            gap: 1.5,
-            justifyContent: "center",
-            flexWrap: "nowrap",
+            px: 1,
             scrollbarWidth: "none", // Firefox
             msOverflowStyle: "none", // IE/Edge
             "&::-webkit-scrollbar": {
@@ -134,43 +130,64 @@ const PracticePage = () => {
             },
           }}
         >
-          {questions.map((_, index) => (
-            <Button
-              key={index}
-              onClick={() => {
-                setCurrentQIndex(index);
-                setShowCode(false);
-              }}
-              sx={{
-                minWidth: 45,
-                height: 45,
-                borderRadius: "50%",
-                border: "2px solid #1976d2",
-                backgroundColor:
-                  index === currentQIndex ? "#1976d2" : "#ffffff",
-                color: index === currentQIndex ? "#fff" : "#1976d2",
-                fontWeight: 600,
-                transition: "0.3s",
-                "&:hover": {
+          <Box
+            sx={{
+              display: "flex",
+              gap: 1,
+              width: "max-content",
+              flexWrap: "nowrap",
+            }}
+          >
+            {questions.map((_, index) => (
+              <Button
+                key={index}
+                onClick={() => {
+                  setCurrentQIndex(index);
+                  setShowCode(false);
+                }}
+                sx={{
+                  minWidth: 45,
+                  height: 45,
+                  flexShrink: 0,
+                  borderRadius: "50%",
+                  border: "2px solid #1976d2",
                   backgroundColor:
-                    index === currentQIndex ? "#1565c0" : "#e3f2fd",
-                },
-              }}
-            >
-              {index + 1}
-            </Button>
-          ))}
+                    index === currentQIndex ? "#1976d2" : "#ffffff",
+                  color: index === currentQIndex ? "#fff" : "#1976d2",
+                  fontWeight: 600,
+                  transition: "0.3s",
+                  "&:hover": {
+                    backgroundColor:
+                      index === currentQIndex ? "#1565c0" : "#e3f2fd",
+                  },
+                }}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </Box>
         </Box>
       )}
 
       {q ? (
         <>
-          <Typography variant="h6" fontWeight={600} gutterBottom mt={3}>
+          <Typography
+            variant="h6"
+            fontWeight={600}
+            gutterBottom
+            mt={3}
+            sx={{ fontSize: isMobile ? "1rem" : "1.25rem" }}
+          >
             Q{currentQIndex + 1}. {q.title}
           </Typography>
 
           <Box mt={2} p={2} borderRadius={2} bgcolor="#f9f9f9">
-            <Typography fontWeight={600} color="text.secondary" gutterBottom>
+            <Typography
+              fontWeight={600}
+              color="text.secondary"
+              gutterBottom
+              sx={{ fontSize: isMobile ? "0.9rem" : "1rem" }}
+            >
               Answer:
             </Typography>
 
