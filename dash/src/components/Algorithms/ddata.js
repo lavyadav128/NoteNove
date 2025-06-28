@@ -154,7 +154,1818 @@ const questionsData = {
     {
       "title": "(question - Longest Happy Prefix) Approach / Algorithm Used",
       "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the longest prefix of the string which is also a suffix **but not equal to the full string itself**.\n- This is a classic use of the **KMP (Knuth-Morris-Pratt) prefix function**, also known as the 'failure function'.\n\nSTEPS:\n1. Create a prefix array `pi` of size `n`, where `pi[i]` stores the length of the longest proper prefix which is also a suffix for the substring `s[0..i]`.\n2. Initialize `j = 0` to track the length of the current matching prefix.\n3. Iterate `i` from 1 to n-1:\n   - If `s.charAt(i) != s.charAt(j)`, fall back using `pi[j - 1]` until match or j == 0.\n   - If characters match, increment `j`.\n   - Set `pi[i] = j`.\n4. The value `pi[n-1]` gives the length of the longest happy prefix.\n5. Return `s.substring(0, pi[n - 1])`.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n)\n- Each character is processed at most twice.\nSpace Complexity: O(n)\n- The prefix table requires linear space.\n\nDRY RUN / EXAMPLE:\nInput: s = \"level\"\n- pi = [0, 0, 0, 1, 2]\n- `pi[4] = 2` → longest happy prefix is `s.substring(0, 2)` = \"le\"\n\n✔️ Final Output = \"le\""
-    },                                            
+    },            
+    {
+      title: "(question - Peak Index in a Mountain Array) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - The array represents a mountain — strictly increasing and then strictly decreasing.
+    - We are to find the index of the peak element.
+    - Use **Binary Search** since the array has a specific pattern that allows us to discard half at each step.
+    
+    STEPS:
+    1. Initialize \`left = 0\`, \`right = arr.length - 1\`.
+    2. While \`left < right\`:
+       - Compute mid: \`mid = left + (right - left) / 2\`.
+       - If \`arr[mid] < arr[mid + 1]\`, we are in the **ascending** part → peak is on the right → \`left = mid + 1\`.
+       - Else, we are in the **descending** part or at peak → \`right = mid\`.
+    3. Loop ends when \`left == right\`, which is the peak index.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(log n)
+    - Each iteration halves the search space.
+    Space Complexity: O(1)
+    - No extra space used.
+    
+    EXAMPLE:
+    Input: arr = [0, 2, 4, 3, 1]
+    - mid = 2 → arr[mid] = 4, arr[mid+1] = 3 → move left
+    - Eventually, left = right = 2 → arr[2] = 4 is the peak
+    
+    ✔️ Final Output = 2`,
+      code: `class Solution {
+        public int peakIndexInMountainArray(int[] arr) {
+            int left = 0, right = arr.length - 1;
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (arr[mid] < arr[mid + 1]) {
+                    // We are in ascending part, peak is to the right
+                    left = mid + 1;
+                } else {
+                    // We are in descending part or at peak
+                    right = mid;
+                }
+            }
+            return left;  // left == right is the peak index
+        }
+    }`
+    },
+    {
+      title: "(question - Search in Rotated Sorted Array) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - This problem requires modified Binary Search on a rotated sorted array.
+    - In each iteration, we check which half is sorted and decide where to move based on where the target lies.
+    
+    STEPS:
+    1. Initialize \`left = 0\`, \`right = nums.length - 1\`.
+    2. While \`left <= right\`:
+       - Compute \`mid = left + (right - left) / 2\`.
+       - If \`nums[mid] == target\`, return \`mid\`.
+       - Check if **left half is sorted**: \`nums[left] <= nums[mid]\`
+         - If target lies in this range: \`nums[left] <= target < nums[mid]\`, move right: \`right = mid - 1\`
+         - Else, search right: \`left = mid + 1\`
+       - Else, **right half is sorted**:
+         - If target lies in this range: \`nums[mid] < target <= nums[right]\`, move left: \`left = mid + 1\`
+         - Else, search left: \`right = mid - 1\`
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(log n)
+    - Modified binary search with same efficiency.
+    Space Complexity: O(1)
+    - Only pointers are used.
+    
+    EXAMPLE:
+    Input: nums = [4,5,6,7,0,1,2], target = 0
+    - mid = 3 → 7; right half is sorted
+    - target in sorted half → move right
+    - Finally mid = 4 → match found
+    
+    ✔️ Final Output = 4`,
+      code: `class Solution {
+        public int search(int[] nums, int target) {
+            int left = 0, right = nums.length - 1;
+    
+            while (left <= right) {
+                int mid = left + (right - left) / 2;
+    
+                if (nums[mid] == target) return mid;
+    
+                // Check if left half is sorted
+                if (nums[left] <= nums[mid]) {
+                    // If target in left sorted half
+                    if (nums[left] <= target && target < nums[mid]) {
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+                // Otherwise, right half must be sorted
+                else {
+                    // If target in right sorted half
+                    if (nums[mid] < target && target <= nums[right]) {
+                        left = mid + 1;
+                    } else {
+                        right = mid - 1;
+                    }
+                }
+            }
+    
+            return -1; // target not found
+        }
+    }`
+    },
+    {
+      title: "(question - Single Element in a Sorted Array) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Given a sorted array where every element appears exactly twice except one, find the single element.
+    - Use Binary Search leveraging the pairing pattern: pairs always start at even indices before the single element.
+    
+    STEPS:
+    1. Initialize \`left = 0\`, \`right = nums.length - 1\`.
+    2. While \`left < right\`:
+       - Compute \`mid = left + (right - left) / 2\`.
+       - Ensure \`mid\` is even: if odd, decrement by 1.
+       - If \`nums[mid] == nums[mid + 1]\`: valid pair → single is on right → \`left = mid + 2\`.
+       - Else: mismatch → single is on left or at mid → \`right = mid\`.
+    3. When loop ends, \`left == right\` which is the single element index.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(log n)
+    - Each step discards half of the array.
+    Space Complexity: O(1)
+    - Only uses pointers.
+    
+    EXAMPLE:
+    Input: [1,1,2,2,3,4,4,5,5]
+    - mid = 4 (value 3), 3 ≠ 4 → mismatch → right = mid
+    - Continue until left = right = 4 → result = 3
+    
+    ✔️ Final Output = 3`,
+      code: `class Solution {
+        public int singleNonDuplicate(int[] nums) {
+            int left = 0, right = nums.length - 1;
+    
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+    
+                // Ensure mid is even for pairing check
+                if (mid % 2 == 1) mid--;
+    
+                // Check pair starting at mid
+                if (nums[mid] == nums[mid + 1]) {
+                    // Single element is after this pair
+                    left = mid + 2;
+                } else {
+                    // Single element is at mid or before
+                    right = mid;
+                }
+            }
+    
+            return nums[left];
+        }
+    }`
+    },
+    {
+      title: "(question - Minimized Maximum of Products Distributed to Any Store) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Goal: Distribute products among \`n\` stores such that the **maximum number of items in any one store is minimized**.
+    - Each product type must be split into multiple stores, but the same type can be distributed across different stores.
+    - We are trying to **minimize the maximum load** that a store can have — this is a classic use case for **Binary Search on Answer**.
+    
+    OPTIMIZED APPROACH (Binary Search on Answer):
+    1. Let \`left = 1\` (minimum possible max load), \`right = max quantity in the array\` (worst case where all go in one store).
+    2. Use binary search between \`left\` and \`right\`:
+       - For mid = candidate max load, check: **Can we assign products such that no store gets more than mid items?**
+       - To check this, calculate how many stores are needed for each product type:
+         - \`stores += ceil(quantity / mid) = (quantity + mid - 1) / mid\`
+       - If total stores needed ≤ n → try smaller \`mid\` → \`right = mid\`
+       - Else → try bigger \`mid\` → \`left = mid + 1\`
+    3. Final \`left\` is the minimized maximum load.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(m * log M), where m = quantities.length and M = max(quantities[i])
+    - For each binary search step (log M), we scan quantities once (O(m)) to count stores.
+    Space Complexity: O(1)
+    - Constant space used.
+    
+    EXAMPLE:
+    n = 6, quantities = [11, 6]
+    - Try mid = 6 → stores needed: ceil(11/6) + ceil(6/6) = 2 + 1 = 3 → OK
+    - Try mid = 3 → stores needed: ceil(11/3) + ceil(6/3) = 4 + 2 = 6 → OK
+    - Try mid = 2 → 6 + 3 = 9 > 6 → too small
+    - Final answer = 3
+    
+    ✔️ Final Output = 3`,
+      code: `class Solution {
+        public int minimizedMaximum(int n, int[] quantities) {
+            int left = 1, right = 0;
+            for (int q : quantities) {
+                right = Math.max(right, q);
+            }
+    
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+                if (canDistribute(quantities, n, mid)) {
+                    right = mid;  // try smaller max load
+                } else {
+                    left = mid + 1;  // need larger max load
+                }
+            }
+    
+            return left;
+        }
+    
+        private boolean canDistribute(int[] quantities, int n, int maxLoad) {
+            int storesNeeded = 0;
+            for (int q : quantities) {
+                // number of stores needed for product type q with maxLoad per store
+                storesNeeded += (q + maxLoad - 1) / maxLoad;  // ceil division
+                if (storesNeeded > n) return false;  // early stop
+            }
+            return true;
+        }
+    }`
+    },
+
+    {
+      title: "(question - Single Element in a Sorted Array) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - The array has all elements in pairs except one single element.
+    - Use **Binary Search** to find the non-duplicate in O(log n) time by leveraging the pattern of indices.
+    
+    STEPS:
+    1. Initialize \`left = 0\`, \`right = nums.length - 1\`.
+    2. While \`left < right\`:
+       - Find mid: \`mid = (left + right) / 2\`
+       - Ensure \`mid\` is even (so it pairs with \`mid+1\`)
+       - If \`nums[mid] == nums[mid+1]\` → single is on right → \`left = mid + 2\`
+       - Else → single is on left including mid → \`right = mid\`
+    3. When \`left == right\`, it's the index of the single element.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(log n)
+    - Halves the search space each iteration.
+    Space Complexity: O(1)
+    - Constant space usage.
+    
+    EXAMPLE:
+    Input: [1,1,2,2,3,3,4,4,5]
+    Output: 5 (only element without a pair)
+    
+    ✔️ Final Output = nums[left]`,
+      code: `class Solution {
+        public int singleNonDuplicate(int[] nums) {
+            int left = 0, right = nums.length - 1;
+    
+            while (left < right) {
+                int mid = left + (right - left) / 2;
+    
+                // Ensure mid is even for pairing check
+                if (mid % 2 == 1) mid--;
+    
+                // Check pair starting at mid
+                if (nums[mid] == nums[mid + 1]) {
+                    // Single element is after this pair
+                    left = mid + 2;
+                } else {
+                    // Single element is at mid or before
+                    right = mid;
+                }
+            }
+    
+            return nums[left];
+        }
+    }`
+    },
+    {
+      title: "(question - Median of Two Sorted Arrays) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Binary Search** on the smaller of the two sorted arrays to find the correct partition.
+    - The goal is to partition both arrays such that all elements on the left are <= all elements on the right.
+    
+    STEPS:
+    1. Ensure \`nums1\` is the smaller array to keep binary search on shorter length.
+    2. Let \`partitionX + partitionY = (x + y + 1) / 2\`, where x and y are lengths of nums1 and nums2.
+    3. Find \`maxLeftX, minRightX\` and \`maxLeftY, minRightY\`.
+    4. If \`maxLeftX <= minRightY && maxLeftY <= minRightX\`:
+       - If total length is even → return avg of max of lefts and min of rights.
+       - Else → return max of lefts.
+    5. If partition is invalid, adjust binary search accordingly.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(log(min(n, m)))
+    - Efficient because we binary search on the smaller array.
+    Space Complexity: O(1)
+    - Uses only constant space.
+    
+    EXAMPLE:
+    nums1 = [1, 3], nums2 = [2]
+    - Partitions: [1] | [3] and [2] | []
+    - Median = 2.0
+    
+    ✔️ Final Output = Median of combined sorted arrays`,
+      code: `class Solution {
+        public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+            // Ensure nums1 is the smaller array for binary search
+            if (nums1.length > nums2.length) {
+                return findMedianSortedArrays(nums2, nums1);
+            }
+    
+            int x = nums1.length;
+            int y = nums2.length;
+            int low = 0, high = x;
+    
+            while (low <= high) {
+                int partitionX = (low + high) / 2;
+                int partitionY = (x + y + 1) / 2 - partitionX;
+    
+                int maxLeftX = (partitionX == 0) ? Integer.MIN_VALUE : nums1[partitionX - 1];
+                int minRightX = (partitionX == x) ? Integer.MAX_VALUE : nums1[partitionX];
+    
+                int maxLeftY = (partitionY == 0) ? Integer.MIN_VALUE : nums2[partitionY - 1];
+                int minRightY = (partitionY == y) ? Integer.MAX_VALUE : nums2[partitionY];
+    
+                if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
+                    if ((x + y) % 2 == 0) {
+                        return ((double)Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY)) / 2;
+                    } else {
+                        return (double)Math.max(maxLeftX, maxLeftY);
+                    }
+                } else if (maxLeftX > minRightY) {
+                    high = partitionX - 1;
+                } else {
+                    low = partitionX + 1;
+                }
+            }
+    
+            throw new IllegalArgumentException("Input arrays are not sorted");
+        }
+    }`
+    },        
+    {
+      title: "(question - Combination Sum) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - This is a classic **Backtracking** problem where we try to build all combinations that sum up to the target using given candidates.
+    - Each number can be used **unlimited times**. So we make recursive calls without incrementing the index after choosing a number.
+    
+    STEPS:
+    1. Define a backtrack function with parameters: \`candidates\`, \`target\`, \`index\`, \`currentList\`, and \`result\`.
+    2. Base Case 1: If \`target == 0\`, we've found a valid combination → add copy of current list to result.
+    3. Base Case 2: If \`target < 0\` or \`index >= candidates.length\`, return (invalid path).
+    4. Recursive Case:
+       - **Include** current candidate → reduce \`target\`, do **not** increment index since reuse is allowed.
+       - **Exclude** current candidate → move to next index.
+    5. After including a candidate, always backtrack (remove the last added element) to explore other combinations.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(2^t), where t = target
+    - In worst case, we explore all combinations.
+    Space Complexity: O(t)
+    - Maximum depth of recursion tree is proportional to the target.
+    
+    EXAMPLE:
+    Input: candidates = [2, 3, 6, 7], target = 7
+    - Valid combinations: [2,2,3], [7]
+    
+    ✔️ Final Output = [[2,2,3],[7]]`,
+      code: `class Solution {
+        public List<List<Integer>> combinationSum(int[] candidates, int target) {
+            List<List<Integer>> result = new ArrayList<>();
+            backtrack(candidates, target, 0, new ArrayList<>(), result);
+            return result;
+        }
+    
+        private void backtrack(int[] candidates, int target, int index, List<Integer> current, List<List<Integer>> result) {
+            if (target == 0) {
+                result.add(new ArrayList<>(current)); // Found a valid combination
+                return;
+            }
+    
+            if (target < 0 || index >= candidates.length) {
+                return; // Invalid path
+            }
+    
+            // Choose the current number
+            current.add(candidates[index]);
+            backtrack(candidates, target - candidates[index], index, current, result); // Not index + 1, because we can reuse same element
+            current.remove(current.size() - 1); // Backtrack
+    
+            // Skip the current number
+            backtrack(candidates, target, index + 1, current, result);
+        }
+    }`
+    },
+    {
+      title: "(question - Combination Sum II) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Similar to Combination Sum, but here **each number can only be used once**, and **input may contain duplicates**.
+    - To avoid duplicates in output, we **sort the array** and **skip duplicate candidates** during recursion.
+    
+    STEPS:
+    1. Sort the \`candidates\` array to make it easier to skip duplicates.
+    2. Define a backtracking function with parameters: \`candidates\`, \`target\`, \`start\`, \`currentList\`, and \`result\`.
+    3. Base Case: If \`target == 0\`, add a deep copy of \`current\` to \`result\`.
+    4. Loop from \`start\` to end of array:
+       - Skip duplicate elements: if \`i > start && candidates[i] == candidates[i - 1]\`, continue.
+       - If \`candidates[i] > target\`, break — no need to explore further.
+       - Include \`candidates[i]\` and recurse with \`i + 1\` (since each number is used once).
+       - Backtrack (remove last element) after the recursive call.
+    5. Result contains all unique combinations summing to the target.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(2^n)
+    - In worst case, we explore all combinations.
+    Space Complexity: O(k), where k is the depth of recursion or target value.
+    
+    EXAMPLE:
+    Input: candidates = [10,1,2,7,6,1,5], target = 8
+    Output: [[1,1,6],[1,2,5],[1,7],[2,6]]
+    
+    ✔️ Final Output = list of unique combinations with no duplicate sets`,
+      code: `import java.util.*;
+    
+    class Solution {
+        public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+            List<List<Integer>> result = new ArrayList<>();
+            Arrays.sort(candidates); // Sort to handle duplicates
+            backtrack(candidates, target, 0, new ArrayList<>(), result);
+            return result;
+        }
+    
+        private void backtrack(int[] candidates, int target, int start, List<Integer> current, List<List<Integer>> result) {
+            if (target == 0) {
+                result.add(new ArrayList<>(current)); // Found a valid combination
+                return;
+            }
+    
+            for (int i = start; i < candidates.length; i++) {
+                // Skip duplicates
+                if (i > start && candidates[i] == candidates[i - 1]) continue;
+    
+                if (candidates[i] > target) break; // No need to continue (since array is sorted)
+    
+                current.add(candidates[i]);
+                backtrack(candidates, target - candidates[i], i + 1, current, result); // i + 1 to use each element once
+                current.remove(current.size() - 1); // Backtrack
+            }
+        }
+    }`
+    },
+    {
+      title: "(question - Palindrome Partitioning) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Goal: Partition string \`s\` into all possible combinations where each substring is a palindrome.
+    - Use **backtracking** to explore all partitions, and **dynamic programming (DP)** to precompute palindrome checks for optimization.
+    
+    STEPS:
+    1. Initialize a 2D boolean array \`dp[n][n]\` to store if \`s[i..j]\` is a palindrome.
+    2. Fill \`dp[i][j]\`:
+       - \`dp[i][j] = true\` if \`s[i] == s[j]\` and (\`j - i <= 2\` or \`dp[i+1][j-1]\`)
+    3. Call backtrack from index 0:
+       - If start == s.length → add current path to result.
+       - For each end in \`[start, s.length)\`, if \`dp[start][end]\` is true:
+         - Add \`s[start:end+1]\` to path
+         - Recurse on \`end + 1\`
+         - Backtrack (remove last substring)
+    4. Collect all valid paths in \`result\`.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n * 2^n)
+    - There are 2^n possible partitions and palindrome checking is optimized by DP.
+    Space Complexity: O(n^2) for DP + O(n) recursion stack.
+    
+    EXAMPLE:
+    Input: s = "aab"
+    Valid partitions:
+    - ["a","a","b"]
+    - ["aa","b"]
+    
+    ✔️ Final Output = [["a","a","b"],["aa","b"]]`,
+      code: `class Solution {
+        public List<List<String>> partition(String s) {
+            int n = s.length();
+            boolean[][] dp = new boolean[n][n];
+            List<List<String>> result = new ArrayList<>();
+    
+            // Precompute all palindromes
+            for (int i = n - 1; i >= 0; i--) {
+                for (int j = i; j < n; j++) {
+                    // A substring is a palindrome if:
+                    // - s.charAt(i) == s.charAt(j)
+                    // - and inner substring is also palindrome or length <= 2
+                    if (s.charAt(i) == s.charAt(j) && (j - i <= 2 || dp[i + 1][j - 1])) {
+                        dp[i][j] = true;
+                    }
+                }
+            }
+    
+            backtrack(0, s, dp, new ArrayList<>(), result);
+            return result;
+        }
+    
+        private void backtrack(int start, String s, boolean[][] dp, List<String> path, List<List<String>> result) {
+            if (start == s.length()) {
+                result.add(new ArrayList<>(path));
+                return;
+            }
+    
+            for (int end = start; end < s.length(); end++) {
+                if (dp[start][end]) {
+                    path.add(s.substring(start, end + 1));
+                    backtrack(end + 1, s, dp, path, result);
+                    path.remove(path.size() - 1); // backtrack
+                }
+            }
+        }
+    }`
+    },
+    {
+      title: "(question - N-Queens) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - The N-Queens problem asks us to place \`n\` queens on an \`n × n\` chessboard such that no two queens attack each other.
+    - Use **Backtracking** to try placing queens row by row.
+    - At each row, we try placing a queen in all columns and check if the position is **safe** (i.e., no queen on the same column or diagonal).
+    
+    STEPS:
+    1. Create a board filled with '.' representing empty cells.
+    2. Start from row 0 and use a recursive function to try placing a queen in every column.
+    3. Before placing, use \`isSafe\` function to check if:
+       - No queen exists in the current column.
+       - No queen exists on the top-left diagonal.
+       - No queen exists on the top-right diagonal.
+    4. If safe, place the queen ('Q') and move to the next row.
+    5. If row == n → solution is complete → convert board to string list and add to result.
+    6. After recursion, backtrack by removing the queen.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n!), as each row has up to n options but constraints reduce paths.
+    Space Complexity: O(n^2) for storing the board + recursion stack.
+    
+    EXAMPLE:
+    Input: n = 4
+    One valid solution:
+    [
+     ".Q..",
+     "...Q",
+     "Q...",
+     "..Q."
+    ]
+    
+    ✔️ Final Output = All unique placements with no attacking queens`,
+      code: `class Solution {
+        public List<List<String>> solveNQueens(int n) {
+            List<List<String>> result = new ArrayList<>();
+            char[][] board = new char[n][n];
+    
+            // Initialize board with '.'
+            for (int i = 0; i < n; i++) {
+                Arrays.fill(board[i], '.');
+            }
+    
+            solve(0, board, result, n);
+            return result;
+        }
+    
+        private void solve(int row, char[][] board, List<List<String>> result, int n) {
+            if (row == n) {
+                result.add(construct(board));
+                return;
+            }
+    
+            for (int col = 0; col < n; col++) {
+                if (isSafe(board, row, col, n)) {
+                    board[row][col] = 'Q';
+                    solve(row + 1, board, result, n);
+                    board[row][col] = '.'; // Backtrack
+                }
+            }
+        }
+    
+        private boolean isSafe(char[][] board, int row, int col, int n) {
+            // Check column
+            for (int i = 0; i < row; i++)
+                if (board[i][col] == 'Q') return false;
+    
+            // Check top-left diagonal
+            for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--)
+                if (board[i][j] == 'Q') return false;
+    
+            // Check top-right diagonal
+            for (int i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++)
+                if (board[i][j] == 'Q') return false;
+    
+            return true;
+        }
+    
+        private List<String> construct(char[][] board) {
+            List<String> res = new ArrayList<>();
+            for (char[] row : board) {
+                res.add(new String(row));
+            }
+            return res;
+        }
+    }`
+    },
+    {
+      title: "(question - Sudoku Solver) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Backtracking** to fill the 9×9 Sudoku board.
+    - Try placing numbers '1' to '9' in each empty cell ('.'), validating with Sudoku rules before placement.
+    
+    STEPS:
+    1. Traverse the board cell-by-cell using nested loops.
+    2. When an empty cell is found:
+       - Try placing numbers from '1' to '9'.
+       - For each number, check if it's **valid**:
+         - Not present in the same row.
+         - Not present in the same column.
+         - Not present in the 3x3 subgrid.
+    3. If valid, place the number and recursively call solve on the updated board.
+    4. If recursion returns true → solution found.
+    5. If no valid number can be placed → backtrack by resetting the cell and trying next number.
+    6. Once all cells are filled correctly, return true.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(9^(n)) where n is the number of empty cells
+    - Each empty cell can try up to 9 digits.
+    Space Complexity: O(1) extra (in-place), excluding recursion stack.
+    
+    EXAMPLE:
+    Input (partial board with '.'):
+    [
+     ["5","3",".",".","7",".",".",".","."],
+     ["6",".",".","1","9","5",".",".","."],
+     ...
+    ]
+    Output: fully filled valid Sudoku board.
+    
+    ✔️ Final Output = Solves the given board in-place`,
+      code: `class Solution {
+        public void solveSudoku(char[][] board) {
+            solve(board);
+        }
+    
+        private boolean solve(char[][] board) {
+            for (int row = 0; row < 9; row++) {
+                for (int col = 0; col < 9; col++) {
+                    // If cell is empty
+                    if (board[row][col] == '.') {
+                        for (char num = '1'; num <= '9'; num++) {
+                            if (isValid(board, row, col, num)) {
+                                board[row][col] = num;
+    
+                                if (solve(board)) {
+                                    return true; // Solved
+                                }
+    
+                                board[row][col] = '.'; // Backtrack
+                            }
+                        }
+                        return false; // No valid number found
+                    }
+                }
+            }
+            return true; // All cells are filled
+        }
+    
+        private boolean isValid(char[][] board, int row, int col, char num) {
+            // Check row and column
+            for (int i = 0; i < 9; i++) {
+                if (board[row][i] == num || board[i][col] == num) return false;
+            }
+    
+            // Check 3x3 subgrid
+            int boxRowStart = (row / 3) * 3;
+            int boxColStart = (col / 3) * 3;
+    
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (board[boxRowStart + i][boxColStart + j] == num) return false;
+                }
+            }
+    
+            return true;
+        }
+    }`
+    },
+    {
+      title: "(question - Graph Coloring / M-Coloring Problem) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - The goal is to color a graph with \`m\` colors such that no two adjacent vertices share the same color.
+    - Use **Backtracking** to try assigning colors to each vertex from 1 to m and check if it's safe.
+    
+    STEPS:
+    1. Build an adjacency list from the given edge list.
+    2. Initialize a \`colors[]\` array of size \`v\` to track the color of each vertex. Initially, all are uncolored (0).
+    3. Start DFS (depth-first search) from node 0:
+       - For each node, try assigning colors from 1 to m.
+       - Before assigning, use \`isSafe()\` to check if any adjacent vertex has the same color.
+       - If safe, assign the color and recurse for the next node.
+       - If all nodes are colored without conflicts, return true.
+       - If no color works, backtrack and try a different color.
+    4. If all vertices are assigned valid colors → return true; else false.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(m^v)
+    - In worst case, each vertex can be assigned any of m colors.
+    Space Complexity: O(v + e)
+    - For adjacency list and colors array.
+    
+    EXAMPLE:
+    Input: v = 4, m = 3, edges = [[0,1],[0,2],[1,2],[1,3]]
+    - Can we color the graph with 3 colors? → YES
+    
+    ✔️ Final Output = true or false depending on feasibility`,
+      code: `import java.util.*;
+    
+    class Solution {
+        public boolean graphColoring(int v, int[][] edges, int m) {
+            // Build adjacency list
+            List<List<Integer>> adj = new ArrayList<>();
+            for (int i = 0; i < v; i++) adj.add(new ArrayList<>());
+            for (int[] edge : edges) {
+                int u = edge[0], w = edge[1];
+                adj.get(u).add(w);
+                adj.get(w).add(u);
+            }
+    
+            int[] colors = new int[v]; // 0 means uncolored
+            return dfs(0, v, m, colors, adj);
+        }
+    
+        private boolean dfs(int node, int v, int m, int[] colors, List<List<Integer>> adj) {
+            if (node == v) return true;
+    
+            for (int color = 1; color <= m; color++) {
+                if (isSafe(node, color, colors, adj)) {
+                    colors[node] = color;
+                    if (dfs(node + 1, v, m, colors, adj)) return true;
+                    colors[node] = 0; // Backtrack
+                }
+            }
+            return false; // No valid color found
+        }
+    
+        private boolean isSafe(int node, int color, int[] colors, List<List<Integer>> adj) {
+            for (int neighbor : adj.get(node)) {
+                if (colors[neighbor] == color) return false;
+            }
+            return true;
+        }
+    }`
+    },
+    {
+      title: "(question - Subsets II / All Unique Subsets with Duplicates) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Backtracking** to generate all subsets.
+    - Since input array may contain duplicates, we **sort** the array and **skip duplicates** at the same recursion level to avoid repeated subsets.
+    
+    STEPS:
+    1. Sort the array to bring duplicates together.
+    2. Initialize an empty list to store current subset and final result list.
+    3. Call recursive backtrack function with starting index.
+    4. For each index:
+       - Skip duplicates if \`nums[i] == nums[i - 1]\` and \`i > index\`.
+       - Include \`nums[i]\`, recurse for next index, then backtrack.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(2^n)
+    - All subsets of n elements are explored (duplicates skipped).
+    Space Complexity: O(n)
+    - Recursion stack + subset list.
+    
+    EXAMPLE:
+    Input: [1, 2, 2]
+    Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+    
+    ✔️ Final Output = List of all unique subsets`,
+      code: `import java.util.*;
+    
+    class Solution {
+        public List<List<Integer>> subsetsWithDup(int[] nums) {
+            List<List<Integer>> result = new ArrayList<>();
+            Arrays.sort(nums); // Sort to handle duplicates
+            backtrack(0, nums, new ArrayList<>(), result);
+            return result;
+        }
+    
+        private void backtrack(int index, int[] nums, List<Integer> current, List<List<Integer>> result) {
+            result.add(new ArrayList<>(current));
+    
+            for (int i = index; i < nums.length; i++) {
+                // Skip duplicates at the same level
+                if (i > index && nums[i] == nums[i - 1]) continue;
+    
+                current.add(nums[i]);
+                backtrack(i + 1, nums, current, result);
+                current.remove(current.size() - 1); // Backtrack
+            }
+        }
+    }`
+    },
+    {
+      title: "(question - Check Valid Knight Tour Grid) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - We're given a grid with numbers from 0 to n^2 - 1 indicating the order of knight moves.
+    - The knight must start at (0, 0) and move step-by-step following knight’s movement rules.
+    - Store the (x, y) coordinates of each step in an array indexed by step number.
+    - Check if every step from 0 to n^2 - 2 makes a valid knight move to the next.
+    
+    STEPS:
+    1. Check if starting cell has step 0.
+    2. Map positions of all numbers in a \`pos[]\` array: \`pos[i] = (x, y)\` of step i.
+    3. For each i from 1 to n^2 - 1:
+       - Get coordinates of step i-1 and i, and check if they form a valid knight move.
+    4. Return false if any move is invalid, true otherwise.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n^2)
+    - Every cell is visited once.
+    Space Complexity: O(n^2)
+    - To store all positions.
+    
+    EXAMPLE:
+    Input: [[0,11,16,...],...], Output: true/false depending on knight move validity
+    
+    ✔️ Final Output = true if all moves are valid knight moves; else false`,
+      code: `class Solution {
+        public boolean checkValidGrid(int[][] grid) {
+            int n = grid.length;
+    
+            // The knight must start at top-left with step 0
+            if (grid[0][0] != 0) return false;
+    
+            // Store positions of all steps
+            int[][] pos = new int[n * n][2];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    pos[grid[i][j]][0] = i;
+                    pos[grid[i][j]][1] = j;
+                }
+            }
+    
+            // Check all moves from 0 to n^2 - 2
+            for (int i = 1; i < n * n; i++) {
+                int x1 = pos[i - 1][0], y1 = pos[i - 1][1];
+                int x2 = pos[i][0], y2 = pos[i][1];
+                if (!isKnightMove(x1, y1, x2, y2)) return false;
+            }
+    
+            return true;
+        }
+    
+        private boolean isKnightMove(int x1, int y1, int x2, int y2) {
+            int dx = Math.abs(x1 - x2);
+            int dy = Math.abs(y1 - y2);
+            return (dx == 2 && dy == 1) || (dx == 1 && dy == 2);
+        }
+    }`
+    },
+    {
+      title: "(question - Rat in a Maze) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Backtracking** to explore all paths from top-left to bottom-right in a grid.
+    - Only move on cells with value 1 (open path).
+    - Track the path using a string and visit/unvisit cells as needed.
+    
+    STEPS:
+    1. Check base condition: if start or end cell is blocked, return empty result.
+    2. Create \`visited[][]\` to mark visited cells and prevent revisits.
+    3. From (0,0), explore all 4 directions: Down, Left, Right, Up using \`dx[]\`, \`dy[]\`, and \`dir[]\`.
+    4. If move is safe (inside bounds, value is 1, and not visited), recursively backtrack.
+    5. On reaching (n-1,n-1), add current path to result.
+    6. Sort result in lexicographical order.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(4^(n^2))
+    - In worst case, each cell tries 4 directions.
+    Space Complexity: O(n^2)
+    - Due to recursion stack and visited array.
+    
+    EXAMPLE:
+    Input: [[1,0,0],[1,1,0],[0,1,1]] → Output: [“DDRDRR”]
+    
+    ✔️ Final Output = List of all paths in lexicographical order`,
+      code: `import java.util.*;
+    
+    class Solution {
+        public ArrayList<String> ratInMaze(int[][] maze) {
+            ArrayList<String> result = new ArrayList<>();
+            int n = maze.length;
+    
+            if (maze[0][0] == 0 || maze[n - 1][n - 1] == 0) return result; // No path if start or end is blocked
+    
+            boolean[][] visited = new boolean[n][n];
+            backtrack(0, 0, maze, "", visited, result, n);
+            Collections.sort(result); // Ensure lexicographical order
+            return result;
+        }
+    
+        private void backtrack(int row, int col, int[][] maze, String path,
+                               boolean[][] visited, ArrayList<String> result, int n) {
+            // If reached destination
+            if (row == n - 1 && col == n - 1) {
+                result.add(path);
+                return;
+            }
+    
+            // Direction arrays: D, L, R, U
+            int[] dx = {1, 0, 0, -1};
+            int[] dy = {0, -1, 1, 0};
+            char[] dir = {'D', 'L', 'R', 'U'};
+    
+            for (int i = 0; i < 4; i++) {
+                int newRow = row + dx[i];
+                int newCol = col + dy[i];
+    
+                if (isSafe(newRow, newCol, maze, visited, n)) {
+                    visited[row][col] = true;
+                    backtrack(newRow, newCol, maze, path + dir[i], visited, result, n);
+                    visited[row][col] = false; // Backtrack
+                }
+            }
+        }
+    
+        private boolean isSafe(int row, int col, int[][] maze, boolean[][] visited, int n) {
+            return row >= 0 && row < n && col >= 0 && col < n &&
+                   maze[row][col] == 1 && !visited[row][col];
+        }
+    }`
+    },
+    {
+      title: "(question - Sort an Array) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Merge Sort**, a classic divide-and-conquer sorting algorithm.
+    - It recursively splits the array into halves, sorts them, and merges the sorted halves back together.
+    
+    STEPS:
+    1. Recursively divide the array into two halves until each part has one or no element.
+    2. Merge the sorted halves using a temporary array, comparing elements one by one.
+    3. Copy the merged result back into the original array.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n log n)
+    - Each level splits the array (log n) and merging takes O(n) time.
+    Space Complexity: O(n)
+    - Extra space needed for temporary merge arrays.
+    
+    EXAMPLE:
+    Input: [5, 2, 3, 1]
+    1. Split: [5,2] and [3,1]
+    2. Split further: [5],[2] and [3],[1]
+    3. Merge: [2,5] and [1,3]
+    4. Final merge: compare and merge [2,5] and [1,3] → [1,2,3,5]
+    
+    ✔️ Final Output = [1,2,3,5]`,
+      code: `class Solution {
+        public int[] sortArray(int[] nums) {
+            mergeSort(nums, 0, nums.length - 1);
+            return nums;
+        }
+    
+        private void mergeSort(int[] nums, int left, int right) {
+            if (left >= right) return;
+    
+            int mid = left + (right - left) / 2;
+    
+            mergeSort(nums, left, mid);
+            mergeSort(nums, mid + 1, right);
+    
+            merge(nums, left, mid, right);
+        }
+    
+        private void merge(int[] nums, int left, int mid, int right) {
+            int[] temp = new int[right - left + 1];
+    
+            int i = left, j = mid + 1, k = 0;
+    
+            // Merge two sorted halves
+            while (i <= mid && j <= right) {
+                if (nums[i] <= nums[j]) temp[k++] = nums[i++];
+                else temp[k++] = nums[j++];
+            }
+    
+            // Copy remaining elements
+            while (i <= mid) temp[k++] = nums[i++];
+            while (j <= right) temp[k++] = nums[j++];
+    
+            // Copy back to original array
+            for (int p = 0; p < temp.length; p++) {
+                nums[left + p] = temp[p];
+            }
+        }
+    }`
+    },
+    {
+      title: "(question - Number of Permutations With Inversion Constraints) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - We use **Dynamic Programming** to count permutations based on inversion count.
+    - Let dp[i][j] be the number of permutations of first i elements with exactly j inversions.
+    - For each new element, we calculate how many inversions it can create and update dp accordingly using prefix sums for optimization.
+    
+    STEPS:
+    1. Sort the \`requirements\` array based on prefix length to apply constraints during DP.
+    2. Use a 1D array \`dpPrev[]\` to represent previous row of DP table (space optimized).
+    3. For each i from 1 to n:
+       - Calculate prefix sum of \`dpPrev[]\` for efficient range summation.
+       - For each possible inversion count inv, compute valid range of previous inversions.
+       - Use prefix sum to compute dp[i][inv] = sum of dp[i-1][inv-k] for all valid k.
+    4. After filling dp for i, apply any inversion constraint that matches i - 1 by filtering \`dpPrev[]\` to a single valid inversion count.
+    5. After processing all elements, sum all entries of \`dpPrev[]\` to get the final answer.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n^2)
+    - Outer loop for n elements, inner loop for all possible inversions (at most n*(n-1)/2).
+    Space Complexity: O(n^2) → Optimized to O(n) with 1D arrays.
+    
+    EXAMPLE:
+    Input: n = 3, requirements = [[1,0], [2,1]]
+    - We must ensure: first 2 elements (0-based index) form 0 inversion; first 3 form 1 inversion.
+    - Valid permutation: [1, 2, 3] → satisfies both requirements
+    ✔️ Final Output = 1`,
+      code: `import java.util.*;
+    
+    class Solution {
+        private static final int MOD = 1_000_000_007;
+    
+        public int numberOfPermutations(int n, int[][] requirements) {
+            Arrays.sort(requirements, Comparator.comparingInt(a -> a[0]));
+    
+            int maxInversions = n * (n - 1) / 2;
+            long[] dpPrev = new long[maxInversions + 1];
+            dpPrev[0] = 1;
+    
+            int reqIndex = 0;
+    
+            for (int i = 1; i <= n; i++) {
+                long[] dpCurr = new long[maxInversions + 1];
+                long[] prefixSum = new long[maxInversions + 2];
+    
+                for (int inv = 0; inv <= maxInversions; inv++) {
+                    prefixSum[inv + 1] = (prefixSum[inv] + dpPrev[inv]) % MOD;
+                }
+    
+                int maxInvI = i * (i - 1) / 2;
+                for (int inv = 0; inv <= maxInvI; inv++) {
+                    int left = Math.max(0, inv - (i - 1));
+                    int right = inv;
+                    dpCurr[inv] = (prefixSum[right + 1] - prefixSum[left] + MOD) % MOD;
+                }
+    
+                dpPrev = dpCurr;
+    
+                while (reqIndex < requirements.length && requirements[reqIndex][0] == i - 1) {
+                    int reqInv = requirements[reqIndex][1];
+                    long val = dpPrev[reqInv];
+                    Arrays.fill(dpPrev, 0);
+                    dpPrev[reqInv] = val;
+                    reqIndex++;
+                }
+            }
+    
+            long ans = 0;
+            for (long v : dpPrev) {
+                ans = (ans + v) % MOD;
+            }
+            return (int) ans;
+        }
+    }`
+    },
+    {
+      title: "(question - Reverse Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Iterative Pointer Manipulation** to reverse the singly linked list in-place.
+    - Maintain 3 pointers: \`prev\`, \`curr\`, and \`nextTemp\`.
+    - At each step, reverse the current node’s pointer and move all pointers one step ahead.
+    
+    STEPS:
+    1. Initialize \`prev = null\` and \`curr = head\`.
+    2. Loop until \`curr != null\`:
+       - Store \`curr.next\` in \`nextTemp\`.
+       - Reverse the link: \`curr.next = prev\`.
+       - Move \`prev\` to \`curr\` and \`curr\` to \`nextTemp\`.
+    3. When loop ends, \`prev\` points to the new head of the reversed list.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n)
+    - Each node is visited once.
+    Space Complexity: O(1)
+    - No extra space is used, just pointers.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 3 → 4 → 5 → null
+    - After reversing: 5 → 4 → 3 → 2 → 1 → null
+    
+    ✔️ Final Output = Head of the reversed linked list`,
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode reverseList(ListNode head) {
+            ListNode prev = null;
+            ListNode curr = head;
+    
+            while (curr != null) {
+                ListNode nextTemp = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = nextTemp;
+            }
+    
+            return prev;
+        }
+    }`
+    },
+    {
+      title: "(question - Merge Two Sorted Linked Lists) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use the **two-pointer technique** to traverse both linked lists simultaneously.
+    - At each step, compare the current nodes from both lists.
+    - Append the smaller node to a new result list and move the pointer forward in that list.
+    - Use a **dummy node** to simplify edge cases and handle the head of the result list.
+    - After the loop, append any remaining nodes from either list.
+    
+    STEPS:
+    1. Initialize a dummy node and a tail pointer pointing to dummy.
+    2. While both lists are not null:
+       - Compare list1.val and list2.val.
+       - Append the smaller one to tail and move that list forward.
+    3. After the loop, append the remaining nodes (only one list will be non-null).
+    4. Return \`dummy.next\` as the merged head.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n + m)
+    - n and m are lengths of list1 and list2 respectively.
+    Space Complexity: O(1)
+    - No extra space except pointers.
+    
+    EXAMPLE:
+    Input: list1 = 1 → 3 → 5, list2 = 2 → 4 → 6  
+    Steps:
+    - Compare 1 and 2 → pick 1  
+    - Compare 3 and 2 → pick 2  
+    - Compare 3 and 4 → pick 3  
+    - Compare 5 and 4 → pick 4  
+    - Compare 5 and 6 → pick 5  
+    - Append 6  
+    Final Output: 1 → 2 → 3 → 4 → 5 → 6`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+            ListNode dummy = new ListNode(-1);  // Dummy node to start the merged list
+            ListNode tail = dummy;
+    
+            while (list1 != null && list2 != null) {
+                if (list1.val <= list2.val) {
+                    tail.next = list1;
+                    list1 = list1.next;
+                } else {
+                    tail.next = list2;
+                    list2 = list2.next;
+                }
+                tail = tail.next;
+            }
+    
+            // Append remaining nodes
+            if (list1 != null) tail.next = list1;
+            if (list2 != null) tail.next = list2;
+    
+            return dummy.next; // Head of merged list
+        }
+    }`
+    },
+    {
+      title: "(question - Detect Cycle in a Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use **Floyd’s Cycle Detection Algorithm** (Tortoise and Hare approach).
+    - The idea is to use two pointers (slow and fast) moving at different speeds.
+    - If there's a cycle, they will eventually meet at some point.
+    - If fast reaches the end (null), there’s no cycle.
+    
+    STEPS:
+    1. Initialize \`slow = head\`, \`fast = head.next\`.
+    2. While fast and fast.next are not null:
+       - If \`slow == fast\`, a cycle exists.
+       - Move slow one step, fast two steps.
+    3. If loop ends, no cycle exists → return false.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n)
+    - Worst case when no cycle, traverse all nodes once.
+    Space Complexity: O(1)
+    - Only two pointers used, constant space.
+    
+    EXAMPLE:
+    Input: 3 → 2 → 0 → -4 → points back to 2  
+    Steps:
+    - slow moves 1 step, fast moves 2 steps  
+    - Eventually, both point to node 2 again → cycle detected  
+    ✔️ Final Output = true`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) {
+     *         val = x;
+     *         next = null;
+     *     }
+     * }
+     */
+    public class Solution {
+        public boolean hasCycle(ListNode head) {
+            if (head == null) return false;
+    
+            ListNode slow = head;
+            ListNode fast = head.next;
+    
+            while (fast != null && fast.next != null) {
+                if (slow == fast) return true;
+    
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+    
+            return false;
+        }
+    }`
+    },
+    {
+      title: "(question - Detect Start of Cycle in a Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use Floyd's Cycle Detection Algorithm (Tortoise and Hare).
+    - Step 1: Detect the cycle using two pointers (slow, fast). If they meet, a cycle exists.
+    - Step 2: Reset slow to head. Move both one step at a time. Their meeting point is the start of the cycle.
+    
+    STEPS:
+    1. Initialize slow and fast pointers to head.
+    2. Move fast by 2 and slow by 1 until they meet → confirms cycle.
+    3. Move slow back to head; move both one step. Where they meet is the cycle start.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n)
+    - Detecting + locating cycle both in linear time.
+    Space Complexity: O(1)
+    - Only two pointers used.
+    
+    EXAMPLE:
+    Input: 3 → 2 → 0 → -4 → (cycle back to node with value 2)
+    - Step 1: slow meets fast at node 0
+    - Step 2: reset slow to head, both meet at node 2 (cycle start)
+    ✔️ Final Output = Node with value 2`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode(int x) {
+     *         val = x;
+     *         next = null;
+     *     }
+     * }
+     */
+    public class Solution {
+        public ListNode detectCycle(ListNode head) {
+            if (head == null) return null;
+    
+            ListNode slow = head;
+            ListNode fast = head;
+    
+            // Step 1: Detect cycle
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+    
+                if (slow == fast) {
+                    // Step 2: Find start of cycle
+                    slow = head;
+                    while (slow != fast) {
+                        slow = slow.next;
+                        fast = fast.next;
+                    }
+                    return slow; // start of cycle
+                }
+            }
+    
+            return null; // no cycle
+        }
+    }`
+    },
+    {
+      title: "(question - Flatten a Multilevel Doubly Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use an iterative DFS approach with a stack to flatten the list.
+    - Traverse the list; if a node has a child, push the current next to a stack and link the child as next.
+    - If the current node has no next and the stack is not empty, pop from stack and continue.
+    
+    STEPS:
+    1. Initialize a stack and pointer to head.
+    2. If curr has a child: push curr.next to stack, connect curr.child as next, and nullify child.
+    3. If curr.next is null and stack is not empty, pop and connect popped node as curr.next.
+    
+    TIME & SPACE COMPLEXITY:
+    Time Complexity: O(n) — Each node is visited once.
+    Space Complexity: O(n) — Stack used for managing deferred next nodes.
+    
+    EXAMPLE:
+    Input: 1 - 2 - 3
+                 |
+                 7 - 8
+                      |
+                      11 - 12
+    Output: 1 - 2 - 3 - 7 - 8 - 11 - 12
+    ✔️ Final Output = Flattened list with depth-first ordering`,
+      
+      code: `/*
+    // Definition for a Node.
+    class Node {
+        public int val;
+        public Node prev;
+        public Node next;
+        public Node child;
+    };
+    */
+    
+    class Solution {
+        public Node flatten(Node head) {
+            if (head == null) return null;
+    
+            LinkedList<Node> stack = new LinkedList<>();
+            Node curr = head;
+    
+            while (curr != null) {
+                if (curr.child != null) {
+                    if (curr.next != null) {
+                        stack.push(curr.next);
+                    }
+                    curr.next = curr.child;
+                    curr.child.prev = curr;
+                    curr.child = null;
+                }
+    
+                if (curr.next == null && !stack.isEmpty()) {
+                    Node nextNode = stack.pop();
+                    curr.next = nextNode;
+                    nextNode.prev = curr;
+                }
+    
+                curr = curr.next;
+            }
+    
+            return head;
+        }
+    }`
+    },
+    {
+      title: "(question - Palindrome Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use the two-pointer technique to find the middle of the list.
+    - Reverse the second half and compare it with the first half node by node.
+    - Optionally restore the reversed half for no side-effects.
+    
+    STEPS:
+    1. Use slow & fast pointers to locate the middle of the list.
+    2. Reverse the second half from the middle onward.
+    3. Compare values from both halves node-by-node.
+    4. Restore the list (optional) and return whether it’s a palindrome.
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(n) — Traverses list a few times.
+    Space: O(1) — No extra space used, in-place reverse.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 2 → 1 → Output: true
+    Input: 1 → 2 → 3 → Output: false
+    ✔️ Final Output = true if list is a palindrome, else false`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public boolean isPalindrome(ListNode head) {
+            if (head == null || head.next == null) return true;
+    
+            // Step 1: Find middle
+            ListNode slow = head, fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+    
+            // Step 2: Reverse second half
+            ListNode secondHalfHead = reverseList(slow);
+    
+            // Step 3: Compare halves
+            ListNode firstHalf = head;
+            ListNode secondHalf = secondHalfHead;
+            boolean palindrome = true;
+            while (secondHalf != null) {
+                if (firstHalf.val != secondHalf.val) {
+                    palindrome = false;
+                    break;
+                }
+                firstHalf = firstHalf.next;
+                secondHalf = secondHalf.next;
+            }
+    
+            // Step 4 (optional): Restore list
+            reverseList(secondHalfHead);
+    
+            return palindrome;
+        }
+    
+        private ListNode reverseList(ListNode head) {
+            ListNode prev = null, curr = head;
+            while (curr != null) {
+                ListNode nextTemp = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = nextTemp;
+            }
+            return prev;
+        }
+    }`
+    },
+    {
+      title: "(question - Palindrome Linked List) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use the two-pointer technique to find the middle of the list.
+    - Reverse the second half and compare it with the first half node by node.
+    - Optionally restore the reversed half for no side-effects.
+    
+    STEPS:
+    1. Use slow & fast pointers to locate the middle of the list.
+    2. Reverse the second half from the middle onward.
+    3. Compare values from both halves node-by-node.
+    4. Restore the list (optional) and return whether it’s a palindrome.
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(n) — Traverses list a few times.
+    Space: O(1) — No extra space used, in-place reverse.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 2 → 1 → Output: true
+    Input: 1 → 2 → 3 → Output: false
+    ✔️ Final Output = true if list is a palindrome, else false`,
+    
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public boolean isPalindrome(ListNode head) {
+            if (head == null || head.next == null) return true;
+    
+            // Step 1: Find middle
+            ListNode slow = head, fast = head;
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+    
+            // Step 2: Reverse second half
+            ListNode secondHalfHead = reverseList(slow);
+    
+            // Step 3: Compare halves
+            ListNode firstHalf = head;
+            ListNode secondHalf = secondHalfHead;
+            boolean palindrome = true;
+            while (secondHalf != null) {
+                if (firstHalf.val != secondHalf.val) {
+                    palindrome = false;
+                    break;
+                }
+                firstHalf = firstHalf.next;
+                secondHalf = secondHalf.next;
+            }
+    
+            // Step 4 (optional): Restore list
+            reverseList(secondHalfHead);
+    
+            return palindrome;
+        }
+    
+        private ListNode reverseList(ListNode head) {
+            ListNode prev = null, curr = head;
+            while (curr != null) {
+                ListNode nextTemp = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = nextTemp;
+            }
+            return prev;
+        }
+    }`
+    },
+    {
+      title: "(question - Add Two Numbers) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Simulate the addition of two numbers represented by linked lists.
+    - Start from the least significant digit (head of each list).
+    - Maintain a carry for sums ≥ 10 and construct the result as a new linked list.
+    
+    STEPS:
+    1. Initialize a dummy node to simplify result list handling.
+    2. Use a pointer \`curr\` to build the result list and a variable \`carry = 0\`.
+    3. Loop while either list has nodes left or carry is non-zero:
+       - Add corresponding node values and carry.
+       - Store \`sum % 10\` in new node and update carry as \`sum / 10\`.
+    4. Return \`dummy.next\` (head of the result list).
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(max(m, n)) — where m and n are lengths of the two lists.
+    Space: O(max(m, n)) — for the output list.
+    
+    EXAMPLE:
+    Input: (2 → 4 → 3) + (5 → 6 → 4)
+    Output: 7 → 0 → 8
+    Explanation: 342 + 465 = 807
+    ✔️ Final Output = A new linked list representing the sum`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            ListNode dummy = new ListNode(0); // dummy head for result
+            ListNode curr = dummy;
+            int carry = 0;
+    
+            while (l1 != null || l2 != null || carry != 0) {
+                int sum = carry;
+                if (l1 != null) {
+                    sum += l1.val;
+                    l1 = l1.next;
+                }
+                if (l2 != null) {
+                    sum += l2.val;
+                    l2 = l2.next;
+                }
+                carry = sum / 10;
+                curr.next = new ListNode(sum % 10);
+                curr = curr.next;
+            }
+    
+            return dummy.next;
+        }
+    }`
+    },
+    {
+      title: "(question - Reverse Linked List II) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Use a **dummy node** to simplify edge cases when reversing at head.
+    - Traverse the list to the node just **before the 'left'** position.
+    - Reverse the sublist from 'left' to 'right' using **standard reversal logic**.
+    - Reconnect the reversed sublist to the rest of the list.
+    
+    STEPS:
+    1. Create a dummy node pointing to head to handle edge cases.
+    2. Traverse to the node before the \`left\`th node (store it as \`prev\`).
+    3. Reverse the sublist from index \`left\` to \`right\`.
+    4. Connect:
+       - \`prev.next\` to the new head of the reversed sublist.
+       - The original \`left\`th node (now tail) to the next node after \`right\`.
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(n) — single traversal through the list.
+    Space: O(1) — in-place reversal, constant extra space.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 3 → 4 → 5, left = 2, right = 4  
+    Output: 1 → 4 → 3 → 2 → 5  
+    ✔️ Final Output = List after reversing nodes between given positions`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode reverseBetween(ListNode head, int left, int right) {
+            if (head == null || left == right) return head;
+    
+            ListNode dummy = new ListNode(0);
+            dummy.next = head;
+            ListNode prev = dummy;
+    
+            // Step 1: Move prev to node before left
+            for (int i = 1; i < left; i++) {
+                prev = prev.next;
+            }
+    
+            // Step 2: Reverse sublist from left to right
+            ListNode curr = prev.next;
+            ListNode next = null;
+            ListNode sublistPrev = null;
+    
+            for (int i = left; i <= right; i++) {
+                next = curr.next;
+                curr.next = sublistPrev;
+                sublistPrev = curr;
+                curr = next;
+            }
+    
+            // Step 3: Reconnect reversed sublist
+            prev.next.next = curr;  // prev.next was start of sublist, now it's tail
+            prev.next = sublistPrev; // connect to new head of reversed sublist
+    
+            return dummy.next;
+        }
+    }`
+    },
+    {
+      title: "(question - Rotate Linked List Right) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Make the list circular temporarily to simplify rotation logic.
+    - Count the total number of nodes in the list.
+    - The actual number of steps to rotate is \`k % length\`.
+    - Break the circle at the new tail to get the rotated list.
+    
+    STEPS:
+    1. If list is empty or \`k = 0\`, return as is.
+    2. Traverse the list to find:
+       - Its length
+       - The tail node
+    3. Connect tail to head to form a circular list.
+    4. Compute effective rotation: \`k % length\`.
+    5. Find the new tail node: move \`length - k\` steps from tail.
+    6. Set \`newHead = newTail.next\` and break the circle by setting \`newTail.next = null\`.
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(n) — One full pass to find length, one to reach new tail.
+    Space: O(1) — Constant extra space used.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 3 → 4 → 5, k = 2  
+    Circle: 1 → 2 → 3 → 4 → 5 → 1 ...  
+    Effective rotation: k = 2 % 5 = 2  
+    New tail = 3 → New head = 4  
+    Output: 4 → 5 → 1 → 2 → 3`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode rotateRight(ListNode head, int k) {
+            if (head == null || k == 0) return head;
+    
+            // Step 1: Compute length and get tail
+            ListNode tail = head;
+            int length = 1;
+            while (tail.next != null) {
+                tail = tail.next;
+                length++;
+            }
+    
+            // Step 2: Make list circular
+            tail.next = head;
+    
+            // Step 3: Effective rotations
+            k = k % length;
+            int stepsToNewTail = length - k;
+    
+            // Step 4: Find new tail
+            ListNode newTail = tail;
+            while (stepsToNewTail-- > 0) {
+                newTail = newTail.next;
+            }
+    
+            // Step 5: New head is next of new tail
+            ListNode newHead = newTail.next;
+    
+            // Step 6: Break the circle
+            newTail.next = null;
+    
+            return newHead;
+        }
+    }`
+    },
+    {
+      title: "(question - Reverse Nodes in k-Group) Approach / Algorithm Used",
+      answer: `APPROACH / ALGORITHM USED:
+    - Reverse every group of size k in the linked list.
+    - Use a dummy node to simplify edge cases (like reversing the first k nodes).
+    - Reverse k nodes at a time only if a full group is available.
+    
+    STEPS:
+    1. Use a dummy node pointing to head.
+    2. Use a loop to:
+       - Find the k-th node from current position (group to reverse).
+       - If not found, break (remaining < k nodes).
+       - Reverse the k nodes.
+       - Reconnect the previous group tail to new group head.
+    3. Continue until end of list.
+    
+    HELPER:
+    - \`getKthNode(start, k)\`: returns k-th node from \`start\`, or \`null\` if < k nodes.
+    
+    TIME & SPACE COMPLEXITY:
+    Time: O(n) — Every node is visited once.
+    Space: O(1) — In-place reversal.
+    
+    EXAMPLE:
+    Input: 1 → 2 → 3 → 4 → 5, k = 2  
+    Reverse: [1,2] → 2 → 1 → [3,4] → 4 → 3 → 5  
+    Output: 2 → 1 → 4 → 3 → 5`,
+      
+      code: `/**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     *     int val;
+     *     ListNode next;
+     *     ListNode() {}
+     *     ListNode(int val) { this.val = val; }
+     *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+     * }
+     */
+    class Solution {
+        public ListNode reverseKGroup(ListNode head, int k) {
+            if (head == null || k <= 1) return head;
+    
+            ListNode dummy = new ListNode(0);
+            dummy.next = head;
+            ListNode groupPrev = dummy;
+    
+            while (true) {
+                // Step 1: Find the k-th node
+                ListNode kth = getKthNode(groupPrev, k);
+                if (kth == null) break;
+    
+                ListNode groupNext = kth.next;
+    
+                // Step 2: Reverse the group
+                ListNode prev = groupNext;
+                ListNode curr = groupPrev.next;
+    
+                while (curr != groupNext) {
+                    ListNode temp = curr.next;
+                    curr.next = prev;
+                    prev = curr;
+                    curr = temp;
+                }
+    
+                // Step 3: Reconnect
+                ListNode temp = groupPrev.next;
+                groupPrev.next = kth;
+                groupPrev = temp;
+            }
+    
+            return dummy.next;
+        }
+    
+        private ListNode getKthNode(ListNode start, int k) {
+            while (start != null && k > 0) {
+                start = start.next;
+                k--;
+            }
+            return start;
+        }
+    }`
+    },
+                                                
+
+
+
     
     
 

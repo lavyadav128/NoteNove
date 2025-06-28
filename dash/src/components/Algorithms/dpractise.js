@@ -20,6 +20,7 @@ const PracticePage = () => {
   const questions = questionsData[topicId] || [];
 
   const [currentQIndex, setCurrentQIndex] = useState(0);
+  const [showCode, setShowCode] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const q = questions[currentQIndex];
@@ -134,6 +135,32 @@ const PracticePage = () => {
               <Typography whiteSpace="pre-line">
                 {formatAnswerText(q.answer)}
               </Typography>
+            )}
+
+            {q.code && !showCode && (
+              <Button
+                variant="outlined"
+                sx={{ mt: 2 }}
+                onClick={() => setShowCode(true)}
+              >
+                Show Code
+              </Button>
+            )}
+
+            {q.code && showCode && (
+              <Box mt={2}>
+                <SyntaxHighlighter language="java" style={oneDark}>
+                  {q.code}
+                </SyntaxHighlighter>
+                <Button
+                  variant="text"
+                  color="error"
+                  onClick={() => setShowCode(false)}
+                  sx={{ mt: 1 }}
+                >
+                  Close Code
+                </Button>
+              </Box>
             )}
           </Box>
 
