@@ -1989,7 +1989,66 @@ const questionsData = {
     },
     {
       "title": "(question - Find Redundant Connection) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the edge that, when added to an undirected graph, forms a cycle — i.e., the redundant connection.\n- We use the **Union-Find (Disjoint Set Union)** data structure with **path compression** to efficiently detect cycles.\n\nSTEPS:\n1. Initialize a `parent[]` array where each node is its own parent.\n2. Iterate through each edge `[u, v]`:\n   - Use the `find()` function to find the root parents of `u` and `v`.\n   - If both nodes have the same parent, they are already connected → adding this edge would form a cycle → return this edge.\n   - Otherwise, union the sets by setting the parent of `u`'s root to `v`'s root.\n3. If no cycle is found (which shouldn't happen given constraints), return an empty array.\n\n`find()` FUNCTION (with path compression):\n- Recursively finds the root parent of a node.\n- While doing so, compresses the path by directly connecting each node to its root → improves future performance.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(N * α(N))\n- α(N) is the inverse Ackermann function (very small in practice), due to path compression.\nSpace Complexity: O(N)\n- For storing the parent array.\n\nDRY RUN / EXAMPLE:\nInput: edges = [[1,2],[1,3],[2,3]]\n\n- Edge [1,2] → union 1 and 2 → parent[1] = 2\n- Edge [1,3] → union 1 and 3 → parent[2] = 3 (through path compression)\n- Edge [2,3] → find(2) = 3, find(3) = 3 → same parent → cycle detected ✅\n\n✔️ Final Output = [2, 3]"
+      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the edge that, when added to an undirected graph, forms a cycle — i.e., the redundant connection.\n- We use the **Union-Find (Disjoint Set Union)** data structure with **path compression** to efficiently detect cycles.\n\nSTEPS:\n1. Initialize a `parent[]` array where each node is its own parent.\n2. Iterate through each edge `[u, v]`:\n   - Use the `find()` function to find the root parents of `u` and `v`.\n   - If both nodes have the same parent, they are already connected → adding this edge would form a cycle → return this edge.\n   - Otherwise, union the sets by setting the parent of `u`'s root to `v`'s root.\n3. If no cycle is found (which shouldn't happen given constraints), return an empty array.\n\n`find()` FUNCTION (with path compression):\n- Recursively finds the root parent of a node.\n- While doing so, compresses the path by directly connecting each node to its root → improves future performance.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(N * α(N))\n- α(N) is the inverse Ackermann function (very small in practice), due to path compression.\nSpace Complexity: O(N)\n- For storing the parent array.\n\nDRY RUN / EXAMPLE:\nInput: edges = [[1,2],[1,3],[2,3]]\n\n- Edge [1,2] → union 1 and 2 → parent[1] = 2\n- Edge [1,3] → union 1 and 3 → parent[2] = 3 (through path compression)\n- Edge [2,3] → find(2) = 3, find(3) = 3 → same parent → cycle detected ✅\n\n✔️ Final Output = [2, 3]",
+      "code":`import java.util.*;
+
+public class RedundantConnectionBFS {
+
+    public int[] findRedundantConnection(int[][] edges) {
+        // Adjacency list
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+
+            // Before adding the edge, check if u and v are already connected
+            if (isConnected(u, v, graph)) {
+                return edge; // Adding this edge would create a cycle
+            }
+
+            // Add edge to the graph
+            graph.putIfAbsent(u, new ArrayList<>());
+            graph.putIfAbsent(v, new ArrayList<>());
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        return new int[]{-1, -1}; // Should not reach here per problem constraints
+    }
+
+    private boolean isConnected(int start, int target, Map<Integer, List<Integer>> graph) {
+        if (!graph.containsKey(start) || !graph.containsKey(target)) return false;
+
+        Set<Integer> visited = new HashSet<>();
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited.add(start);
+
+        while (!queue.isEmpty()) {
+            int curr = queue.poll();
+            if (curr == target) return true;
+
+            for (int neighbor : graph.get(curr)) {
+                if (!visited.contains(neighbor)) {
+                    visited.add(neighbor);
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    // Test
+    public static void main(String[] args) {
+        RedundantConnectionBFS solver = new RedundantConnectionBFS();
+        int[][] edges = {{1, 2}, {1, 3}, {2, 3}};
+        int[] result = solver.findRedundantConnection(edges);
+        System.out.println("Redundant Edge: [" + result[0] + ", " + result[1] + "]");
+        // Output: [2, 3]
+    }
+}`
     },
     {
       "title": "(question - Flood Fill) Approach / Algorithm Used",
@@ -1997,67 +2056,1115 @@ const questionsData = {
     },
     {
       "title": "(question - Topological Sort of a Directed Graph) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The task is to return a valid **topological ordering** of a Directed Acyclic Graph (DAG).\n- We use **Kahn’s Algorithm**, which is a **BFS-based** topological sort.\n\nSTEPS:\n1. **Build the adjacency list** from the given edges.\n2. Create an `indegree[]` array to store the number of incoming edges for each vertex.\n3. Initialize a queue with all vertices having `indegree = 0` (these can be safely placed first).\n4. While the queue is not empty:\n   - Pop a vertex `u` from the queue.\n   - Add `u` to the result array `topo[]`.\n   - For each neighbor `v` of `u`, decrement its indegree.\n   - If `indegree[v]` becomes 0, enqueue `v`.\n5. After traversal, check if all nodes were visited:\n   - If not (`idx != V`), the graph contains a cycle and topological sort is not possible.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges.\n- Every vertex and edge is processed once.\nSpace Complexity: O(V + E)\n- For adjacency list and indegree array.\n\nDRY RUN / EXAMPLE:\nInput: V = 4, edges = [[0,1],[0,2],[1,3],[2,3]]\n- adj: {0: [1,2], 1: [3], 2: [3], 3: []}\n- indegree: [0,1,1,2]\n- Queue: [0]\n  → Pop 0 → topo = [0]\n  → Enqueue 1,2 (indegree[1]=0, indegree[2]=0)\n  → Pop 1 → topo = [0,1] → Enqueue 3 (indegree[3]=1)\n  → Pop 2 → topo = [0,1,2] → indegree[3]=0 → Enqueue 3\n  → Pop 3 → topo = [0,1,2,3]\n\n✔️ Final Output = [0,1,2,3] or [0,2,1,3] (any valid topological order)"
+      "answer": "APPROACH / ALGORITHM USED:\n- The task is to return a valid **topological ordering** of a Directed Acyclic Graph (DAG).\n- We use **Kahn’s Algorithm**, which is a **BFS-based** topological sort.\n\nSTEPS:\n1. **Build the adjacency list** from the given edges.\n2. Create an `indegree[]` array to store the number of incoming edges for each vertex.\n3. Initialize a queue with all vertices having `indegree = 0` (these can be safely placed first).\n4. While the queue is not empty:\n   - Pop a vertex `u` from the queue.\n   - Add `u` to the result array `topo[]`.\n   - For each neighbor `v` of `u`, decrement its indegree.\n   - If `indegree[v]` becomes 0, enqueue `v`.\n5. After traversal, check if all nodes were visited:\n   - If not (`idx != V`), the graph contains a cycle and topological sort is not possible.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges.\n- Every vertex and edge is processed once.\nSpace Complexity: O(V + E)\n- For adjacency list and indegree array.\n\nDRY RUN / EXAMPLE:\nInput: V = 4, edges = [[0,1],[0,2],[1,3],[2,3]]\n- adj: {0: [1,2], 1: [3], 2: [3], 3: []}\n- indegree: [0,1,1,2]\n- Queue: [0]\n  → Pop 0 → topo = [0]\n  → Enqueue 1,2 (indegree[1]=0, indegree[2]=0)\n  → Pop 1 → topo = [0,1] → Enqueue 3 (indegree[3]=1)\n  → Pop 2 → topo = [0,1,2] → indegree[3]=0 → Enqueue 3\n  → Pop 3 → topo = [0,1,2,3]\n\n✔️ Final Output = [0,1,2,3] or [0,2,1,3] (any valid topological order)",
+      "code":`import java.util.*;
+
+public class TopologicalSortKahn {
+
+    public List<Integer> topologicalSort(int V, int[][] edges) {
+        // Step 1: Build the adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            adj.get(u).add(v);
+        }
+
+        // Step 2: Compute indegree for each vertex
+        int[] indegree = new int[V];
+        for (int u = 0; u < V; u++) {
+            for (int v : adj.get(u)) {
+                indegree[v]++;
+            }
+        }
+
+        // Step 3: Initialize queue with nodes having indegree 0
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < V; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        // Step 4: Perform BFS
+        List<Integer> topo = new ArrayList<>();
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            topo.add(node);
+
+            for (int neighbor : adj.get(node)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        // Step 5: If topological sort includes all vertices
+        if (topo.size() != V) {
+            throw new RuntimeException("Cycle detected in graph. Topological sort not possible.");
+        }
+
+        return topo;
+    }
+
+    // Main method to test
+    public static void main(String[] args) {
+        TopologicalSortKahn sorter = new TopologicalSortKahn();
+
+        int V = 4;
+        int[][] edges = {
+            {0, 1},
+            {0, 2},
+            {1, 3},
+            {2, 3}
+        };
+
+        List<Integer> result = sorter.topologicalSort(V, edges);
+        System.out.println("Topological Order: " + result);
+        // Output can be: [0, 1, 2, 3] or [0, 2, 1, 3]
+    }
+}
+`
     },
     {
       "title": "(question - Course Schedule II / Find Course Order) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The task is to return a valid order in which a student can complete all courses given the list of prerequisites.\n- This is a **topological sort** problem on a **Directed Acyclic Graph (DAG)**.\n- We use **Kahn’s Algorithm** (BFS-based topological sorting) to solve it.\n\nSTEPS:\n1. Initialize an **adjacency list** `adj` for `numCourses` nodes.\n2. Initialize an `indegree[]` array to count the number of prerequisites for each course.\n3. For each `prerequisite pair [course, prereq]`:\n   - Add an edge from `prereq → course` in the graph.\n   - Increment `indegree[course]`.\n4. Add all courses with `indegree = 0` to the queue (these have no prerequisites).\n5. While the queue is not empty:\n   - Remove a course from the queue and add it to the result array.\n   - For all neighbors of this course (i.e., dependent courses), decrement their indegree.\n   - If any neighbor's indegree becomes 0, add it to the queue.\n6. If all courses are processed (`idx == numCourses`), return the order array.\n7. Otherwise, a cycle exists, and it's not possible to finish all courses → return an empty array.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of courses, E = number of prerequisites.\n- Each edge and vertex is processed once.\nSpace Complexity: O(V + E)\n- For the adjacency list and indegree array.\n\nDRY RUN / EXAMPLE:\nInput: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]\n\nGraph:\n0 → 1, 2\n1 → 3\n2 → 3\n\n- indegree = [0,1,1,2]\n- Queue: [0]\n- Process 0 → result: [0] → enqueue 1 and 2\n- Process 1 → result: [0,1] → decrement indegree[3] to 1\n- Process 2 → result: [0,1,2] → indegree[3] becomes 0 → enqueue 3\n- Process 3 → result: [0,1,2,3]\n\n✔️ Final Output = [0,1,2,3] (or any valid topological order)"
+      "answer": "APPROACH / ALGORITHM USED:\n- The task is to return a valid order in which a student can complete all courses given the list of prerequisites.\n- This is a **topological sort** problem on a **Directed Acyclic Graph (DAG)**.\n- We use **Kahn’s Algorithm** (BFS-based topological sorting) to solve it.\n\nSTEPS:\n1. Initialize an **adjacency list** `adj` for `numCourses` nodes.\n2. Initialize an `indegree[]` array to count the number of prerequisites for each course.\n3. For each `prerequisite pair [course, prereq]`:\n   - Add an edge from `prereq → course` in the graph.\n   - Increment `indegree[course]`.\n4. Add all courses with `indegree = 0` to the queue (these have no prerequisites).\n5. While the queue is not empty:\n   - Remove a course from the queue and add it to the result array.\n   - For all neighbors of this course (i.e., dependent courses), decrement their indegree.\n   - If any neighbor's indegree becomes 0, add it to the queue.\n6. If all courses are processed (`idx == numCourses`), return the order array.\n7. Otherwise, a cycle exists, and it's not possible to finish all courses → return an empty array.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of courses, E = number of prerequisites.\n- Each edge and vertex is processed once.\nSpace Complexity: O(V + E)\n- For the adjacency list and indegree array.\n\nDRY RUN / EXAMPLE:\nInput: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]\n\nGraph:\n0 → 1, 2\n1 → 3\n2 → 3\n\n- indegree = [0,1,1,2]\n- Queue: [0]\n- Process 0 → result: [0] → enqueue 1 and 2\n- Process 1 → result: [0,1] → decrement indegree[3] to 1\n- Process 2 → result: [0,1,2] → indegree[3] becomes 0 → enqueue 3\n- Process 3 → result: [0,1,2,3]\n\n✔️ Final Output = [0,1,2,3] (or any valid topological order)",
+      "code":`import java.util.*;
+
+public class CourseScheduleOrder {
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // Step 1: Build the adjacency list
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Step 2: Build indegree array
+        int[] indegree = new int[numCourses];
+        for (int[] pair : prerequisites) {
+            int course = pair[0];
+            int prereq = pair[1];
+            adj.get(prereq).add(course); // prereq → course
+            indegree[course]++;
+        }
+
+        // Step 3: Add all courses with indegree 0 to queue
+        Queue<Integer> queue = new LinkedList<>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) {
+                queue.offer(i);
+            }
+        }
+
+        // Step 4: Perform BFS and build result
+        int[] order = new int[numCourses];
+        int idx = 0;
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            order[idx++] = current;
+
+            for (int neighbor : adj.get(current)) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.offer(neighbor);
+                }
+            }
+        }
+
+        // Step 5: Check if topological order includes all courses
+        if (idx == numCourses) {
+            return order; // Valid ordering found
+        } else {
+            return new int[0]; // Cycle detected
+        }
+    }
+
+    // Driver method
+    public static void main(String[] args) {
+        CourseScheduleOrder scheduler = new CourseScheduleOrder();
+        int numCourses = 4;
+        int[][] prerequisites = {
+            {1, 0},
+            {2, 0},
+            {3, 1},
+            {3, 2}
+        };
+
+        int[] result = scheduler.findOrder(numCourses, prerequisites);
+        System.out.println("Course Order: " + Arrays.toString(result));
+        // Output: [0, 1, 2, 3] or [0, 2, 1, 3]
+    }
+}
+`
     },
     {
       "title": "(question - Dijkstra's Shortest Path Algorithm) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The task is to compute the shortest path from a source node `src` to all other nodes in a **weighted undirected graph**.\n- We use **Dijkstra’s Algorithm** with a **priority queue (min-heap)** to efficiently pick the next closest node.\n\nSTEPS:\n1. **Build the adjacency list**:\n   - Each entry in `adj` contains a list of (neighbor, weight) pairs.\n   - Since the graph is undirected, add both `u → v` and `v → u`.\n2. **Initialize**:\n   - `dist[]`: shortest distance array, initialized to `Integer.MAX_VALUE`, except `src = 0`.\n   - A `PriorityQueue<Pair>` to always process the closest unvisited node.\n3. While the priority queue is not empty:\n   - Extract the node with the minimum distance (`currDist`).\n   - If this distance is greater than the stored distance, skip it.\n   - For all neighbors, if the new distance via the current node is smaller:\n     - Update `dist[]` and push the updated node to the queue.\n4. Return the `dist[]` array containing the shortest distances from `src` to all vertices.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O((V + E) * log V)\n- Using a priority queue gives log V per insertion/removal.\nSpace Complexity: O(V + E)\n- Adjacency list and distance array.\n\nDRY RUN / EXAMPLE:\nInput: V = 5, edges = [[0,1,2],[0,2,4],[1,2,1],[1,3,7],[2,4,3]], src = 0\n\nAdjacency list:\n0 → (1,2), (2,4)\n1 → (0,2), (2,1), (3,7)\n2 → (0,4), (1,1), (4,3)\n...\n\nPriority Queue Steps:\n- Start from 0 → dist[0] = 0\n- Visit 1 → dist[1] = 2\n- Visit 2 via 1 → dist[2] = 3\n- Visit 4 via 2 → dist[4] = 6\n- Visit 3 via 1 → dist[3] = 9\n\n✔️ Final Output = [0, 2, 3, 9, 6]"
+      "answer": "APPROACH / ALGORITHM USED:\n- The task is to compute the shortest path from a source node `src` to all other nodes in a **weighted undirected graph**.\n- We use **Dijkstra’s Algorithm** with a **priority queue (min-heap)** to efficiently pick the next closest node.\n\nSTEPS:\n1. **Build the adjacency list**:\n   - Each entry in `adj` contains a list of (neighbor, weight) pairs.\n   - Since the graph is undirected, add both `u → v` and `v → u`.\n2. **Initialize**:\n   - `dist[]`: shortest distance array, initialized to `Integer.MAX_VALUE`, except `src = 0`.\n   - A `PriorityQueue<Pair>` to always process the closest unvisited node.\n3. While the priority queue is not empty:\n   - Extract the node with the minimum distance (`currDist`).\n   - If this distance is greater than the stored distance, skip it.\n   - For all neighbors, if the new distance via the current node is smaller:\n     - Update `dist[]` and push the updated node to the queue.\n4. Return the `dist[]` array containing the shortest distances from `src` to all vertices.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O((V + E) * log V)\n- Using a priority queue gives log V per insertion/removal.\nSpace Complexity: O(V + E)\n- Adjacency list and distance array.\n\nDRY RUN / EXAMPLE:\nInput: V = 5, edges = [[0,1,2],[0,2,4],[1,2,1],[1,3,7],[2,4,3]], src = 0\n\nAdjacency list:\n0 → (1,2), (2,4)\n1 → (0,2), (2,1), (3,7)\n2 → (0,4), (1,1), (4,3)\n...\n\nPriority Queue Steps:\n- Start from 0 → dist[0] = 0\n- Visit 1 → dist[1] = 2\n- Visit 2 via 1 → dist[2] = 3\n- Visit 4 via 2 → dist[4] = 6\n- Visit 3 via 1 → dist[3] = 9\n\n✔️ Final Output = [0, 2, 3, 9, 6]",
+      "code":`import java.util.*;
+
+class Pair {
+    int node;
+    int weight;
+
+    public Pair(int node, int weight) {
+        this.node = node;
+        this.weight = weight;
+    }
+}
+
+public class DijkstraShortestPath {
+
+    public int[] dijkstra(int V, int[][] edges, int src) {
+        // Step 1: Build adjacency list
+        List<List<Pair>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            adj.get(u).add(new Pair(v, w)); // u → v
+            adj.get(v).add(new Pair(u, w)); // v → u (undirected)
+        }
+
+        // Step 2: Initialize distance array
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        // Step 3: PriorityQueue based on distance
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> a.weight - b.weight);
+        pq.offer(new Pair(src, 0));
+
+        while (!pq.isEmpty()) {
+            Pair current = pq.poll();
+            int u = current.node;
+            int currDist = current.weight;
+
+            if (currDist > dist[u]) continue; // Skip outdated entry
+
+            for (Pair neighbor : adj.get(u)) {
+                int v = neighbor.node;
+                int weight = neighbor.weight;
+                if (dist[u] + weight < dist[v]) {
+                    dist[v] = dist[u] + weight;
+                    pq.offer(new Pair(v, dist[v]));
+                }
+            }
+        }
+
+        return dist;
+    }
+
+    // Driver Test
+    public static void main(String[] args) {
+        DijkstraShortestPath solver = new DijkstraShortestPath();
+        int V = 5;
+        int[][] edges = {
+            {0, 1, 2},
+            {0, 2, 4},
+            {1, 2, 1},
+            {1, 3, 7},
+            {2, 4, 3}
+        };
+        int src = 0;
+
+        int[] result = solver.dijkstra(V, edges, src);
+        System.out.println("Shortest distances from source " + src + ": " + Arrays.toString(result));
+        // Output: [0, 2, 3, 9, 6]
+    }
+}`
     },
     {
       "title": "(question - Cheapest Flights Within K Stops) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the **minimum cost** to travel from `src` to `dst` using at most `K` stops.\n- This is a variation of **Dijkstra’s Algorithm** with an additional constraint on the number of stops.\n- We use a **BFS-like traversal** with a queue that tracks (city, cost, stops).\n\nSTEPS:\n1. **Build the adjacency list** where each city maps to a list of destination cities with their respective prices.\n2. Use a `dist[][]` matrix where `dist[city][stops]` stores the **minimum cost** to reach `city` with `stops` used.\n3. Initialize the `dist[src][0] = 0` and push `(src, 0, 0)` into a queue.\n4. While the queue is not empty:\n   - Pop `(city, cost, stops)` from queue.\n   - Skip if `stops > K`.\n   - For each neighbor, calculate the new cost.\n   - If this new cost is cheaper than the previously stored cost with `stops+1`, update it and enqueue the new state.\n5. Finally, find the **minimum cost to reach `dst`** using up to `K+1` flights (since stops count edges).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n × K × log n)\n- Each city may be processed multiple times up to `K+1` stops.\n- Depends on number of flights and queue operations.\nSpace Complexity: O(n × K)\n- For the `dist[][]` matrix and queue.\n\nDRY RUN / EXAMPLE:\nInput: n = 4, flights = [[0,1,100],[1,2,100],[2,3,100],[0,3,500]], src = 0, dst = 3, K = 1\n\n- Direct path: 0→3 = 500\n- 0→1→2→3 = 300 but has 2 stops → not allowed (K = 1)\n- 0→1→2 is okay but doesn’t reach 3\n- Final answer: 500\n\n✔️ Final Output = 500"
+      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the **minimum cost** to travel from `src` to `dst` using at most `K` stops.\n- This is a variation of **Dijkstra’s Algorithm** with an additional constraint on the number of stops.\n- We use a **BFS-like traversal** with a queue that tracks (city, cost, stops).\n\nSTEPS:\n1. **Build the adjacency list** where each city maps to a list of destination cities with their respective prices.\n2. Use a `dist[][]` matrix where `dist[city][stops]` stores the **minimum cost** to reach `city` with `stops` used.\n3. Initialize the `dist[src][0] = 0` and push `(src, 0, 0)` into a queue.\n4. While the queue is not empty:\n   - Pop `(city, cost, stops)` from queue.\n   - Skip if `stops > K`.\n   - For each neighbor, calculate the new cost.\n   - If this new cost is cheaper than the previously stored cost with `stops+1`, update it and enqueue the new state.\n5. Finally, find the **minimum cost to reach `dst`** using up to `K+1` flights (since stops count edges).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n × K × log n)\n- Each city may be processed multiple times up to `K+1` stops.\n- Depends on number of flights and queue operations.\nSpace Complexity: O(n × K)\n- For the `dist[][]` matrix and queue.\n\nDRY RUN / EXAMPLE:\nInput: n = 4, flights = [[0,1,100],[1,2,100],[2,3,100],[0,3,500]], src = 0, dst = 3, K = 1\n\n- Direct path: 0→3 = 500\n- 0→1→2→3 = 300 but has 2 stops → not allowed (K = 1)\n- 0→1→2 is okay but doesn’t reach 3\n- Final answer: 500\n\n✔️ Final Output = 500",
+      "code":`import java.util.*;
+
+class Flight {
+    int city;
+    int cost;
+    int stops;
+
+    public Flight(int city, int cost, int stops) {
+        this.city = city;
+        this.cost = cost;
+        this.stops = stops;
+    }
+}
+
+public class CheapestFlightKStops {
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        // Step 1: Build adjacency list
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int[] flight : flights) {
+            int from = flight[0], to = flight[1], price = flight[2];
+            adj.computeIfAbsent(from, x -> new ArrayList<>()).add(new int[]{to, price});
+        }
+
+        // Step 2: dist[node][stops] = min cost to reach node with stops stops
+        int[][] dist = new int[n][K + 2];
+        for (int[] row : dist) Arrays.fill(row, Integer.MAX_VALUE);
+        dist[src][0] = 0;
+
+        // Step 3: Use a queue to perform BFS traversal
+        Queue<Flight> queue = new LinkedList<>();
+        queue.offer(new Flight(src, 0, 0));
+
+        while (!queue.isEmpty()) {
+            Flight current = queue.poll();
+            int u = current.city, costSoFar = current.cost, stops = current.stops;
+
+            if (stops > K) continue;
+
+            if (!adj.containsKey(u)) continue;
+
+            for (int[] neighbor : adj.get(u)) {
+                int v = neighbor[0], price = neighbor[1];
+                int newCost = costSoFar + price;
+
+                if (newCost < dist[v][stops + 1]) {
+                    dist[v][stops + 1] = newCost;
+                    queue.offer(new Flight(v, newCost, stops + 1));
+                }
+            }
+        }
+
+        // Step 4: Return the minimum cost to reach dst within K+1 levels
+        int minCost = Integer.MAX_VALUE;
+        for (int i = 0; i <= K + 1; i++) {
+            minCost = Math.min(minCost, dist[dst][i]);
+        }
+
+        return minCost == Integer.MAX_VALUE ? -1 : minCost;
+    }
+
+    // Driver
+    public static void main(String[] args) {
+        CheapestFlightKStops solver = new CheapestFlightKStops();
+        int n = 4;
+        int[][] flights = {
+            {0, 1, 100},
+            {1, 2, 100},
+            {2, 3, 100},
+            {0, 3, 500}
+        };
+        int src = 0, dst = 3, K = 1;
+        int result = solver.findCheapestPrice(n, flights, src, dst, K);
+        System.out.println("Cheapest Price: " + result);  // Output: 500
+    }
+}
+`
     },
     {
       "title": "(question - Min Cost to Connect All Points) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The problem is to find the **minimum total cost** to connect all points, where the cost between two points is their **Manhattan distance**.\n- This is a classic **Minimum Spanning Tree (MST)** problem.\n- We use **Prim’s Algorithm** with a **min-heap (PriorityQueue)** to greedily choose the minimum cost edge.\n\nSTEPS:\n1. Start from point `0` and initialize a `minHeap` with `(0, 0)` — meaning cost 0 to reach point 0.\n2. Use a `visited` set to keep track of points already included in the MST.\n3. While MST does not include all points:\n   - Poll the minimum cost point `(cost, pointIndex)` from the heap.\n   - If the point is already visited, skip it.\n   - Otherwise, mark it visited and add the cost to the `totalCost`.\n   - For each unvisited point `j`, compute Manhattan distance from current point `i`:\n     - `dist = |x1 - x2| + |y1 - y2|`\n     - Add `(dist, j)` to the heap.\n4. Return `totalCost` once all points are included in the MST.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n² log n)\n- For each point, we check all other points to calculate distances.\n- Inserting into the heap takes log n time.\nSpace Complexity: O(n²)\n- For storing all edges in the priority queue and the visited set.\n\nDRY RUN / EXAMPLE:\nInput: points = [[0,0],[2,2],[3,10],[5,2],[7,0]]\n\nPrim’s MST Sequence:\n- Start from 0 → connect to 1 (cost 4)\n- Connect to 3 (cost 3)\n- Connect to 4 (cost 2)\n- Connect to 2 (cost 7)\n\n✔️ Final Output = 17"
+      "answer": "APPROACH / ALGORITHM USED:\n- The problem is to find the **minimum total cost** to connect all points, where the cost between two points is their **Manhattan distance**.\n- This is a classic **Minimum Spanning Tree (MST)** problem.\n- We use **Prim’s Algorithm** with a **min-heap (PriorityQueue)** to greedily choose the minimum cost edge.\n\nSTEPS:\n1. Start from point `0` and initialize a `minHeap` with `(0, 0)` — meaning cost 0 to reach point 0.\n2. Use a `visited` set to keep track of points already included in the MST.\n3. While MST does not include all points:\n   - Poll the minimum cost point `(cost, pointIndex)` from the heap.\n   - If the point is already visited, skip it.\n   - Otherwise, mark it visited and add the cost to the `totalCost`.\n   - For each unvisited point `j`, compute Manhattan distance from current point `i`:\n     - `dist = |x1 - x2| + |y1 - y2|`\n     - Add `(dist, j)` to the heap.\n4. Return `totalCost` once all points are included in the MST.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n² log n)\n- For each point, we check all other points to calculate distances.\n- Inserting into the heap takes log n time.\nSpace Complexity: O(n²)\n- For storing all edges in the priority queue and the visited set.\n\nDRY RUN / EXAMPLE:\nInput: points = [[0,0],[2,2],[3,10],[5,2],[7,0]]\n\nPrim’s MST Sequence:\n- Start from 0 → connect to 1 (cost 4)\n- Connect to 3 (cost 3)\n- Connect to 4 (cost 2)\n- Connect to 2 (cost 7)\n\n✔️ Final Output = 17",
+      "code":`import java.util.*;
+
+public class MinCostConnectPoints {
+
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length;
+        boolean[] visited = new boolean[n]; // tracks nodes in MST
+        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]); // [cost, toNode]
+        minHeap.offer(new int[]{0, 0}); // start with point 0 at cost 0
+
+        int totalCost = 0;
+        int pointsInMST = 0;
+
+        while (pointsInMST < n) {
+            int[] current = minHeap.poll();
+            int cost = current[0];
+            int pointIndex = current[1];
+
+            if (visited[pointIndex]) continue; // skip if already included
+            visited[pointIndex] = true;
+            totalCost += cost;
+            pointsInMST++;
+
+            // Add all edges from current point to unvisited points
+            for (int j = 0; j < n; j++) {
+                if (!visited[j]) {
+                    int dist = manhattanDistance(points[pointIndex], points[j]);
+                    minHeap.offer(new int[]{dist, j});
+                }
+            }
+        }
+
+        return totalCost;
+    }
+
+    private int manhattanDistance(int[] a, int[] b) {
+        return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+    }
+
+    // Driver method
+    public static void main(String[] args) {
+        MinCostConnectPoints solver = new MinCostConnectPoints();
+        int[][] points = {
+            {0, 0},
+            {2, 2},
+            {3, 10},
+            {5, 2},
+            {7, 0}
+        };
+        int result = solver.minCostConnectPoints(points);
+        System.out.println("Minimum Cost to Connect All Points: " + result); // Output: 17
+    }
+}`
     },
     {
       "title": "(question - Single Source Shortest Path using Bellman-Ford) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The Bellman-Ford algorithm finds the shortest paths from a **source vertex** to all vertices in a **weighted graph**, even with **negative edge weights**.\n- It can also **detect negative weight cycles** (which Dijkstra’s algorithm cannot).\n\nSTEPS:\n1. Initialize the `dist[]` array with a large number (INF) for all nodes except the `src`, which is set to 0.\n2. **Relax all edges V-1 times**:\n   - For each edge (u → v, weight w), update `dist[v] = min(dist[v], dist[u] + w)` if possible.\n   - Do this V-1 times because the longest possible shortest path without a cycle has at most V-1 edges.\n3. **Check for negative cycles**:\n   - After V-1 iterations, go through all edges once more.\n   - If any distance can still be updated, a negative cycle exists → return `[-1]`.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V × E)\n- Because we iterate through all E edges for V-1 times.\nSpace Complexity: O(V)\n- For the distance array.\n\nDRY RUN / EXAMPLE:\nInput:\nV = 5, edges = [[0,1,4],[0,2,5],[1,2,-3],[2,3,4],[3,1,-10]], src = 0\n\n- 1st Pass: dist[1] = 4, dist[2] = 1 (via 1), dist[3] = 5\n- 2nd & 3rd Pass: distances update due to negative weights\n- Final check shows negative cycle: 3 → 1 → 2 → 3\n\n✔️ Final Output: [-1] (due to negative weight cycle)"
+      "answer": "APPROACH / ALGORITHM USED:\n- The Bellman-Ford algorithm finds the shortest paths from a **source vertex** to all vertices in a **weighted graph**, even with **negative edge weights**.\n- It can also **detect negative weight cycles** (which Dijkstra’s algorithm cannot).\n\nSTEPS:\n1. Initialize the `dist[]` array with a large number (INF) for all nodes except the `src`, which is set to 0.\n2. **Relax all edges V-1 times**:\n   - For each edge (u → v, weight w), update `dist[v] = min(dist[v], dist[u] + w)` if possible.\n   - Do this V-1 times because the longest possible shortest path without a cycle has at most V-1 edges.\n3. **Check for negative cycles**:\n   - After V-1 iterations, go through all edges once more.\n   - If any distance can still be updated, a negative cycle exists → return `[-1]`.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V × E)\n- Because we iterate through all E edges for V-1 times.\nSpace Complexity: O(V)\n- For the distance array.\n\nDRY RUN / EXAMPLE:\nInput:\nV = 5, edges = [[0,1,4],[0,2,5],[1,2,-3],[2,3,4],[3,1,-10]], src = 0\n\n- 1st Pass: dist[1] = 4, dist[2] = 1 (via 1), dist[3] = 5\n- 2nd & 3rd Pass: distances update due to negative weights\n- Final check shows negative cycle: 3 → 1 → 2 → 3\n\n✔️ Final Output: [-1] (due to negative weight cycle)",
+      "code":`import java.util.*;
+
+public class BellmanFordShortestPath {
+
+    public int[] bellmanFord(int V, int[][] edges, int src) {
+        // Step 1: Initialize distance array
+        int[] dist = new int[V];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        // Step 2: Relax all edges V-1 times
+        for (int i = 0; i < V - 1; i++) {
+            for (int[] edge : edges) {
+                int u = edge[0];
+                int v = edge[1];
+                int wt = edge[2];
+                if (dist[u] != Integer.MAX_VALUE && dist[u] + wt < dist[v]) {
+                    dist[v] = dist[u] + wt;
+                }
+            }
+        }
+
+        // Step 3: Check for negative weight cycle
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int wt = edge[2];
+            if (dist[u] != Integer.MAX_VALUE && dist[u] + wt < dist[v]) {
+                return new int[]{-1}; // Negative weight cycle detected
+            }
+        }
+
+        return dist; // Return shortest distances from src
+    }
+
+    // Driver code to test
+    public static void main(String[] args) {
+        BellmanFordShortestPath solver = new BellmanFordShortestPath();
+
+        int V = 5;
+        int[][] edges = {
+            {0, 1, 4},
+            {0, 2, 5},
+            {1, 2, -3},
+            {2, 3, 4},
+            {3, 1, -10}
+        };
+        int src = 0;
+
+        int[] result = solver.bellmanFord(V, edges, src);
+        System.out.println("Shortest distances from source " + src + ": " + Arrays.toString(result));
+        // Output: [-1] due to negative cycle
+    }
+}
+`
     },
     {
       "title": "(question - Find the City With the Smallest Number of Neighbors Within Threshold) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the city from which the **fewest other cities** are reachable within a given distance threshold.\n- If multiple cities have the same count, return the **city with the greatest index**.\n- This is solved using the **Floyd-Warshall algorithm** to compute **all-pairs shortest paths**.\n\nSTEPS:\n1. Initialize a `dist[][]` matrix:\n   - Set `dist[i][j] = INF` initially, and `dist[i][i] = 0`.\n2. For each edge `(u, v, w)`:\n   - Set `dist[u][v] = dist[v][u] = w` (because the graph is undirected).\n3. Run **Floyd-Warshall**:\n   - For each intermediate node `k`, and all pairs `(i, j)`, update:\n     `dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])`\n4. For each city `i`, count how many other cities `j` (≠ i) have `dist[i][j] ≤ distanceThreshold`.\n5. Track the city with the **minimum count** (or **largest index** if tie).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n³)\n- Due to Floyd-Warshall’s three nested loops.\nSpace Complexity: O(n²)\n- For storing all-pairs shortest distances.\n\nDRY RUN / EXAMPLE:\nInput:\nn = 4,\nedges = [[0,1,3],[1,2,1],[2,3,4],[0,3,7]],\ndistanceThreshold = 4\n\nFloyd-Warshall Result:\n- dist[0] = [0,3,4,7]\n- dist[1] = [3,0,1,5]\n- dist[2] = [4,1,0,4]\n- dist[3] = [7,5,4,0]\n\nReachable within 4 units:\n- city 0: 2 cities\n- city 1: 2 cities\n- city 2: 3 cities\n- city 3: 1 city\n\n✔️ Final Output = 3 (least reachable neighbors, highest index)"
+      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to find the city from which the **fewest other cities** are reachable within a given distance threshold.\n- If multiple cities have the same count, return the **city with the greatest index**.\n- This is solved using the **Floyd-Warshall algorithm** to compute **all-pairs shortest paths**.\n\nSTEPS:\n1. Initialize a `dist[][]` matrix:\n   - Set `dist[i][j] = INF` initially, and `dist[i][i] = 0`.\n2. For each edge `(u, v, w)`:\n   - Set `dist[u][v] = dist[v][u] = w` (because the graph is undirected).\n3. Run **Floyd-Warshall**:\n   - For each intermediate node `k`, and all pairs `(i, j)`, update:\n     `dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])`\n4. For each city `i`, count how many other cities `j` (≠ i) have `dist[i][j] ≤ distanceThreshold`.\n5. Track the city with the **minimum count** (or **largest index** if tie).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n³)\n- Due to Floyd-Warshall’s three nested loops.\nSpace Complexity: O(n²)\n- For storing all-pairs shortest distances.\n\nDRY RUN / EXAMPLE:\nInput:\nn = 4,\nedges = [[0,1,3],[1,2,1],[2,3,4],[0,3,7]],\ndistanceThreshold = 4\n\nFloyd-Warshall Result:\n- dist[0] = [0,3,4,7]\n- dist[1] = [3,0,1,5]\n- dist[2] = [4,1,0,4]\n- dist[3] = [7,5,4,0]\n\nReachable within 4 units:\n- city 0: 2 cities\n- city 1: 2 cities\n- city 2: 3 cities\n- city 3: 1 city\n\n✔️ Final Output = 3 (least reachable neighbors, highest index)",
+      "code":`import java.util.*;
+
+public class FindCityWithinThreshold {
+
+    public int findTheCity(int n, int[][] edges, int distanceThreshold) {
+        int INF = 1000000;
+        int[][] dist = new int[n][n];
+
+        // Step 1: Initialize distances
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dist[i], INF);
+            dist[i][i] = 0;
+        }
+
+        // Step 2: Fill initial edge weights
+        for (int[] edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            dist[u][v] = w;
+            dist[v][u] = w; // undirected
+        }
+
+        // Step 3: Floyd-Warshall algorithm
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
+                    }
+                }
+            }
+        }
+
+        // Step 4: Find city with minimum reachable cities within threshold
+        int minReachable = n + 1;
+        int resultCity = -1;
+
+        for (int i = 0; i < n; i++) {
+            int reachable = 0;
+            for (int j = 0; j < n; j++) {
+                if (i != j && dist[i][j] <= distanceThreshold) {
+                    reachable++;
+                }
+            }
+            // If fewer reachable OR same but higher index → update
+            if (reachable <= minReachable) {
+                minReachable = reachable;
+                resultCity = i;
+            }
+        }
+
+        return resultCity;
+    }
+
+    // Driver
+    public static void main(String[] args) {
+        FindCityWithinThreshold solver = new FindCityWithinThreshold();
+
+        int n = 4;
+        int[][] edges = {
+            {0, 1, 3},
+            {1, 2, 1},
+            {2, 3, 4},
+            {0, 3, 7}
+        };
+        int threshold = 4;
+
+        int result = solver.findTheCity(n, edges, threshold);
+        System.out.println("City with smallest reachable neighbors within threshold: " + result);
+        // Output: 3
+    }
+}
+`
     },
     {
       "title": "(question - Rotting Oranges) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The problem is to determine the **minimum number of minutes** required to rot all fresh oranges, where rotten oranges spread to adjacent fresh ones each minute.\n- This is solved using **Multi-Source Breadth-First Search (BFS)** starting from all initially rotten oranges.\n\nSTEPS:\n1. **Preprocessing**:\n   - Count the number of fresh oranges.\n   - Add all initially rotten oranges `(row, col, time)` into a queue.\n2. **BFS Traversal**:\n   - Process the queue using BFS.\n   - For each rotten orange, rot its adjacent fresh oranges and add them to the queue with `time + 1`.\n   - Decrease the `freshOranges` count each time a fresh orange gets rotted.\n   - Track the maximum `timeElapsed` during the process.\n3. **Final Check**:\n   - If all fresh oranges are rotted (`freshOranges == 0`), return `timeElapsed`.\n   - Else, return `-1` indicating some oranges could not be rotted.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Each cell is visited at most once.\nSpace Complexity: O(m × n)\n- Queue holds at most all oranges.\n\nDRY RUN / EXAMPLE:\nInput:\ngrid = [[2,1,1],[1,1,0],[0,1,1]]\n\n- Initially rotten = (0,0)\n- BFS rots neighbors minute-by-minute\n- Final result = 4 minutes\n\n✔️ Final Output = 4"
+      "answer": "APPROACH / ALGORITHM USED:\n- The problem is to determine the **minimum number of minutes** required to rot all fresh oranges, where rotten oranges spread to adjacent fresh ones each minute.\n- This is solved using **Multi-Source Breadth-First Search (BFS)** starting from all initially rotten oranges.\n\nSTEPS:\n1. **Preprocessing**:\n   - Count the number of fresh oranges.\n   - Add all initially rotten oranges `(row, col, time)` into a queue.\n2. **BFS Traversal**:\n   - Process the queue using BFS.\n   - For each rotten orange, rot its adjacent fresh oranges and add them to the queue with `time + 1`.\n   - Decrease the `freshOranges` count each time a fresh orange gets rotted.\n   - Track the maximum `timeElapsed` during the process.\n3. **Final Check**:\n   - If all fresh oranges are rotted (`freshOranges == 0`), return `timeElapsed`.\n   - Else, return `-1` indicating some oranges could not be rotted.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Each cell is visited at most once.\nSpace Complexity: O(m × n)\n- Queue holds at most all oranges.\n\nDRY RUN / EXAMPLE:\nInput:\ngrid = [[2,1,1],[1,1,0],[0,1,1]]\n\n- Initially rotten = (0,0)\n- BFS rots neighbors minute-by-minute\n- Final result = 4 minutes\n\n✔️ Final Output = 4",
+      "code":`import java.util.*;
+
+public class RottingOranges {
+
+    public int orangesRotting(int[][] grid) {
+        int m = grid.length, n = grid[0].length;
+
+        Queue<int[]> queue = new LinkedList<>();
+        int freshOranges = 0;
+        int timeElapsed = 0;
+
+        // Step 1: Add all rotten oranges to queue and count fresh ones
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[]{i, j, 0}); // [row, col, time]
+                } else if (grid[i][j] == 1) {
+                    freshOranges++;
+                }
+            }
+        }
+
+        // Step 2: Multi-source BFS
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        while (!queue.isEmpty()) {
+            int[] curr = queue.poll();
+            int row = curr[0], col = curr[1], time = curr[2];
+            timeElapsed = Math.max(timeElapsed, time);
+
+            for (int[] dir : directions) {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+
+                if (newRow >= 0 && newRow < m && newCol >= 0 && newCol < n &&
+                    grid[newRow][newCol] == 1) {
+                    grid[newRow][newCol] = 2; // rot the orange
+                    freshOranges--;
+                    queue.offer(new int[]{newRow, newCol, time + 1});
+                }
+            }
+        }
+
+        // Step 3: Final check
+        return freshOranges == 0 ? timeElapsed : -1;
+    }
+
+    // Test driver
+    public static void main(String[] args) {
+        RottingOranges solver = new RottingOranges();
+
+        int[][] grid = {
+            {2, 1, 1},
+            {1, 1, 0},
+            {0, 1, 1}
+        };
+
+        int result = solver.orangesRotting(grid);
+        System.out.println("Minimum minutes to rot all oranges: " + result); // Output: 4
+    }
+}
+`
     },
     {
       "title": "(question - 01 Matrix / updateMatrix) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The task is to update each cell containing 1 with the **distance to the nearest 0**.\n- This is solved using **Multi-Source Breadth-First Search (BFS)**, starting from all cells that already contain 0.\n\nSTEPS:\n1. **Initialization**:\n   - Traverse the matrix.\n   - Push all cells with value 0 into a queue (they're the sources for BFS).\n   - Mark all 1s as -1 (unvisited).\n\n2. **BFS Traversal**:\n   - From each 0, traverse its neighbors.\n   - If a neighbor is -1 (was originally 1), update its value as `mat[current] + 1` and enqueue it.\n   - This ensures that every 1 gets its shortest distance to the nearest 0.\n\n3. **Return the matrix** after all updates.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Each cell is processed at most once.\nSpace Complexity: O(m × n)\n- For the queue used in BFS.\n\nDRY RUN / EXAMPLE:\nInput:\n[[0,0,0],[0,1,0],[1,1,1]]\n\nAfter BFS:\n[[0,0,0],[0,1,0],[1,2,1]]\n\n✔️ Final Output = [[0,0,0],[0,1,0],[1,2,1]]"
+      "answer": "APPROACH / ALGORITHM USED:\n- The task is to update each cell containing 1 with the **distance to the nearest 0**.\n- This is solved using **Multi-Source Breadth-First Search (BFS)**, starting from all cells that already contain 0.\n\nSTEPS:\n1. **Initialization**:\n   - Traverse the matrix.\n   - Push all cells with value 0 into a queue (they're the sources for BFS).\n   - Mark all 1s as -1 (unvisited).\n\n2. **BFS Traversal**:\n   - From each 0, traverse its neighbors.\n   - If a neighbor is -1 (was originally 1), update its value as `mat[current] + 1` and enqueue it.\n   - This ensures that every 1 gets its shortest distance to the nearest 0.\n\n3. **Return the matrix** after all updates.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Each cell is processed at most once.\nSpace Complexity: O(m × n)\n- For the queue used in BFS.\n\nDRY RUN / EXAMPLE:\nInput:\n[[0,0,0],[0,1,0],[1,1,1]]\n\nAfter BFS:\n[[0,0,0],[0,1,0],[1,2,1]]\n\n✔️ Final Output = [[0,0,0],[0,1,0],[1,2,1]]",
+      "code":`import java.util.*;
+
+public class UpdateMatrix {
+
+    public int[][] updateMatrix(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+
+        Queue<int[]> queue = new LinkedList<>();
+
+        // Step 1: Mark 1s as -1 and enqueue all 0s
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (mat[i][j] == 0) {
+                    queue.offer(new int[]{i, j});
+                } else {
+                    mat[i][j] = -1; // mark as unvisited
+                }
+            }
+        }
+
+        int[][] directions = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+
+        // Step 2: BFS to update distances
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int row = current[0], col = current[1];
+
+            for (int[] dir : directions) {
+                int newRow = row + dir[0];
+                int newCol = col + dir[1];
+
+                if (newRow >= 0 && newRow < m &&
+                    newCol >= 0 && newCol < n &&
+                    mat[newRow][newCol] == -1) {
+
+                    mat[newRow][newCol] = mat[row][col] + 1;
+                    queue.offer(new int[]{newRow, newCol});
+                }
+            }
+        }
+
+        return mat;
+    }
+
+    // Test driver
+    public static void main(String[] args) {
+        UpdateMatrix solver = new UpdateMatrix();
+
+        int[][] input = {
+            {0, 0, 0},
+            {0, 1, 0},
+            {1, 1, 1}
+        };
+
+        int[][] result = solver.updateMatrix(input);
+
+        // Print output matrix
+        for (int[] row : result) {
+            System.out.println(Arrays.toString(row));
+        }
+        // Output:
+        // [0, 0, 0]
+        // [0, 1, 0]
+        // [1, 2, 1]
+    }
+}
+`
     },
     {
       "title": "(question - Clone an Undirected Graph) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The task is to clone an undirected connected graph where each node contains a value and a list of neighbors.\n- The approach uses **Depth-First Search (DFS)** with a **visited map** to avoid re-cloning the same node or falling into infinite loops in cyclic graphs.\n\nSTEPS:\n1. Create a `Map<Node, Node>` called `visited` to store already cloned nodes.\n2. Define a recursive `cloneGraph(node)` function:\n   - If the node is `null`, return `null`.\n   - If the node is already in the visited map, return the cloned node.\n   - Otherwise, clone the current node using `new Node(node.val)`.\n   - Add this clone to the `visited` map.\n   - Recursively clone all neighbors and add them to the `cloneNode.neighbors` list.\n3. Return the clone of the input node.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(N + E)\n- N = number of nodes, E = number of edges\n- Each node and edge is visited once.\nSpace Complexity: O(N)\n- For the visited map and recursion stack.\n\nDRY RUN / EXAMPLE:\nInput Graph:\n1 -- 2\n|    |\n4 -- 3\n\n- Start cloning from node 1\n- Clone 1 → recursively clone neighbors 2 and 4\n- When visiting 2 → recursively clone 3\n- When visiting 4 and 3 → already cloned → use from map\n\n✔️ Final Output: Deep-copied graph with the same structure and connections"
+      "answer": "APPROACH / ALGORITHM USED:\n- The task is to clone an undirected connected graph where each node contains a value and a list of neighbors.\n- The approach uses **Depth-First Search (DFS)** with a **visited map** to avoid re-cloning the same node or falling into infinite loops in cyclic graphs.\n\nSTEPS:\n1. Create a `Map<Node, Node>` called `visited` to store already cloned nodes.\n2. Define a recursive `cloneGraph(node)` function:\n   - If the node is `null`, return `null`.\n   - If the node is already in the visited map, return the cloned node.\n   - Otherwise, clone the current node using `new Node(node.val)`.\n   - Add this clone to the `visited` map.\n   - Recursively clone all neighbors and add them to the `cloneNode.neighbors` list.\n3. Return the clone of the input node.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(N + E)\n- N = number of nodes, E = number of edges\n- Each node and edge is visited once.\nSpace Complexity: O(N)\n- For the visited map and recursion stack.\n\nDRY RUN / EXAMPLE:\nInput Graph:\n1 -- 2\n|    |\n4 -- 3\n\n- Start cloning from node 1\n- Clone 1 → recursively clone neighbors 2 and 4\n- When visiting 2 → recursively clone 3\n- When visiting 4 and 3 → already cloned → use from map\n\n✔️ Final Output: Deep-copied graph with the same structure and connections",
+      "code":`import java.util.*;
+
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int val) {
+        this.val = val;
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int val, List<Node> neighbors) {
+        this.val = val;
+        this.neighbors = neighbors;
+    }
+}
+
+public class CloneGraphDFS {
+
+    private Map<Node, Node> visited = new HashMap<>();
+
+    public Node cloneGraph(Node node) {
+        // Step 1: Handle base case
+        if (node == null) return null;
+
+        // Step 2: If already cloned, return it
+        if (visited.containsKey(node)) {
+            return visited.get(node);
+        }
+
+        // Step 3: Clone current node
+        Node clone = new Node(node.val);
+        visited.put(node, clone);
+
+        // Step 4: Recursively clone neighbors
+        for (Node neighbor : node.neighbors) {
+            clone.neighbors.add(cloneGraph(neighbor));
+        }
+
+        return clone;
+    }
+
+    // Optional: test setup for small graph
+    public static void main(String[] args) {
+        // Create test graph: 1-2-3-4 cycle
+        Node n1 = new Node(1);
+        Node n2 = new Node(2);
+        Node n3 = new Node(3);
+        Node n4 = new Node(4);
+
+        n1.neighbors.addAll(List.of(n2, n4));
+        n2.neighbors.addAll(List.of(n1, n3));
+        n3.neighbors.addAll(List.of(n2, n4));
+        n4.neighbors.addAll(List.of(n1, n3));
+
+        CloneGraphDFS solver = new CloneGraphDFS();
+        Node cloned = solver.cloneGraph(n1);
+
+        System.out.println("Original node: " + n1.val);
+        System.out.println("Cloned node: " + cloned.val);
+    }
+}
+`
     },
     {
       "title": "(question - Number of Islands) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to count the number of **connected groups of land ('1')** in a 2D grid.\n- This is solved using **Depth-First Search (DFS)** to traverse and mark all connected land cells as visited.\n\nSTEPS:\n1. Initialize a `count = 0` to track islands.\n2. Traverse the entire grid.\n   - If a cell contains `'1'`, it is a new island.\n   - Increment `count`, and call DFS to mark all connected `'1'` cells.\n3. In the `dfs()` function:\n   - Check for boundaries and whether the current cell is `'1'`.\n   - Mark the current cell as visited by setting `grid[i][j] = '0'`.\n   - Recursively explore the 4 neighboring cells (up, down, left, right).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Every cell is visited at most once.\nSpace Complexity: O(m × n)\n- In the worst case, the recursion stack can grow to cover the whole grid (e.g., one big island).\n\nDRY RUN / EXAMPLE:\nInput:\n[ ['1','1','0','0','0'],\n  ['1','1','0','0','0'],\n  ['0','0','1','0','0'],\n  ['0','0','0','1','1'] ]\n\n- First island: top-left block (count = 1)\n- Second island: middle cell (2,2) (count = 2)\n- Third island: bottom-right block (count = 3)\n\n✔️ Final Output = 3"
+      "answer": "APPROACH / ALGORITHM USED:\n- The goal is to count the number of **connected groups of land ('1')** in a 2D grid.\n- This is solved using **Depth-First Search (DFS)** to traverse and mark all connected land cells as visited.\n\nSTEPS:\n1. Initialize a `count = 0` to track islands.\n2. Traverse the entire grid.\n   - If a cell contains `'1'`, it is a new island.\n   - Increment `count`, and call DFS to mark all connected `'1'` cells.\n3. In the `dfs()` function:\n   - Check for boundaries and whether the current cell is `'1'`.\n   - Mark the current cell as visited by setting `grid[i][j] = '0'`.\n   - Recursively explore the 4 neighboring cells (up, down, left, right).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(m × n)\n- Every cell is visited at most once.\nSpace Complexity: O(m × n)\n- In the worst case, the recursion stack can grow to cover the whole grid (e.g., one big island).\n\nDRY RUN / EXAMPLE:\nInput:\n[ ['1','1','0','0','0'],\n  ['1','1','0','0','0'],\n  ['0','0','1','0','0'],\n  ['0','0','0','1','1'] ]\n\n- First island: top-left block (count = 1)\n- Second island: middle cell (2,2) (count = 2)\n- Third island: bottom-right block (count = 3)\n\n✔️ Final Output = 3",
+      "code":`public class NumberOfIslands {
+
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) return 0;
+
+        int m = grid.length, n = grid[0].length;
+        int count = 0;
+
+        // Step 1: Scan each cell
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == '1') {
+                    count++;          // Found a new island
+                    dfs(grid, i, j);  // Mark the whole island as visited
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private void dfs(char[][] grid, int i, int j) {
+        // Step 2: Boundary or water
+        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] != '1') {
+            return;
+        }
+
+        // Step 3: Mark current cell as visited
+        grid[i][j] = '0';
+
+        // Step 4: Explore all 4 directions
+        dfs(grid, i - 1, j); // up
+        dfs(grid, i + 1, j); // down
+        dfs(grid, i, j - 1); // left
+        dfs(grid, i, j + 1); // right
+    }
+
+    // Main method for quick testing
+    public static void main(String[] args) {
+        NumberOfIslands solver = new NumberOfIslands();
+
+        char[][] grid = {
+            {'1','1','0','0','0'},
+            {'1','1','0','0','0'},
+            {'0','0','1','0','0'},
+            {'0','0','0','1','1'}
+        };
+
+        int result = solver.numIslands(grid);
+        System.out.println("Number of Islands: " + result);  // Output: 3
+    }
+}
+`
     },
     {
       "title": "(question - Is Graph Bipartite) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- A graph is **bipartite** if we can color it using **two colors** such that no two adjacent nodes have the same color.\n- The algorithm uses **Breadth-First Search (BFS)** to attempt 2-coloring the graph.\n\nSTEPS:\n1. Maintain a `colors[]` array:\n   - 0 → uncolored\n   - 1 → color A\n   - -1 → color B\n2. Traverse each node `i`:\n   - If `colors[i] == 0`, perform BFS from that node.\n3. In `bfsCheck()`:\n   - Assign color 1 to start node.\n   - Use BFS to assign opposite colors to all neighbors.\n   - If a neighbor has the **same color** as the current node, return false (not bipartite).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges\n- Each edge and vertex is visited once.\nSpace Complexity: O(V)\n- For the `colors[]` array and queue.\n\nDRY RUN / EXAMPLE:\nInput:\ngraph = [[1,3],[0,2],[1,3],[0,2]]\n\n- BFS from node 0 → color 1\n- Neighbors 1 and 3 → color -1\n- Neighbors of 1 (0,2): 0 is valid, 2 → color 1\n- Neighbors of 3 (0,2): both valid\n\n✔️ Final Output = true (Graph is bipartite)"
+      "answer": "APPROACH / ALGORITHM USED:\n- A graph is **bipartite** if we can color it using **two colors** such that no two adjacent nodes have the same color.\n- The algorithm uses **Breadth-First Search (BFS)** to attempt 2-coloring the graph.\n\nSTEPS:\n1. Maintain a `colors[]` array:\n   - 0 → uncolored\n   - 1 → color A\n   - -1 → color B\n2. Traverse each node `i`:\n   - If `colors[i] == 0`, perform BFS from that node.\n3. In `bfsCheck()`:\n   - Assign color 1 to start node.\n   - Use BFS to assign opposite colors to all neighbors.\n   - If a neighbor has the **same color** as the current node, return false (not bipartite).\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges\n- Each edge and vertex is visited once.\nSpace Complexity: O(V)\n- For the `colors[]` array and queue.\n\nDRY RUN / EXAMPLE:\nInput:\ngraph = [[1,3],[0,2],[1,3],[0,2]]\n\n- BFS from node 0 → color 1\n- Neighbors 1 and 3 → color -1\n- Neighbors of 1 (0,2): 0 is valid, 2 → color 1\n- Neighbors of 3 (0,2): both valid\n\n✔️ Final Output = true (Graph is bipartite)",
+      "code":`import java.util.*;
+
+public class IsGraphBipartite {
+
+    public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int[] colors = new int[n]; // 0 = unvisited, 1 and -1 are two colors
+
+        for (int i = 0; i < n; i++) {
+            if (colors[i] == 0) {
+                if (!bfsCheck(graph, i, colors)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean bfsCheck(int[][] graph, int start, int[] colors) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        colors[start] = 1; // Start with color 1
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            for (int neighbor : graph[node]) {
+                if (colors[neighbor] == 0) {
+                    // Assign opposite color
+                    colors[neighbor] = -colors[node];
+                    queue.offer(neighbor);
+                } else if (colors[neighbor] == colors[node]) {
+                    // Conflict found
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // Example to test
+    public static void main(String[] args) {
+        IsGraphBipartite solver = new IsGraphBipartite();
+
+        int[][] graph = {
+            {1, 3},
+            {0, 2},
+            {1, 3},
+            {0, 2}
+        };
+
+        boolean result = solver.isBipartite(graph);
+        System.out.println("Is the graph bipartite? " + result); // Output: true
+    }
+}
+`
     },
     {
       "title": "(question - Number of Strongly Connected Components in a Directed Graph) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED (KOSARAJU’S ALGORITHM):\n- Kosaraju's algorithm is used to find the number of **Strongly Connected Components (SCCs)** in a directed graph.\n- A strongly connected component is a group of vertices where each vertex is reachable from every other vertex in the same group.\n\nSTEPS:\n1. **First DFS (Original Graph)**:\n   - Perform DFS on the original graph to fill a **stack with vertices** ordered by their finishing times (topological sort logic).\n\n2. **Transpose the Graph**:\n   - Reverse the direction of all edges to get the **transpose graph**.\n\n3. **Second DFS (Transpose Graph)**:\n   - Pop vertices from the stack one by one.\n   - For each unvisited node, perform DFS on the **transposed graph**.\n   - Each such DFS call indicates a **new SCC**.\n   - Count how many such DFS calls are made — that’s the number of SCCs.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges\n- Each node and edge is visited exactly twice (once in original graph, once in transpose).\nSpace Complexity: O(V + E)\n- Stack, visited array, and adjacency lists for transpose.\n\nDRY RUN / EXAMPLE:\nInput:\n0 → 1 → 2 → 0\n3 → 4\n\n- Stack after first DFS: [3,4,0,1,2] (top to bottom)\n- Transposed edges: 1→0, 2→1, 0→2, 4→3\n- Second DFS:\n  - Pop 2 → DFS visits 2→1→0 → First SCC\n  - Pop 4 → DFS visits 4 → Second SCC\n  - Pop 3 → DFS visits 3 → Third SCC\n\n✔️ Final Output = 3"
+      "answer": "APPROACH / ALGORITHM USED (KOSARAJU’S ALGORITHM):\n- Kosaraju's algorithm is used to find the number of **Strongly Connected Components (SCCs)** in a directed graph.\n- A strongly connected component is a group of vertices where each vertex is reachable from every other vertex in the same group.\n\nSTEPS:\n1. **First DFS (Original Graph)**:\n   - Perform DFS on the original graph to fill a **stack with vertices** ordered by their finishing times (topological sort logic).\n\n2. **Transpose the Graph**:\n   - Reverse the direction of all edges to get the **transpose graph**.\n\n3. **Second DFS (Transpose Graph)**:\n   - Pop vertices from the stack one by one.\n   - For each unvisited node, perform DFS on the **transposed graph**.\n   - Each such DFS call indicates a **new SCC**.\n   - Count how many such DFS calls are made — that’s the number of SCCs.\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(V + E)\n- V = number of vertices, E = number of edges\n- Each node and edge is visited exactly twice (once in original graph, once in transpose).\nSpace Complexity: O(V + E)\n- Stack, visited array, and adjacency lists for transpose.\n\nDRY RUN / EXAMPLE:\nInput:\n0 → 1 → 2 → 0\n3 → 4\n\n- Stack after first DFS: [3,4,0,1,2] (top to bottom)\n- Transposed edges: 1→0, 2→1, 0→2, 4→3\n- Second DFS:\n  - Pop 2 → DFS visits 2→1→0 → First SCC\n  - Pop 4 → DFS visits 4 → Second SCC\n  - Pop 3 → DFS visits 3 → Third SCC\n\n✔️ Final Output = 3",
+      "code":`import java.util.*;
+
+public class KosarajuSCC {
+
+    public int kosaraju(int V, List<List<Integer>> adj) {
+        boolean[] visited = new boolean[V];
+        Stack<Integer> stack = new Stack<>();
+
+        // Step 1: Perform DFS and store vertices in stack by finish time
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                dfsOriginal(adj, visited, stack, i);
+            }
+        }
+
+        // Step 2: Transpose the graph
+        List<List<Integer>> transpose = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            transpose.add(new ArrayList<>());
+        }
+
+        for (int u = 0; u < V; u++) {
+            for (int v : adj.get(u)) {
+                transpose.get(v).add(u); // Reverse the edge
+            }
+        }
+
+        // Step 3: DFS on transpose graph using order from stack
+        Arrays.fill(visited, false);
+        int sccCount = 0;
+
+        while (!stack.isEmpty()) {
+            int node = stack.pop();
+            if (!visited[node]) {
+                dfsTranspose(transpose, visited, node);
+                sccCount++;
+            }
+        }
+
+        return sccCount;
+    }
+
+    private void dfsOriginal(List<List<Integer>> adj, boolean[] visited, Stack<Integer> stack, int node) {
+        visited[node] = true;
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                dfsOriginal(adj, visited, stack, neighbor);
+            }
+        }
+        stack.push(node); // Finished exploring this node
+    }
+
+    private void dfsTranspose(List<List<Integer>> transpose, boolean[] visited, int node) {
+        visited[node] = true;
+        for (int neighbor : transpose.get(node)) {
+            if (!visited[neighbor]) {
+                dfsTranspose(transpose, visited, neighbor);
+            }
+        }
+    }
+
+    // 🔎 Example to test
+    public static void main(String[] args) {
+        int V = 5;
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        // Sample Graph:
+        adj.get(0).add(1);
+        adj.get(1).add(2);
+        adj.get(2).add(0);
+        adj.get(3).add(4);
+
+        KosarajuSCC solver = new KosarajuSCC();
+        int sccCount = solver.kosaraju(V, adj);
+
+        System.out.println("Number of Strongly Connected Components: " + sccCount); // Output: 3
+    }
+}
+`
     },
     {
       "title": "(question - Remove Stones to Minimize the Total) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- Model the problem as finding **connected components**.\n- A stone can be removed **if there's another stone in the same row or column**.\n- So, each group of stones that are row/column-connected forms a connected component.\n- Within each component, we can remove all stones except one.\n- Thus, the answer is:\n  ➤ Total stones - Number of connected components\n\nSTEPS:\n1. Use **Union-Find (Disjoint Set Union)** to group stones that share the same row or column.\n2. Iterate over all pairs of stones `(i, j)`:\n   - If `stones[i][0] == stones[j][0]` or `stones[i][1] == stones[j][1]`, union them.\n3. After all unions, count the number of **unique parents** (i.e., connected components).\n4. Result = `total stones - number of components`\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n² * α(n))\n- n = number of stones\n- α(n) is the inverse Ackermann function from Union-Find, nearly constant\n- Nested loop for checking row/column match\nSpace Complexity: O(n)\n- Union-Find parent and rank arrays\n\nDRY RUN / EXAMPLE:\nInput:\nstones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]\n\n- Connected components:\n  - Group 1: [0,0], [0,1], [1,0], [1,2], [2,1], [2,2] → all connected\n- Only 1 connected component → can remove 6 - 1 = 5 stones\n\n✔️ Final Output = 5"
+      "answer": "APPROACH / ALGORITHM USED:\n- Model the problem as finding **connected components**.\n- A stone can be removed **if there's another stone in the same row or column**.\n- So, each group of stones that are row/column-connected forms a connected component.\n- Within each component, we can remove all stones except one.\n- Thus, the answer is:\n  ➤ Total stones - Number of connected components\n\nSTEPS:\n1. Use **Union-Find (Disjoint Set Union)** to group stones that share the same row or column.\n2. Iterate over all pairs of stones `(i, j)`:\n   - If `stones[i][0] == stones[j][0]` or `stones[i][1] == stones[j][1]`, union them.\n3. After all unions, count the number of **unique parents** (i.e., connected components).\n4. Result = `total stones - number of components`\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n² * α(n))\n- n = number of stones\n- α(n) is the inverse Ackermann function from Union-Find, nearly constant\n- Nested loop for checking row/column match\nSpace Complexity: O(n)\n- Union-Find parent and rank arrays\n\nDRY RUN / EXAMPLE:\nInput:\nstones = [[0,0],[0,1],[1,0],[1,2],[2,1],[2,2]]\n\n- Connected components:\n  - Group 1: [0,0], [0,1], [1,0], [1,2], [2,1], [2,2] → all connected\n- Only 1 connected component → can remove 6 - 1 = 5 stones\n\n✔️ Final Output = 5",
+      "code":`import java.util.*;
+
+public class RemoveStones {
+
+    public int removeStones(int[][] stones) {
+        int n = stones.length;
+        DSU dsu = new DSU(n);
+
+        // Union stones that share row or column
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) {
+                    dsu.union(i, j);
+                }
+            }
+        }
+
+        // Count number of unique parents (connected components)
+        Set<Integer> uniqueParents = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            uniqueParents.add(dsu.find(i));
+        }
+
+        // Result = total stones - number of components
+        return n - uniqueParents.size();
+    }
+
+    // Disjoint Set Union (Union-Find) with Path Compression
+    class DSU {
+        int[] parent;
+
+        public DSU(int size) {
+            parent = new int[size];
+            for (int i = 0; i < size; i++) {
+                parent[i] = i;
+            }
+        }
+
+        public int find(int x) {
+            if (parent[x] != x) {
+                parent[x] = find(parent[x]); // Path compression
+            }
+            return parent[x];
+        }
+
+        public void union(int x, int y) {
+            int rootX = find(x);
+            int rootY = find(y);
+            if (rootX != rootY) {
+                parent[rootX] = rootY;
+            }
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        RemoveStones solver = new RemoveStones();
+
+        int[][] stones = {
+            {0, 0}, {0, 1}, {1, 0}, {1, 2}, {2, 1}, {2, 2}
+        };
+
+        int result = solver.removeStones(stones);
+        System.out.println("Max stones that can be removed: " + result); // Output: 5
+    }
+}
+`
     },
     {
       "title": "(question - Number of Provinces) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The problem is equivalent to finding the number of **connected components** in an undirected graph.\n- Each city is a node; a direct connection means an edge.\n- You can treat this as either:\n  ➤ Using the **adjacency matrix directly** for DFS\n  ➤ Or converting the matrix into an **adjacency list**, then applying DFS\n- Whenever a node (city) is unvisited, we start DFS and count it as a new province.\n\nTWO IMPLEMENTATIONS:\n1. **Matrix DFS (No conversion)**\n   - Directly traverse the `isConnected` matrix\n   - If `isConnected[i][j] == 1`, and city `j` is unvisited, visit it recursively\n2. **Adjacency List Conversion + DFS**\n   - Convert matrix into graph (adjacency list)\n   - Apply DFS to count components\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n²)\n- Traversing the matrix once (for conversion or DFS)\n- n = number of cities\nSpace Complexity: O(n)\n- Visited array\n\nDRY RUN / EXAMPLE:\nInput:\nisConnected = [\n  [1, 1, 0],\n  [1, 1, 0],\n  [0, 0, 1]\n]\n\n- Province 1: City 0 and 1 are connected\n- Province 2: City 2 is isolated\n✔️ Total provinces = 2"
+      "answer": "APPROACH / ALGORITHM USED:\n- The problem is equivalent to finding the number of **connected components** in an undirected graph.\n- Each city is a node; a direct connection means an edge.\n- You can treat this as either:\n  ➤ Using the **adjacency matrix directly** for DFS\n  ➤ Or converting the matrix into an **adjacency list**, then applying DFS\n- Whenever a node (city) is unvisited, we start DFS and count it as a new province.\n\nTWO IMPLEMENTATIONS:\n1. **Matrix DFS (No conversion)**\n   - Directly traverse the `isConnected` matrix\n   - If `isConnected[i][j] == 1`, and city `j` is unvisited, visit it recursively\n2. **Adjacency List Conversion + DFS**\n   - Convert matrix into graph (adjacency list)\n   - Apply DFS to count components\n\nTIME & SPACE COMPLEXITY:\nTime Complexity: O(n²)\n- Traversing the matrix once (for conversion or DFS)\n- n = number of cities\nSpace Complexity: O(n)\n- Visited array\n\nDRY RUN / EXAMPLE:\nInput:\nisConnected = [\n  [1, 1, 0],\n  [1, 1, 0],\n  [0, 0, 1]\n]\n\n- Province 1: City 0 and 1 are connected\n- Province 2: City 2 is isolated\n✔️ Total provinces = 2",
+      "code":`public class NumberOfProvinces {
+
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        boolean[] visited = new boolean[n];
+        int provinceCount = 0;
+
+        // Loop over all cities
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(isConnected, visited, i);
+                provinceCount++; // New province found
+            }
+        }
+
+        return provinceCount;
+    }
+
+    private void dfs(int[][] isConnected, boolean[] visited, int city) {
+        visited[city] = true;
+
+        for (int neighbor = 0; neighbor < isConnected.length; neighbor++) {
+            if (isConnected[city][neighbor] == 1 && !visited[neighbor]) {
+                dfs(isConnected, visited, neighbor);
+            }
+        }
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        NumberOfProvinces solver = new NumberOfProvinces();
+
+        int[][] isConnected = {
+            {1, 1, 0},
+            {1, 1, 0},
+            {0, 0, 1}
+        };
+
+        int result = solver.findCircleNum(isConnected);
+        System.out.println("Number of Provinces: " + result); // Output: 2
+    }
+}
+`
     },
     {
       "title": "(question - Number of Ways to Arrive at Destination) Approach / Algorithm Used",
-      "answer": "APPROACH / ALGORITHM USED:\n- The problem requires counting the number of **shortest paths** from node 0 to node n-1.\n- This is a variation of **Dijkstra’s algorithm** where, along with computing the shortest distance to each node, we also count how many different ways that shortest distance can be achieved.\n\nSTEPS:\n1. **Graph Construction**:\n   - Build an adjacency list for the graph: each edge stores (neighbor, time).\n\n2. **Dijkstra’s Algorithm (Modified)**:\n   - Use a min-heap (priority queue) to always expand the current shortest node.\n   - Track two things:\n     ➤ `dist[i]`: the shortest time to reach node `i` from node `0`\n     ➤ `ways[i]`: number of ways to reach node `i` using that shortest time\n   - For each neighbor of the current node:\n     ➤ If you find a shorter path, update `dist[neighbor]` and set `ways[neighbor] = ways[curr]`\n     ➤ If you find another path of equal length, add to `ways[neighbor]`\n\n3. **Final Answer**:\n   - Return `ways[n - 1]` as the number of ways to reach the destination node with minimum time.\n\nTIME & SPACE COMPLEXITY:\n- Time: O(E * log V), due to priority queue operations\n- Space: O(V + E), for adjacency list, dist, and ways arrays\n\nDRY RUN:\nInput:\nn = 7,\nroads = [\n [0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]\n]\n\n- Multiple ways to reach destination `n-1 = 6`\n- Final Output: 4 (number of shortest paths to reach node 6)"
+      "answer": "APPROACH / ALGORITHM USED:\n- The problem requires counting the number of **shortest paths** from node 0 to node n-1.\n- This is a variation of **Dijkstra’s algorithm** where, along with computing the shortest distance to each node, we also count how many different ways that shortest distance can be achieved.\n\nSTEPS:\n1. **Graph Construction**:\n   - Build an adjacency list for the graph: each edge stores (neighbor, time).\n\n2. **Dijkstra’s Algorithm (Modified)**:\n   - Use a min-heap (priority queue) to always expand the current shortest node.\n   - Track two things:\n     ➤ `dist[i]`: the shortest time to reach node `i` from node `0`\n     ➤ `ways[i]`: number of ways to reach node `i` using that shortest time\n   - For each neighbor of the current node:\n     ➤ If you find a shorter path, update `dist[neighbor]` and set `ways[neighbor] = ways[curr]`\n     ➤ If you find another path of equal length, add to `ways[neighbor]`\n\n3. **Final Answer**:\n   - Return `ways[n - 1]` as the number of ways to reach the destination node with minimum time.\n\nTIME & SPACE COMPLEXITY:\n- Time: O(E * log V), due to priority queue operations\n- Space: O(V + E), for adjacency list, dist, and ways arrays\n\nDRY RUN:\nInput:\nn = 7,\nroads = [\n [0,6,7],[0,1,2],[1,2,3],[1,3,3],[6,3,3],[3,5,1],[6,5,1],[2,5,1],[0,4,5],[4,6,2]\n]\n\n- Multiple ways to reach destination `n-1 = 6`\n- Final Output: 4 (number of shortest paths to reach node 6)",
+      "code":`import java.util.*;
+
+public class CountPathsDijkstra {
+
+    public int countPaths(int n, int[][] roads) {
+        final int MOD = 1_000_000_007;
+
+        // Step 1: Build the adjacency list
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int[] road : roads) {
+            int u = road[0], v = road[1], time = road[2];
+            adj.get(u).add(new int[]{v, time});
+            adj.get(v).add(new int[]{u, time}); // Undirected graph
+        }
+
+        // Step 2: Initialize distance and ways arrays
+        long[] dist = new long[n];
+        int[] ways = new int[n];
+        Arrays.fill(dist, Long.MAX_VALUE);
+        dist[0] = 0;
+        ways[0] = 1;
+
+        // Priority Queue: {distance, node}
+        PriorityQueue<long[]> pq = new PriorityQueue<>((a, b) -> Long.compare(a[0], b[0]));
+        pq.offer(new long[]{0, 0}); // start from node 0 with time 0
+
+        while (!pq.isEmpty()) {
+            long[] curr = pq.poll();
+            long currTime = curr[0];
+            int node = (int) curr[1];
+
+            if (currTime > dist[node]) continue;
+
+            for (int[] neighbor : adj.get(node)) {
+                int next = neighbor[0];
+                int time = neighbor[1];
+                long newTime = currTime + time;
+
+                // Shorter path found
+                if (newTime < dist[next]) {
+                    dist[next] = newTime;
+                    ways[next] = ways[node];
+                    pq.offer(new long[]{newTime, next});
+                }
+                // Same shortest path length found
+                else if (newTime == dist[next]) {
+                    ways[next] = (ways[next] + ways[node]) % MOD;
+                }
+            }
+        }
+
+        return ways[n - 1];
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        CountPathsDijkstra solver = new CountPathsDijkstra();
+
+        int n = 7;
+        int[][] roads = {
+            {0, 6, 7}, {0, 1, 2}, {1, 2, 3}, {1, 3, 3},
+            {6, 3, 3}, {3, 5, 1}, {6, 5, 1}, {2, 5, 1},
+            {0, 4, 5}, {4, 6, 2}
+        };
+
+        int result = solver.countPaths(n, roads);
+        System.out.println("Number of Shortest Paths to node " + (n - 1) + " = " + result);
+        // Expected Output: 4
+    }
+}
+`
     },
 
 
