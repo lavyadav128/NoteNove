@@ -7,6 +7,7 @@ import {
   useMediaQuery,
   useTheme,
   Grid,
+  IconButton,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -25,7 +26,6 @@ const PracticePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const q = questions[currentQIndex];
 
-  // Helper function to bold specific headings inside answer text
   const formatAnswerText = (text) => {
     const headings = [
       "APPROACH",
@@ -115,6 +115,53 @@ const PracticePage = () => {
       >
         Practice: {topicId.replace(/-/g, " ").toUpperCase()}
       </Typography>
+
+      {/* Circular Question Buttons Row */}
+      {questions.length > 0 && (
+        <Box
+          sx={{
+            display: "flex",
+            overflowX: "auto",
+            py: 2,
+            mb: 3,
+            gap: 1.5,
+            justifyContent: "center",
+            flexWrap: "nowrap",
+            scrollbarWidth: "none", // Firefox
+            msOverflowStyle: "none", // IE/Edge
+            "&::-webkit-scrollbar": {
+              display: "none", // Chrome, Safari, Opera
+            },
+          }}
+        >
+          {questions.map((_, index) => (
+            <Button
+              key={index}
+              onClick={() => {
+                setCurrentQIndex(index);
+                setShowCode(false);
+              }}
+              sx={{
+                minWidth: 45,
+                height: 45,
+                borderRadius: "50%",
+                border: "2px solid #1976d2",
+                backgroundColor:
+                  index === currentQIndex ? "#1976d2" : "#ffffff",
+                color: index === currentQIndex ? "#fff" : "#1976d2",
+                fontWeight: 600,
+                transition: "0.3s",
+                "&:hover": {
+                  backgroundColor:
+                    index === currentQIndex ? "#1565c0" : "#e3f2fd",
+                },
+              }}
+            >
+              {index + 1}
+            </Button>
+          ))}
+        </Box>
+      )}
 
       {q ? (
         <>
