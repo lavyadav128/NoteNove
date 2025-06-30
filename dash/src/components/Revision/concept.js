@@ -10,6 +10,7 @@ import {
   Card,
   Tabs,
   Tab,
+  Paper,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -17,6 +18,106 @@ import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 import questionsData from "./rdata";
 import flashData from "./fdata";
+
+const FlashRevisionPDFStyle = ({ chapterName, contentLines }) => {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "#fdfdfd",
+        minHeight: "100vh",
+        p: 4,
+      }}
+    >
+      <Typography
+        variant="h3"
+        align="center"
+        fontWeight="bold"
+        gutterBottom
+        sx={{
+          textTransform: "uppercase",
+          color: "#283593",
+          mb: 6,
+        }}
+      >
+        {chapterName}
+      </Typography>
+
+      <Grid container spacing={3} justifyContent="center">
+        {contentLines.map((line, idx) => {
+          const trimmed = line.trim();
+          if (!trimmed) return null;
+
+          if (trimmed.startsWith("⚡️")) {
+            return (
+              <Grid item xs={12} key={idx}>
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  sx={{ color: "#1e88e5", mb: 2 }}
+                >
+                  {trimmed.replace("⚡️", "").trim()}
+                </Typography>
+              </Grid>
+            );
+          }
+
+          if (trimmed.startsWith("Q)")) {
+            return (
+              <Grid item xs={12} md={6} key={idx}>
+                <Paper
+                  elevation={3}
+                  sx={{ p: 2, borderLeft: "6px solid #c62828" }}
+                >
+                  <Typography variant="subtitle1" sx={{ whiteSpace: "pre-line" }}>
+                    {trimmed}
+                  </Typography>
+                </Paper>
+              </Grid>
+            );
+          }
+
+          if (
+            trimmed.startsWith("✅") ||
+            trimmed.startsWith("🔑") ||
+            trimmed.startsWith("🧪")
+          ) {
+            return (
+              <Grid item xs={12} key={idx}>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight="bold"
+                  sx={{ color: "#00796b" }}
+                >
+                  {trimmed}
+                </Typography>
+              </Grid>
+            );
+          }
+
+          if (trimmed.includes(":")) {
+            const [heading, rest] = trimmed.split(/:(.+)/);
+            return (
+              <Grid item xs={12} sm={6} md={4} key={idx}>
+                <Paper elevation={1} sx={{ p: 2, textAlign: "center" }}>
+                  <Typography fontWeight="bold" gutterBottom>
+                    {heading.trim()}
+                  </Typography>
+                  <Typography>{rest?.trim()}</Typography>
+                </Paper>
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} key={idx}>
+              <Typography>{trimmed}</Typography>
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
+  );
+};
 
 const PracticePage = () => {
   const { classId, subject, chapterSlug } = useParams();
@@ -35,77 +136,6 @@ const PracticePage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const q = questions[currentQIndex];
-
-  const flashContent = (
-    <Box
-      mt={3}
-      p={3}
-      borderRadius={3}
-      bgcolor="#fefefe"
-      boxShadow={2}
-      sx={{
-        lineHeight: 2,
-        fontSize: "1rem",
-        whiteSpace: "pre-wrap",
-        color: "#222",
-      }}
-    >
-      {(typeof flashText === "string" ? flashText.split("\n") : []).map(
-        (line, idx) => {
-          const trimmed = typeof line === "string" ? line.trim() : "";
-
-          if (!trimmed) return <Box key={idx} mt={2} />;
-
-          if (trimmed.startsWith("⚡️")) {
-            return (
-              <Typography
-                key={idx}
-                variant="h6"
-                fontWeight="bold"
-                mt={idx === 0 ? 0 : 4}
-                color="#2c387e"
-              >
-                {trimmed}
-              </Typography>
-            );
-          }
-
-          if (
-            trimmed.startsWith("✅") ||
-            trimmed.startsWith("🔑") ||
-            trimmed.startsWith("🧪")
-          ) {
-            return (
-              <Typography
-                key={idx}
-                variant="subtitle1"
-                fontWeight="bold"
-                mt={4}
-                color="#00796b"
-              >
-                {trimmed}
-              </Typography>
-            );
-          }
-
-          if (trimmed.includes(":")) {
-            const [heading, rest] = trimmed.split(/:(.+)/);
-            return (
-              <Typography key={idx} sx={{ mt: 1 }}>
-                <b>{heading.trim()}:</b> {rest?.trim() || ""}
-              </Typography>
-            );
-          }
-
-          return (
-            <Typography key={idx} sx={{ mt: 1 }}>
-              {trimmed}
-            </Typography>
-          );
-        }
-      )}
-    </Box>
-  );
 
   const practiceContent = (
     <>
@@ -227,7 +257,18 @@ const PracticePage = () => {
             <Tab label="Flash Revision" />
           </Tabs>
 
-          <Box mt={2}>{tab === 0 ? practiceContent : flashContent}</Box>
+          <Box mt={2}>
+            {tab === 0 ? (
+              practiceContent
+            ) : (
+              <FlashRevisionPDFStyle
+                chapterName={(chapterSlug || "").replace(/-/g, " ").toUpperCase()}
+                contentLines={
+                  typeof flashText === "string" ? flashText.split("\n") : []
+                }
+              />
+            )}
+          </Box>
         </Box>
       ) : (
         <Box display="flex" justifyContent="center">
@@ -267,22 +308,32 @@ const PracticePage = () => {
             </Button>
 
             <Tabs
-  value={tab}
-  onChange={(e, newValue) => setTab(newValue)}
-  TabIndicatorProps={{
-    sx: {
-      width: "40px",              // Adjust this to control the indicator width
-      left: "calc(50% - 20px)",   // Center it under the tab (40px/2 = 20px)
-      transition: "all 0.3s ease"
-    }
-  }}
->
-  <Tab label="Practice" />
-  <Tab label="Flash Revision" />
-</Tabs>
+              value={tab}
+              onChange={(e, newValue) => setTab(newValue)}
+              TabIndicatorProps={{
+                sx: {
+                  width: "40px",
+                  left: "calc(50% - 20px)",
+                  transition: "all 0.3s ease",
+                },
+              }}
+            >
+              <Tab label="Practice" />
+              <Tab label="Flash Revision" />
+            </Tabs>
 
-
-            <Box mt={2}>{tab === 0 ? practiceContent : flashContent}</Box>
+            <Box mt={2}>
+              {tab === 0 ? (
+                practiceContent
+              ) : (
+                <FlashRevisionPDFStyle
+                  chapterName={(chapterSlug || "").replace(/-/g, " ").toUpperCase()}
+                  contentLines={
+                    typeof flashText === "string" ? flashText.split("\n") : []
+                  }
+                />
+              )}
+            </Box>
           </Card>
         </Box>
       )}

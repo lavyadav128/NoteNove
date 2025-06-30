@@ -405,8 +405,8 @@ const Dashboard = () => {
               <Route path="/dsac" element={<Dsaclass />} />
               <Route path="/cou" element={<Courses />} />
               <Route path="/pre" element={<PreBatch />} />
-              <Route path="/rev" element={<RevBatch />} />
-              <Route path="/col" element={<ColBatch />} />
+             {/* <Route path="/rev" element={<RevBatch />} />
+              <Route path="/col" element={<ColBatch />} />   */}
               <Route path="/mybatches" element={<MyBatchesPage />} />
               <Route path="/notifications" element={<NotificationPage />} />
               <Route path="/doubts" element={<DoubtPage />} />
