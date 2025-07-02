@@ -60,9 +60,9 @@ const ChapterDetail = () => {
           completeNotes: {
             pdf: `/images/completenotes/${slug}.pdf`,
           },
-          // video: {
-          //   url: chapterVideoUrl,
-          // },
+          video: {
+            url: chapterVideoUrl,
+          },
         }
       : {
           mindmap: {
