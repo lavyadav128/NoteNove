@@ -521,72 +521,73 @@ const questionsData = {
     },
     {
       "title": "What is the OSI model?",
-      "answer": "OSI (Open System Interconnection) is a 7-layer model that standardizes network communication from physical transfer to applications."
-    },
+      "answer": "OSI (Open System Interconnection) is a 7-layer model that standardizes network communication from physical transfer to applications. For example, when you send a message on WhatsApp, it goes through layers like: Application (WhatsApp interface), Transport (breaking message into packets), Network (finding the best route), Data Link (framing data), and Physical (sending signals via Wi-Fi or cable). Each layer handles a specific part of the process to ensure the message reaches the recipient correctly."
+    },    
     {
       "title": "What does the Physical Layer do?",
-      "answer": "It transfers raw bits over a physical medium (like cables). It’s the lowest layer in the OSI model."
-    },
+      "answer": "It transfers raw bits over a physical medium (like cables). It’s the lowest layer in the OSI model. For example, when you send an email, the Physical Layer is responsible for converting the data into electrical signals that travel through the cables (or Wi-Fi waves) to reach the destination. It handles the actual transmission of the binary data over physical media like Ethernet cables or wireless radio waves."
+    },    
     {
       "title": "What does the Data Link Layer do?",
-      "answer": "It ensures error-free transfer of frames between two nodes on the same network. It handles MAC addressing, flow control, and error detection."
-    },
+      "answer": "It ensures error-free transfer of frames between two nodes on the same network. It handles MAC addressing, flow control, and error detection. For example, when your laptop communicates with a Wi-Fi router, the Data Link Layer ensures that the data sent is properly framed, addressed using MAC addresses, and checked for errors before reaching the router."
+    },    
     {
       "title": "What is the function of the Network Layer?",
-      "answer": "It finds the best path (routing) to deliver packets and assigns logical addresses like IPs."
-    },
+      "answer": "It finds the best path (routing) to deliver packets and assigns logical addresses like IPs. For example, when you access a website, the Network Layer decides how your data packets travel across routers and networks using IP addresses to reach the web server efficiently."
+    },    
     {
       "title": "What is the function of the Transport Layer?",
-      "answer": "It ensures reliable data delivery using either connection-oriented (TCP) or connectionless (UDP) protocols."
-    },
+      "answer": "It ensures reliable data delivery using either connection-oriented (TCP) or connectionless (UDP) protocols. For example, when you stream a video on YouTube, UDP is used for faster delivery without waiting for lost packets. But when you send an email, TCP ensures the entire message is delivered accurately and in order."
+    },    
     {
       "title": "What does the Application Layer do?",
-      "answer": "It provides network services to users and applications (like HTTP, SMTP, DNS). It’s the top layer in both OSI and TCP/IP models."
-    },
+      "answer": "It provides network services to users and applications (like HTTP, SMTP, DNS). It’s the top layer in both OSI and TCP/IP models. For example, when you browse a website, your web browser uses HTTP at the Application Layer to request and receive web pages from the server."
+    },    
     {
       "title": "What is TCP and UDP?",
-      "answer": "TCP is reliable and connection-based; good for file transfer. UDP is faster but connectionless; good for streaming and gaming."
-    },
+      "answer": "TCP is reliable and connection-based; good for file transfer. UDP is faster but connectionless; good for streaming and gaming. For example, when you download a file, TCP ensures every packet arrives correctly and in order. But when you're playing an online game or watching a live stream, UDP is used to deliver data quickly, even if some packets get lost."
+    },    
     {
       "title": "What is DNS?",
-      "answer": "DNS (Domain Name System) converts domain names like google.com into IP addresses. It acts like a phonebook for the internet."
-    },
+      "answer": "DNS (Domain Name System) converts domain names like google.com into IP addresses. It acts like a phonebook for the internet. For example, when you type 'google.com' into your browser, DNS translates it to an IP address like 142.250.182.206 so your device can locate and connect to Google's server."
+    },    
     {
       "title": "What is DHCP?",
-      "answer": "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses to devices on a network."
-    },
+      "answer": "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses to devices on a network. For example, when you connect your phone to Wi-Fi, the router’s DHCP server gives your phone an IP address automatically so it can communicate on the network without manual setup."
+    },    
     {
       "title": "What is a MAC address?",
-      "answer": "MAC (Media Access Control) address is a unique identifier assigned to a device's network interface card (NIC)."
-    },
+      "answer": "MAC (Media Access Control) address is a unique identifier assigned to a device's network interface card (NIC). For example, your laptop's Wi-Fi adapter has its own MAC address, like '00:1A:2B:3C:4D:5E', which is used to identify it on a local network."
+    },    
     {
       "title": "What is IP address?",
-      "answer": "An IP address is a unique number assigned to each device on a network. IPv4 has 4 blocks like 192.168.1.1"
-    },
+      "answer": "An IP address is a unique number assigned to each device on a network. IPv4 has 4 blocks like 192.168.1.1. For example, when your phone connects to the internet, it is assigned an IP address like 192.168.0.5, which allows websites and services to know where to send data back to your device."
+    },    
     {
       "title": "What is the difference between public and private IPs?",
-      "answer": "Private IPs are used within networks and not routable on the internet. Public IPs are used to communicate over the internet."
-    },
+      "answer": "Private IPs are used within networks and not routable on the internet. Public IPs are used to communicate over the internet. For example, your home Wi-Fi router assigns private IPs like 192.168.0.10 to connected devices, but your internet service provider gives your router a public IP like 203.0.113.5 so it can access websites and online services."
+    },    
     {
       "title": "What is ICMP used for?",
-      "answer": "ICMP (Internet Control Message Protocol) is used for error reporting and diagnostic tools like 'ping'."
-    },
+      "answer": "ICMP (Internet Control Message Protocol) is used for error reporting and diagnostic tools like 'ping'. For example, when you use the 'ping' command to check if a website is reachable, ICMP sends packets to the destination and measures the response time to help diagnose network issues."
+    },    
     {
       "title": "What is a firewall?",
-      "answer": "A firewall is a system that monitors and filters incoming and outgoing network traffic based on security rules."
-    },
+      "answer": "A firewall is a system that monitors and filters incoming and outgoing network traffic based on security rules. For example, your computer’s firewall can block unauthorized access from the internet while allowing safe applications like your browser or email client to communicate freely."
+    },    
     {
       "title": "What is subnetting?",
-      "answer": "Subnetting divides a network into smaller parts (subnets) to improve routing efficiency and security."
-    },
+      "answer": "Subnetting divides a network into smaller parts (subnets) to improve routing efficiency and security. For example, in a large organization, subnetting can separate the HR department's devices from the IT department's devices, so internal traffic is more organized and easier to manage."
+    },    
     {
       "title": "What is NAT?",
-      "answer": "NAT (Network Address Translation) converts private IP addresses to a public IP for internet access and hides internal network structure."
-    },
+      "answer": "NAT (Network Address Translation) converts private IP addresses to a public IP for internet access and hides internal network structure. For example, when multiple devices in your home (like a phone, laptop, and smart TV) connect to the internet through a single router, NAT allows all of them to share one public IP address while keeping their private IPs hidden from the outside world."
+    },    
     {
       "title": "What happens when you type google.com in a browser?",
-      "answer": "The browser checks cache, sends a DNS request to get the IP, establishes a TCP connection, sends HTTP request, receives response, and renders the webpage."
+      "answer": "The browser checks cache, sends a DNS request to get the IP, establishes a TCP connection, sends HTTP request, receives response, and renders the webpage. For example, when you type 'google.com', your computer first looks up its IP using DNS, connects to Google's server using TCP, requests the homepage via HTTP, and finally displays the page once the response is received."
     }
+    
   ],
 
   "oops-principles": [
@@ -830,124 +831,125 @@ const questionsData = {
     },
     {
       "title": "What is process scheduling?",
-      "answer": "Process scheduling is the OS's way of deciding which process to run next based on criteria like arrival time, burst time, and priority."
-    },
+      "answer": "Process scheduling is the OS's way of deciding which process to run next based on criteria like arrival time, burst time, and priority. For example, if you're downloading a file while also listening to music, the OS schedules both processes so the music keeps playing smoothly while the download continues in the background."
+    },    
     {
       "title": "What are scheduling algorithms?",
-      "answer": "Common ones include:\n1. FCFS\n2. SJF\n3. SRTF\n4. Round Robin\n5. Priority\n6. HRRN\n7. Multilevel Queue\n8. Multilevel Feedback Queue"
-    },
+      "answer": "Common ones include:\n1. FCFS (First Come First Serve)\n2. SJF (Shortest Job First)\n3. SRTF (Shortest Remaining Time First)\n4. Round Robin\n5. Priority Scheduling\n6. HRRN (Highest Response Ratio Next)\n7. Multilevel Queue\n8. Multilevel Feedback Queue. \n\nFor example, Round Robin scheduling is like a teacher giving each student a fixed amount of time to answer questions in a loop—ensuring no one is left out for too long."
+    },    
     {
       "title": "What is a critical section?",
-      "answer": "The critical section is a part of the code where shared resources are accessed. Only one process should execute in the critical section at a time to avoid race conditions."
-    },
+      "answer": "The critical section is a part of the code where shared resources are accessed. Only one process should execute in the critical section at a time to avoid race conditions. For example, if two threads try to update a shared bank account balance at the same time, the code updating the balance should be in a critical section to prevent incorrect results."
+    },    
     {
       "title": "What are the conditions for solving the critical section problem?",
-      "answer": "1. Mutual Exclusion\n2. Progress\n3. Bounded Waiting"
-    },
+      "answer": "1. Mutual Exclusion\n2. Progress\n3. Bounded Waiting\n\nFor example, in an ATM system with multiple users, Mutual Exclusion ensures only one transaction is processed at a time on a specific account, Progress ensures the system doesn’t get stuck when processes want access, and Bounded Waiting ensures that every user eventually gets their turn without indefinite delay."
+    },    
     {
       "title": "What is a semaphore?",
-      "answer": "A semaphore is a variable used to control access to shared resources. Binary semaphores take values 0 or 1, and counting semaphores can take larger values."
-    },
+      "answer": "A semaphore is a variable used to control access to shared resources. Binary semaphores take values 0 or 1, and counting semaphores can take larger values. For example, if five threads want to access a printer but only two can print at a time, a counting semaphore initialized to 2 will allow only two threads to enter the critical section while others wait."
+    },    
     {
       "title": "What is a mutex?",
-      "answer": "A mutex (mutual exclusion) is a locking mechanism that allows only one thread to access a resource at a time. It’s used to avoid race conditions."
-    },
+      "answer": "A mutex (mutual exclusion) is a locking mechanism that allows only one thread to access a resource at a time. It’s used to avoid race conditions. For example, if two threads try to write to the same log file simultaneously, a mutex ensures that one thread locks the file while writing, and the other waits until the lock is released."
+    },    
     {
       "title": "What is a deadlock?",
-      "answer": "A deadlock is a situation where a set of processes are waiting on each other for resources, and none can proceed."
-    },
+      "answer": "A deadlock is a situation where a set of processes are waiting on each other for resources, and none can proceed. For example, if Process A holds Resource 1 and waits for Resource 2, while Process B holds Resource 2 and waits for Resource 1, both processes are stuck and cannot continue — this is a deadlock."
+    },    
     {
       "title": "What are the four necessary conditions for a deadlock?",
-      "answer": "1. Mutual Exclusion\n2. Hold and Wait\n3. No Preemption\n4. Circular Wait"
-    },
+      "answer": "1. Mutual Exclusion\n2. Hold and Wait\n3. No Preemption\n4. Circular Wait\n\nFor example, in a printing system, if one process holds a scanner and waits for a printer, while another holds the printer and waits for the scanner, all four conditions can be met, leading to a deadlock where neither process can proceed."
+    },    
     {
       "title": "How to handle deadlocks?",
-      "answer": "1. Prevention or avoidance\n2. Detection and recovery\n3. Ignore the problem (used in Windows/Unix)"
-    },
+      "answer": "1. Prevention or avoidance\n2. Detection and recovery\n3. Ignore the problem (used in Windows/Unix)\n\nFor example, in prevention, the system may deny a process from holding one resource while waiting for another. In avoidance, it checks if granting a resource could lead to deadlock. In detection and recovery, the system allows deadlocks to occur but detects and breaks them, while some systems like Windows often just ignore them assuming they are rare."
+    },    
     {
       "title": "What is Banker's Algorithm?",
-      "answer": "It is a deadlock avoidance method that allocates resources only if the system remains in a safe state after allocation."
-    },
+      "answer": "It is a deadlock avoidance method that allocates resources only if the system remains in a safe state after allocation. For example, before allowing a process to use more memory, the Banker's Algorithm checks if enough resources will still be available for all other processes to complete safely, just like a banker only lends money if they’re sure all clients can repay without going bankrupt."
+    },    
     {
       "title": "What is memory management?",
-      "answer": "It refers to managing a computer's memory effectively among different processes using techniques like swapping, paging, segmentation, and allocation strategies."
-    },
+      "answer": "It refers to managing a computer's memory effectively among different processes using techniques like swapping, paging, segmentation, and allocation strategies. For example, when you open multiple applications on your computer, the operating system uses memory management to allocate RAM efficiently so that each app runs smoothly without interfering with others."
+    },    
     {
       "title": "What is paging?",
-      "answer": "Paging divides memory into equal-sized pages and frames. Logical addresses are mapped to physical addresses, reducing external fragmentation."
-    },
+      "answer": "Paging divides memory into equal-sized pages and frames. Logical addresses are mapped to physical addresses, reducing external fragmentation. For example, when a program is loaded into memory, it is split into fixed-size pages that can be stored in any available memory frames, making memory usage more efficient and avoiding gaps caused by different process sizes."
+    },    
     {
       "title": "What is segmentation?",
-      "answer": "Segmentation divides memory into variable-size segments based on logical divisions like functions or data structures."
-    },
+      "answer": "Segmentation divides memory into variable-size segments based on logical divisions like functions or data structures. For example, a program may have separate segments for code, data, and stack, allowing each to grow independently and making it easier to manage and protect different parts of the program."
+    },    
     {
       "title": "What is a page fault?",
-      "answer": "A page fault occurs when a process accesses a page that is not currently in physical memory."
-    },
+      "answer": "A page fault occurs when a process accesses a page that is not currently in physical memory. For example, if a program tries to read data that has been swapped out to disk, the operating system pauses the program, loads the required page from disk into RAM, and then resumes execution."
+    },    
     {
       "title": "What are page replacement algorithms?",
-      "answer": "1. FIFO\n2. Optimal\n3. LRU\nThese algorithms decide which page to remove from memory when a new page needs to be loaded."
-    },
+      "answer": "1. FIFO\n2. Optimal\n3. LRU\nThese algorithms decide which page to remove from memory when a new page needs to be loaded. For example, in FIFO (First-In-First-Out), the oldest loaded page is removed first. In LRU (Least Recently Used), the page that hasn’t been used for the longest time is replaced, which helps improve efficiency in many real-world applications."
+    },    
     {
       "title": "What is Belady’s Anomaly?",
-      "answer": "It is a situation where increasing the number of page frames results in more page faults using FIFO algorithm."
-    },
+      "answer": "It is a situation where increasing the number of page frames results in more page faults using FIFO algorithm. For example, in some cases, a program may experience fewer page faults with 3 frames than with 4 frames when using FIFO, which is counterintuitive and highlights inefficiency in the algorithm."
+    },    
     {
       "title": "What is disk scheduling?",
-      "answer": "It is the method used by the OS to determine the order of servicing disk I/O requests to improve efficiency."
-    },
+      "answer": "It is the method used by the OS to determine the order of servicing disk I/O requests to improve efficiency. For example, if multiple read/write requests are made to different parts of a hard drive, disk scheduling algorithms like SSTF (Shortest Seek Time First) or SCAN are used to decide the optimal order, reducing the total movement of the disk arm and improving performance."
+    },    
     {
       "title": "What are disk scheduling algorithms?",
-      "answer": "1. FCFS\n2. SSTF\n3. SCAN\n4. CSCAN\n5. LOOK\n6. CLOOK"
-    },
+      "answer": "1. FCFS (First Come First Serve)\n2. SSTF (Shortest Seek Time First)\n3. SCAN\n4. CSCAN (Circular SCAN)\n5. LOOK\n6. CLOOK (Circular LOOK)\n\nFor example, SSTF selects the disk I/O request that is closest to the current head position, reducing seek time. SCAN moves the disk arm in one direction servicing requests until it reaches the end, then reverses, like an elevator."
+    },    
     {
       "title": "What is thrashing?",
-      "answer": "Thrashing occurs when too many pages are swapped in and out of memory, reducing CPU utilization significantly."
-    },
+      "answer": "Thrashing occurs when too many pages are swapped in and out of memory, reducing CPU utilization significantly. For example, if multiple programs are running and each frequently accesses data not currently in RAM, the system spends more time swapping pages than executing processes, causing performance to drop drastically."
+    },    
     {
       "title": "What is virtual memory?",
-      "answer": "Virtual memory is a technique that enables processes to execute even when they don’t fit entirely in physical memory, using disk as extension."
-    },
+      "answer": "Virtual memory is a technique that enables processes to execute even when they don’t fit entirely in physical memory, using disk as extension. For example, if your computer runs out of RAM while opening a large application, it moves some inactive data to disk (swap space) to free up RAM, allowing the program to continue running smoothly."
+    },    
     {
       "title": "What is fragmentation?",
-      "answer": "Fragmentation is inefficient use of memory.\n- Internal: Wasted space inside allocated memory.\n- External: Wasted space between allocated blocks."
-    },
+      "answer": "Fragmentation is inefficient use of memory.\n- Internal: Wasted space inside allocated memory.\n- External: Wasted space between allocated blocks.\n\nFor example, if a program is allocated 100 KB but only uses 70 KB, the remaining 30 KB is internal fragmentation. If several small free memory blocks exist between allocated areas but none are large enough for a new process, that’s external fragmentation."
+    },    
     {
       "title": "What is spooling?",
-      "answer": "Spooling is a process of storing data temporarily for devices like printers. It queues the jobs to manage access efficiently."
-    },
+      "answer": "Spooling is a process of storing data temporarily for devices like printers. It queues the jobs to manage access efficiently. For example, when you print multiple documents, the OS stores them in a spool (buffer) and sends them one by one to the printer, allowing you to continue working while printing happens in the background."
+    },    
     {
       "title": "What is starvation?",
-      "answer": "Starvation happens when a process waits indefinitely for a resource because other higher priority processes are continuously allocated those resources."
-    },
+      "answer": "Starvation happens when a process waits indefinitely for a resource because other higher priority processes are continuously allocated those resources. For example, in priority scheduling, if low-priority processes keep getting skipped because high-priority ones keep arriving, the low-priority process may never get CPU time, leading to starvation."
+    },    
     {
       "title": "What is aging?",
-      "answer": "Aging is a technique used to prevent starvation by gradually increasing the priority of waiting processes over time."
-    },
+      "answer": "Aging is a technique used to prevent starvation by gradually increasing the priority of waiting processes over time. For example, if a low-priority process has been waiting in the queue for a long time, the system increases its priority so it eventually gets CPU time, ensuring fairness in scheduling."
+    },    
     {
       "title": "What is a monolithic kernel?",
-      "answer": "A monolithic kernel contains all the essential services in a single large block of code running in a single address space."
-    },
+      "answer": "A monolithic kernel contains all the essential services in a single large block of code running in a single address space. For example, operating systems like Linux use a monolithic kernel where device drivers, file system management, and memory management all run in kernel mode, offering high performance but potentially lower modularity."
+    },    
     {
       "title": "What is a microkernel?",
-      "answer": "A microkernel contains only the essential services and runs most services in user space, improving modularity and security."
-    },
+      "answer": "A microkernel contains only the essential services and runs most services in user space, improving modularity and security. For example, in microkernel-based systems like Minix or QNX, only core functions like communication and scheduling run in kernel mode, while device drivers and file systems run in user space, making the system more stable and easier to maintain."
+    },    
     {
       "title": "What is re-entrancy?",
-      "answer": "Re-entrancy allows multiple users to share a single copy of a program at the same time without interfering with each other."
-    },
+      "answer": "Re-entrancy allows multiple users to share a single copy of a program at the same time without interfering with each other. For example, a re-entrant function in a library can be safely called by multiple threads simultaneously without corrupting data or causing errors."
+    },    
     {
       "title": "What is RAID?",
-      "answer": "RAID stands for Redundant Array of Independent Disks. It combines multiple disks to increase performance and provide fault tolerance."
-    },
+      "answer": "RAID stands for Redundant Array of Independent Disks. It combines multiple disks to increase performance and provide fault tolerance. For example, RAID 1 mirrors data across two disks, so if one disk fails, the data is still available on the other."
+    },    
     {
       "title": "What is logical vs physical address?",
-      "answer": "Logical address is generated by the CPU. Physical address is the actual location in memory where data is stored."
-    },
+      "answer": "Logical address is generated by the CPU. Physical address is the actual location in memory where data is stored. For example, when a program runs, it uses logical addresses, which are translated by the memory management unit (MMU) into physical addresses in RAM."
+    },    
     {
       "title": "What are the advantages of multithreading?",
-      "answer": "1. Better responsiveness\n2. Resource sharing\n3. Lower overhead\n4. Efficient utilization of multiple CPUs"
+      "answer": "1. Better responsiveness\n2. Resource sharing\n3. Lower overhead\n4. Efficient utilization of multiple CPUs\n\nFor example, in a web browser, multithreading allows loading images, rendering text, and responding to user input simultaneously, resulting in a smoother user experience."
     }
+    
   ],
 
   "mongodb": [

@@ -1,3 +1,4 @@
+// Import necessary React and MUI components
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -14,34 +15,41 @@ import { AuthContext } from '../contexts/AuthContext';
 import { Snackbar } from '@mui/material';
 import { Card } from '@mui/material';
 
+// Create a default MUI theme
 const defaultTheme = createTheme();
 
 export default function Authentication() {
+  // State variables for input fields and UI feedback
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
   const [error, setError] = React.useState();
   const [message, setMessage] = React.useState();
-  const [formState, setFormState] = React.useState(0);
-  const [open, setOpen] = React.useState(false);
+  const [formState, setFormState] = React.useState(0); // 0 = Login, 1 = Register
+  const [open, setOpen] = React.useState(false); // Snackbar visibility
 
+  // Get authentication functions from AuthContext
   const { handleRegister, handleLogin } = React.useContext(AuthContext);
 
+  // Handle login or registration depending on form state
   let handleAuth = async () => {
     try {
       if (formState === 0) {
+        // Attempt login
         await handleLogin(username, password);
       } else {
+        // Attempt registration
         const result = await handleRegister(name, username, password);
-        setMessage(result);
-        setOpen(true);
-        setFormState(0);
-        setError("");
-        setName("");
+        setMessage(result);       // Show success message
+        setOpen(true);            // Open snackbar
+        setFormState(0);          // Switch to login tab
+        setError("");             // Clear errors
+        setName("");              // Reset form fields
         setUsername("");
         setPassword("");
       }
     } catch (err) {
+      // Handle and display error from API
       const message = err?.response?.data?.message || "Something went wrong";
       setError(message);
     }
@@ -53,32 +61,35 @@ export default function Authentication() {
         container
         component="main"
         sx={{
-          height: '100vh',
+          height: '100vh', // Full screen height
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundImage: 'url("/images/logo.png")',
+          backgroundImage: 'url("/images/logo.png")', // Background image
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          px: 2, // small horizontal padding on mobile
+          px: 2, // Small horizontal padding on mobile
         }}
       >
-        <CssBaseline />
+        <CssBaseline /> {/* Normalizes CSS across browsers */}
+
         <Card
           elevation={10}
           sx={{
-            p: { xs: 4, sm: 6, md: 8 },
-            width: { xs: '100%', sm: 400, md: 600 },
+            p: { xs: 4, sm: 6, md: 8 }, // Responsive padding
+            width: { xs: '100%', sm: 400, md: 600 }, // Responsive width
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             borderRadius: 3,
-            backgroundColor: 'white',
+            backgroundColor: 'white', // Card background
           }}
         >
+          {/* Lock icon at top */}
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
 
+          {/* Toggle buttons for login/register */}
           <Box sx={{ textAlign: 'center', mb: 2 }}>
             <Button
               variant={formState === 0 ? 'contained' : 'outlined'}
@@ -96,7 +107,9 @@ export default function Authentication() {
             </Button>
           </Box>
 
+          {/* Form fields */}
           <Box component="form" noValidate sx={{ mt: 1, width: '100%' }}>
+            {/* Only show name field during sign up */}
             {formState === 1 && (
               <TextField
                 margin="normal"
@@ -111,6 +124,7 @@ export default function Authentication() {
               />
             )}
 
+            {/* Username field */}
             <TextField
               margin="normal"
               required
@@ -122,6 +136,8 @@ export default function Authentication() {
               onChange={(e) => setUsername(e.target.value)}
               inputProps={{ style: { fontSize: '0.9rem' } }}
             />
+
+            {/* Password field */}
             <TextField
               margin="normal"
               required
@@ -135,10 +151,12 @@ export default function Authentication() {
               inputProps={{ style: { fontSize: '0.9rem' } }}
             />
 
+            {/* Error message display */}
             <Typography sx={{ color: 'red', fontSize: '0.85rem', mt: 1 }}>
               {error}
             </Typography>
 
+            {/* Submit button */}
             <Button
               type="button"
               fullWidth
@@ -156,6 +174,7 @@ export default function Authentication() {
           </Box>
         </Card>
 
+        {/* Snackbar for success message after registration */}
         <Snackbar open={open} autoHideDuration={4000} message={message} />
       </Grid>
     </ThemeProvider>
