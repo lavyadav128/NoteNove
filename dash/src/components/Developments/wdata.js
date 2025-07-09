@@ -453,12 +453,232 @@ const questionsData = {
 
   "sql-basics": [
     {
+      title: "What is a Database?",
+      answer: "A database is a collection of data stored in a format that can be easily accessed, managed, and updated.\nExample: A library catalog or a student records system."
+    },
+    {
+      title: "Why do we need a Database?",
+      answer: "Databases help store large amounts of data securely, allow scalability, and make it easy to insert, update, or delete data.\nExample: Banking systems use databases to securely store transaction records."
+    },
+    {
       title: "What is SQL?",
-      answer: "SQL stands for Structured Query Language, used to manage relational databases."
+      answer: "SQL (Structured Query Language) is a programming language used to interact with relational databases.\nExample: Using SQL to write a query like SELECT * FROM students; to get all student records."
+    },
+    {
+      title: "What is MySQL?",
+      answer: "MySQL is a popular relational database management system (RDBMS) that uses SQL to manage data.\nExample: Websites like WordPress often use MySQL to store content data."
+    },
+    {
+      title: "How is SQL different from MySQL?",
+      answer: "SQL is the language used to manage and query data, while MySQL is the database software that uses SQL."
+    },
+    {
+      title: "What is the difference between SQL and NoSQL?",
+      answer: "SQL databases are relational, meaning data is stored in tables with rows and columns. NoSQL databases are non-relational and store data in formats like documents, key-value pairs, or graphs.\nExamples:\n- SQL: MySQL, Oracle, PostgreSQL\n- NoSQL: MongoDB, Cassandra"
+    },
+    {
+      title: "What are some examples of SQL databases?",
+      answer: "Examples of SQL databases include MySQL, Oracle, and PostgreSQL."
+    },
+    {
+      title: "What are some examples of NoSQL databases?",
+      answer: "Examples of NoSQL databases are MongoDB (document store) and Cassandra (wide-column store)."
+    },
+    {
+      title: "What is a Relational Database?",
+      answer: "A relational database stores data in tables (rows and columns) that can be linked together based on relationships.\nExample: A students table related to a courses table through a student_id."
+    },
+    {
+      title: "What is a Non-Relational (NoSQL) Database?",
+      answer: "A non-relational (NoSQL) database stores data in non-tabular formats like JSON documents, key-value pairs, or graphs.\nExample: In MongoDB, data is stored as flexible JSON-like documents."
+    },
+    {
+      title: "What is a Table in SQL?",
+      answer: "A table is a structure in an SQL database that stores data in rows and columns.\nExample: A Users table with columns like id, name, and email."
+    },
+    {
+      title: "What is a Schema in SQL?",
+      answer: "A schema is the design of a table that defines its columns and data types.\nExample: A table Students with schema: id INT, name VARCHAR, age INT."
+    },
+    {
+      title: "What is a Tuple in SQL?",
+      answer: "A tuple is a single row in a table.\nExample: A student record {id: 1, name: 'Alex', age: 20} is a tuple."
+    },
+    {
+      title: "Why use SQL databases?",
+      answer: "SQL databases ensure structured data, data integrity, and support complex queries and relationships."
+    },
+    {
+      title: "Why use NoSQL databases?",
+      answer: "NoSQL databases handle unstructured or semi-structured data, allow high scalability, and work well for big data and real-time applications.\nExample: Storing user activity logs or social media posts."
+    },
+    {
+      title: "How do you create a new database in SQL?",
+      answer: "Use the CREATE DATABASE command.\nExample:\n```sql\nCREATE DATABASE college;\n```"
+    },
+    {
+      title: "How do you delete a database in SQL?",
+      answer: "Use the DROP DATABASE command.\nExample:\n```sql\nDROP DATABASE college;\n```"
+    },
+    {
+      title: "How do you select a database to use?",
+      answer: "Use the USE command.\nExample:\n```sql\nUSE college;\n```"
+    },
+    {
+      title: "How do you create a new table in SQL?",
+      answer: "Use the CREATE TABLE command with column names, data types, and constraints.\nExample:\n```sql\nCREATE TABLE Student (\n  rollno INT,\n  name VARCHAR(20),\n  age INT\n);\n```"
+    },
+    {
+      title: "How do you insert data into a table?",
+      answer: "Use the INSERT INTO statement.\nExample:\n```sql\nINSERT INTO Student (rollno, name, age) VALUES (101, 'Adam', 18);\n```"
+    },
+    {
+      title: "How do you select all data from a table?",
+      answer: "Use the SELECT statement.\nExample:\n```sql\nSELECT * FROM Student;\n```"
+    },
+    {
+      title: "How do you create a database only if it does not already exist?",
+      answer: "Use CREATE DATABASE IF NOT EXISTS.\nExample:\n```sql\nCREATE DATABASE IF NOT EXISTS college;\n```"
+    },
+    {
+      title: "How do you drop a database only if it exists?",
+      answer: "Use DROP DATABASE IF EXISTS.\nExample:\n```sql\nDROP DATABASE IF EXISTS college;\n```"
+    },
+    {
+      title: "How do you list all available databases?",
+      answer: "Use the SHOW DATABASES command.\nExample:\n```sql\nSHOW DATABASES;\n```"
+    },
+    {
+      title: "How do you list all tables in a database?",
+      answer: "Use the SHOW TABLES command.\nExample:\n```sql\nSHOW TABLES;\n```"
+    },
+    {
+      title: "What are constraints in SQL?",
+      answer: "Constraints define rules for data in a table. Common constraints include:\n- NULL: Allows NULL values\n- UNIQUE: Ensures all values are different\n- DEFAULT: Sets a default value\n- CHECK: Ensures values meet a condition"
+    },
+    {
+      title: "How do you create a table with constraints?",
+      answer: "Example to create a user table with constraints:\n```sql\nCREATE TABLE user (\n  id INT,\n  age INT,\n  name VARCHAR(30) NOT NULL,\n  email VARCHAR(50) UNIQUE,\n  followers INT DEFAULT 0,\n  following INT,\n  CONSTRAINT CHECK (age >= 13)\n);\n```"
+    },
+    {
+      title: "How do you create a table with a primary key?",
+      answer: "Example to create a post table with a primary key:\n```sql\nCREATE TABLE post (\n  id INT PRIMARY KEY,\n  content VARCHAR(100),\n  user_id INT,\n  FOREIGN KEY (user_id) REFERENCES user(id)\n);\n```"
+    },
+    {
+      title: "What is a PRIMARY KEY?",
+      answer: "A PRIMARY KEY makes a column unique and not NULL. It uniquely identifies each row in a table. A table can have only one PRIMARY KEY.\nExample:\n```sql\nid INT PRIMARY KEY\n```"
+    },
+    {
+      title: "What is a FOREIGN KEY?",
+      answer: "A FOREIGN KEY creates a link between two tables. It prevents actions that would destroy these links, ensuring referential integrity.\nExample:\n```sql\nFOREIGN KEY (user_id) REFERENCES user(id)\n```"
+    },
+    {
+      title: "What is the WHERE clause in SQL?",
+      answer: "The WHERE clause filters rows based on a condition.\n\n**Syntax:**\n```sql\nSELECT col1, col2 FROM table_name\nWHERE condition;\n```\n\n**Example:**\n```sql\nSELECT name, followers\nFROM user\nWHERE followers >= 200;\n```"
+    },
+    {
+      title: "What operators can we use in SQL WHERE clauses?",
+      answer: "You can use operators like AND, OR, BETWEEN, IN, and NOT to filter data.\nExamples:\n```sql\nWHERE age BETWEEN 15 AND 17;\nWHERE email IN ('a@x.com', 'b@y.com');\nWHERE age IN (14, 16);\nWHERE age NOT IN (14, 16);\n```"
+    },
+    {
+      title: "What is the LIMIT clause?",
+      answer: "The LIMIT clause sets an upper limit on the number of rows returned.\n\n**Syntax:**\n```sql\nSELECT col1, col2 FROM table_name\nLIMIT number;\n```\n\n**Example:**\n```sql\nSELECT * FROM user\nWHERE age > 14\nLIMIT 2;\n```"
+    },
+    {
+      title: "What does ORDER BY do?",
+      answer: "ORDER BY sorts rows in ascending or descending order.\n\n**Syntax:**\n```sql\nSELECT col1, col2 FROM table_name\nORDER BY col_name ASC;\n```\n\n**Example:**\n```sql\nORDER BY followers ASC;\n```"
+    },
+    {
+      title: "What are aggregate functions in SQL?",
+      answer: "Aggregate functions perform calculations on multiple rows:\n- COUNT(): Counts rows\n- MAX(): Finds maximum value\n- MIN(): Finds minimum value\n- SUM(): Sums up values\n- AVG(): Calculates average\n\n**Examples:**\n```sql\nSELECT MAX(marks) FROM student;\nSELECT COUNT(age) FROM user WHERE age = 14;\n```"
+    },
+    {
+      title: "What is the GROUP BY clause?",
+      answer: "The GROUP BY clause groups rows that have the same values into summary rows. It collects data from multiple records and groups the result by one or more columns.\n\n**Syntax:**\n```sql\nSELECT col1, col2\nFROM table_name\nGROUP BY col_name(s);\n```\n\n**Example:**\n```sql\nSELECT age, MAX(followers)\nFROM users\nGROUP BY age;\n```\nThis finds the maximum followers for each age group."
+    },
+    {
+      title: "When do we use GROUP BY?",
+      answer: "We usually use GROUP BY with aggregate functions like COUNT(), SUM(), AVG(), MAX(), or MIN(). It organizes data into groups based on one or more columns.\n\n**Example result:**\n```\n| Age | Max(Followers) |\n|-----|----------------|\n| 14  | 400            |\n| 15  | 800            |\n| 16  | 1000           |\n| 17  | 800            |\n```"
+    },
+    {
+      title: "What is the HAVING clause?",
+      answer: "The HAVING clause is similar to WHERE but it applies conditions on groups, not individual rows. It filters the grouped results.\n\n**Syntax:**\n```sql\nSELECT col1, col2\nFROM table_name\nGROUP BY col_name(s)\nHAVING condition;\n```\n\n**Example:**\n```sql\nSELECT age, MAX(followers)\nFROM users\nGROUP BY age\nHAVING MAX(followers) > 800;\n```"
     },
     {
       title: "What is the difference between WHERE and HAVING?",
-      answer: "WHERE filters rows before grouping; HAVING filters after grouping."
+      answer: "WHERE filters rows *before* grouping, HAVING filters groups *after* grouping.\n- **WHERE** → applies to rows\n- **HAVING** → applies to groups\n\nGrouping is necessary for using HAVING."
+    },
+    {
+      title: "What is the general order of SQL clauses?",
+      answer: "The general order in an SQL query is:\n```sql\nSELECT column(s)\nFROM table_name\nWHERE condition\nGROUP BY column(s)\nHAVING condition\nORDER BY column(s) ASC;\n```\nThis ensures proper execution: first filter rows, then group, filter groups, and finally sort."
+    },
+    {
+      title: "How do you update existing rows in a table?",
+      answer: "Use the UPDATE statement:\n```sql\nUPDATE table_name\nSET col1 = val1, col2 = val2\nWHERE condition;\n```\n**Example:**\n```sql\nUPDATE user SET followers = 600\nWHERE age = 16;\n```\nThis sets followers to 600 for users aged 16."
+    },
+    {
+      title: "How to reset an update?",
+      answer: "You can reset updates by setting the columns back:\n```sql\nUPDATE table_name SET col = value;\n```\nAlways use a WHERE clause to prevent updating all rows by mistake!"
+    },
+    {
+      title: "How do you delete rows in SQL?",
+      answer: "Use the DELETE statement:\n```sql\nDELETE FROM table_name\nWHERE condition;\n```\n**Example:**\n```sql\nDELETE FROM user WHERE age = 14;\n```\nThis deletes all users with age 14."
+    },
+    {
+      title: "How do you add a column using ALTER?",
+      answer: "Use ALTER TABLE to change the schema:\n```sql\nALTER TABLE table_name\nADD COLUMN column_name datatype constraint;\n```\n**Example:**\n```sql\nALTER TABLE student ADD COLUMN marks INT;\n```"
+    },
+    {
+      title: "How do you drop a column?",
+      answer: "To drop (delete) a column:\n```sql\nALTER TABLE table_name\nDROP COLUMN column_name;\n```\n**Example:**\n```sql\nALTER TABLE student DROP COLUMN marks;\n```"
+    },
+    {
+      title: "How do you rename a table in SQL?",
+      answer: "Use the ALTER TABLE statement with RENAME:\n```sql\nALTER TABLE table_name\nRENAME TO new_table_name;\n```\nThis changes the table name without affecting its data."
+    },
+    {
+      title: "How do you rename a column in SQL?",
+      answer: "Use ALTER TABLE with CHANGE COLUMN:\n```sql\nALTER TABLE table_name\nCHANGE COLUMN old_name new_name new_datatype new_constraint;\n```\n**Example:**\n```sql\nALTER TABLE student\nCHANGE COLUMN age student_age INT NOT NULL;\n```"
+    },
+    {
+      title: "How do you modify a column datatype or constraint?",
+      answer: "Use ALTER TABLE with MODIFY:\n```sql\nALTER TABLE table_name\nMODIFY column_name new_datatype new_constraint;\n```\n**Example:**\n```sql\nALTER TABLE student\nMODIFY marks FLOAT NOT NULL;\n```"
+    },
+    {
+      title: "What does TRUNCATE do in SQL?",
+      answer: "TRUNCATE TABLE deletes all rows in a table but keeps the table structure intact:\n```sql\nTRUNCATE TABLE table_name;\n```\nSo the table stays in the database, but the data is removed."
+    },
+    {
+      title: "What is Faker.js and how is it used?",
+      answer: "Faker.js is a library to generate fake data like usernames, emails, and passwords for testing and seeding databases.\n\n**Example:**\n```javascript\nconst { faker } = require('@faker-js/faker');\n\nlet getRandomUser = () => {\n  return {\n    id: faker.datatype.uuid(),\n    username: faker.internet.userName(),\n    email: faker.internet.email(),\n    password: faker.internet.password()\n  };\n};\n\nconsole.log(getRandomUser());\n```"
+    },
+    {
+      title: "How do you connect Node.js with MySQL?",
+      answer: "You can use the `mysql` package in Node.js.\n\n**Example:**\n```javascript\nconst mysql = require('mysql');\n\nconst connection = mysql.createConnection({\n  host: 'localhost',\n  user: 'root',\n  password: 'your_password',\n  database: 'your_db_name'\n});\n\nconnection.connect((err) => {\n  if (err) throw err;\n  console.log('Connected to MySQL database');\n});\n\n// To close the connection:\nconnection.end();\n```"
+    },
+    {
+      title: "How can you use SQL from the Command Line Interface (CLI)?",
+      answer: "To connect using the MySQL CLI:\n```bash\n/usr/local/mysql/bin/mysql -u root -p\n```\nThis logs you into MySQL. Then you can run commands like:\n```sql\nCREATE SCHEMA mydb;\nSOURCE schema.sql;\n```"
+    },
+    {
+      title: "How does the connection process work in a Node-MySQL setup?",
+      answer: "The client (frontend) sends a request to the server (backend/API). The backend uses SQL queries to interact with the database and sends back the result."
+    },
+    {
+      title: "How can you generate multiple random users using Faker?",
+      answer: "Use a loop with Faker’s function:\n```javascript\nlet data = [];\nfor (let i = 0; i < 100; i++) {\n  data.push(getRandomUser());\n}\n```"
+    },
+    {
+      title: "How do you display all tables in a MySQL database using Node.js?",
+      answer: "Use `SHOW TABLES` with `connection.query`:\n```javascript\nconnection.query('SHOW TABLES', (err, result) => {\n  if (err) throw err;\n  console.log(result);\n  connection.end();\n});\n```"
+    },
+    {
+      title: "What is schema.sql and how can you use it?",
+      answer: "`schema.sql` is a SQL file that contains table creation statements. You can execute it in MySQL CLI or through tools like VS Code.\n\n**Example contents of `schema.sql`:**\n```sql\nCREATE TABLE user (\n  id VARCHAR(50) PRIMARY KEY,\n  username VARCHAR(50) NOT NULL,\n  email VARCHAR(50) NOT NULL UNIQUE,\n  password VARCHAR(50) NOT NULL\n);\n```"
+    },
+    {
+      title: "How do you insert multiple users using placeholders?",
+      answer: "Use placeholder `?` syntax with `connection.query()` for batch inserts:\n```javascript\nlet q = \"INSERT INTO user (id, username, email, password) VALUES ?\";\nlet users = [\n  [\"12345\", \"danmstro\", \"abc@gmail.com\", \"abcd\"]\n];\nconnection.query(q, [users], (err, result) => {\n  if (err) throw err;\n  console.log(\"Inserted:\", result.affectedRows);\n});\n```"
     }
   ],
 
